@@ -75,6 +75,9 @@ body {
     #cv {
     display:none;
   }
+  #cvBod {
+    padding-left:31px;
+  }
 }
 
 /* Responsive: Portrait tablets and up */
