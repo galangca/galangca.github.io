@@ -72,6 +72,9 @@ body {
 #blurb {
     left: -29px;
   }
+    #cv {
+    display:none;
+  }
 }
 
 /* Responsive: Portrait tablets and up */
@@ -106,9 +109,6 @@ body {
   #dItems {
     font-size: 12px;
     padding: 10px;
-  }
-  #cv {
-    display:none;
   }
 }
 
