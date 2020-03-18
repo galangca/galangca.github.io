@@ -106,14 +106,14 @@ body {
      width: 200px
   }
 #divImg {
-  padding-left: 90px;
+  padding-left: 88px;
   padding-bottom: 10px;
 }
   .nav {
     display: none;
   }
   #blurb {
-    left: -11px;
+    left: -14px;
   }
   .dropdown {
     display: inline;
