@@ -67,8 +67,12 @@ body {
 
 @media screen and (max-width: 1200px) {
 #pic {
-     display: none;
+     height: 200px;
+     width: 200px
   }
+#divImg {
+  padding-left: 225px;
+}
 #blurb {
     left: -29px;
   }
@@ -97,9 +101,14 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-  #pic {
-     display: none;
+#pic {
+     height: 200px;
+     width: 200px
   }
+#divImg {
+  padding-left: 1px;
+  padding-bottom: 10px;
+}
   .nav {
     display: none;
   }
