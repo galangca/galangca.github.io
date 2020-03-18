@@ -122,6 +122,9 @@ body {
     font-size: 12px;
     padding: 10px;
   }
+  #divBody {
+    margin-top:-10px;
+  }
 }
 
 
