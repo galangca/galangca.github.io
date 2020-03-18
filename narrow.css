@@ -5,6 +5,10 @@ body {
   padding-bottom: 20px;
 }
 
+.dropdown{
+  display:none;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -61,6 +65,15 @@ body {
   margin-top: 28px;
 }
 
+@media screen and (max-width: 1200px) {
+#pic {
+     display: none;
+  }
+#blurb {
+    left: -29px;
+  }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (max-width: 768px) {
   /* Remove the padding we set earlier */
@@ -84,13 +97,18 @@ body {
   .nav {
     display: none;
   }
-}
-
-@media screen and (max-width: 1200px) {
-#pic {
-     display: none;
+  #blurb {
+    left: -14px;
+  }
+  .dropdown {
+    display: inline;
+  }
+  #dItems {
+    font-size: 12px;
+    padding: 10px;
   }
 }
+
 
 
 .active-custom {
