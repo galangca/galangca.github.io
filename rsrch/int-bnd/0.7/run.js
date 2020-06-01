@@ -25,7 +25,7 @@ var demo_block = {
 		{
 			type: 'int-bind',
 			tone_file: 'tone.mp3',
-			tone: false
+			tone: true
 		},
 		{
 			type: 'int-bind',
