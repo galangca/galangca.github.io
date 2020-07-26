@@ -112,7 +112,8 @@
 
 				  "<p>Your task is to respond to the number. "+
 				  "Hold down the G and H keys. If you see the number 1, release the G key by lifting your index finger. "+
-				  "If you see the number 2, release the H key by lifting your middle finger. Then hold down both keys again.</p><br>"+
+				  "If you see the number 2, release the H key by lifting your middle finger. After every key release, a tone will play. "+
+				  "Your job is to estimate the interval between your key release and the tone (anywhere between 1ms-1000ms).</p><br>"+
 
 				  "<p>Press ENTER to start the experiment.</p></div>",
 		post_trial_gap: 0
@@ -282,7 +283,7 @@
 	jsPsych.init({
 		timeline: timeline,
 		exclusions: {min_width: 1280, min_height: 700},
-		preload_images: ["New Stimuli/Slide1.BMP", "New Stimuli/Slide2.BMP", "New Stimuli/Slide3.BMP", "New Stimuli/Slide4.BMP", "New Stimuli/Slide5.BMP"],
+		preload_images: ["New Stimuli/Slide1.BMP", "New Stimuli/Slide2.BMP", "New Stimuli/Slide3.BMP", "New Stimuli/Slide4.BMP", "New Stimuli/Slide5.BMP", "New Stimuli/black.png"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
