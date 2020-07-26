@@ -187,7 +187,7 @@
 		stimulus_width: 1000
 	};
 	
-	/* Tone 
+	/* Tone */
 	var tone = {
     	type: 'audio-keyboard-response',
     	stimulus: 'https://cors-anywhere.herokuapp.com/https://galangca.github.io/ait/tone.mp3',
@@ -219,7 +219,7 @@
 	
 	
 	var run_experiment = {
-		timeline: [no_mouse, if_no_response, imi_inh, mouse, estimate],
+		timeline: [no_mouse, if_no_response, imi_inh, tone, mouse, estimate],
 		timeline_variables: design,
 		sample: {
 			type: 'with-replacement',
