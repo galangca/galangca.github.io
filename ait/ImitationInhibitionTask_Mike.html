@@ -185,7 +185,7 @@
 		trial_duration: 2000,		
 		post_trial_gap: jsPsych.timelineVariable("gap"),
 		data: jsPsych.timelineVariable("data")	,
-		stimulus_width: 1000
+		stimulus_width: 800
 	};
 	
 	/* Tone */
@@ -287,7 +287,7 @@
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
-			jsPsych.data.get().filter({test: 'exp'}).localSave('csv',subject_id+'.csv');
+			jsPsych.data.get().localSave('csv',subject_id+'.csv');
 		}		
 	});
 
