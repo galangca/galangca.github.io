@@ -126,19 +126,226 @@
 	///////////////////////
 	
 	var design = [
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide2.BMP", gap: "200", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide2.BMP", gap: "500", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide2.BMP", gap: "700", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide3.BMP", gap: "200", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide3.BMP", gap: "500", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide3.BMP", gap: "700", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide4.BMP", gap: "200", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide4.BMP", gap: "500", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide4.BMP", gap: "700", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide5.BMP", gap: "200", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide5.BMP", gap: "500", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/Slide1.BMP", img2: "New Stimuli/Slide5.BMP", gap: "700", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}}
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+	///////////////////////
+
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+
+
+	/////////////////////////
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+
+	/////////////////////////
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}}
+
 	];
+
+	var add_design = {
+		type: 'call-function',
+		func: function(){ 
+			var c1h1i = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+
+			var c1h3i = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", data: {test: 'exp', finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+
+			var c2h1i = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}}]
+
+			var c2h3i = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", data: {test: 'exp', finger: 1, cue: 1, con: "IC", correct_response: "g"}}]
+
+			var c1h1m = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}}]
+
+			var c1h3m = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", data: {test: 'exp', finger: 2, cue: 0, con: "IC", correct_response: "h"}}]
+
+			var c2h1m =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+
+			var c2h3m = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", data: {test: 'exp', finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+
+			var c1h1iFirst = c1h1i[Math.floor(Math.random() * c1h1i.length)]
+			var c1h1iSecond = c1h1i[Math.floor(Math.random() * c1h1i.length)]
+
+			var c1h3iFirst = c1h3i[Math.floor(Math.random() * c1h3i.length)]
+			var c1h3iSecond = c1h3i[Math.floor(Math.random() * c1h3i.length)]
+
+			var c2h1iFirst = c2h1i[Math.floor(Math.random() * c2h1i.length)]
+			var c2h1iSecond = c2h1i[Math.floor(Math.random() * c2h1i.length)]
+
+			var c2h3iFirst = c2h3i[Math.floor(Math.random() * c2h3i.length)]
+			var c2h3iSecond = c2h3i[Math.floor(Math.random() * c2h3i.length)]
+
+			var c1h1mFirst = c1h1m[Math.floor(Math.random() * c1h1m.length)]
+			var c1h1mSecond = c1h1m[Math.floor(Math.random() * c1h1m.length)]
+
+			var c1h3mFirst = c1h3m[Math.floor(Math.random() * c1h3m.length)]
+			var c1h3mSecond = c1h3m[Math.floor(Math.random() * c1h3m.length)]		
+
+			var c2h1mFirst = c2h1m[Math.floor(Math.random() * c2h1m.length)]
+			var c2h1mSecond = c2h1m[Math.floor(Math.random() * c2h1m.length)]		
+
+			var c2h3mFirst = c2h3m[Math.floor(Math.random() * c2h3m.length)]
+			var c2h3mSecond = c2h3m[Math.floor(Math.random() * c2h3m.length)]						
+
+			design.push(c1h1iFirst, c1h1iSecond, c1h3iFirst, c1h3iSecond, c2h1iFirst, c2h1iSecond, c2h3iFirst, c2h3iSecond, c1h1mFirst, c1h1mSecond, c1h3mFirst, c1h3mSecond, c2h1mFirst, c2h1mSecond, c2h3mFirst, c2h3mSecond)
+
+		}
+	};
+	
+	var remove_design = {
+		type: 'call-function',
+		func: function(){ 
+			
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+			design.pop()
+
+		}
+	};
 	
 	///////////////////////////////////
 	///  IMITATION-INHIBITION TASK  ///
@@ -175,7 +382,10 @@
 	};
 	
 	/* IMITATION-INHIBITION TRIAL */
-	
+	var gapArray = [100, 400, 700]
+	var gapz = gapArray[Math.floor(Math.random() * gapArray.length)],
+	counter = 0
+	counterArray = []
 	var imi_inh = {
 		type: "fixation-image-keyboard-release",		
 		fixation: jsPsych.timelineVariable("img1"),		
@@ -183,9 +393,16 @@
 		choices: [left_key, right_key],
 		fixation_duration: 500,
 		trial_duration: 2000,		
-		post_trial_gap: jsPsych.timelineVariable("gap"),
-		data: jsPsych.timelineVariable("data")	,
-		stimulus_width: 800
+		post_trial_gap: gapz,
+		data: jsPsych.timelineVariable("data"),
+		stimulus_width: 800,
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    		counter = counter + 1
+    		counterArray.push(counter)
+    		data.gap = gapz
+    		gapz = gapArray[Math.floor(Math.random() * gapArray.length)]
+    	}
 	};
 	
 	/* Tone */
@@ -218,17 +435,36 @@
 		}
 	};
 	
-	
-	var run_experiment = {
-		timeline: [no_mouse, if_no_response, imi_inh, tone, mouse, estimate],
-		timeline_variables: design,
-		sample: {
-			type: 'with-replacement',
-			size: 10
+	var takeABreak = {
+		type: 'html-keyboard-response',
+    	stimulus: 'Take a break. Feel free to start again by pressing Enter.',
+    	choices: ['enter']
+	};
+
+	var breakLoop = {
+		timeline: [takeABreak],
+		conditional_function: function(){
+			if(counterArray.includes(48) | counterArray.includes(96) | counterArray.includes(144)| counterArray.includes(192)){
+				counterArray = []
+				return true;
+			} else {
+				return false;
+			}
 		}
 	};
 	
+	var run_experiment = {
+		timeline: [no_mouse, if_no_response, imi_inh, tone, mouse, estimate, breakLoop],
+		timeline_variables: design,
+		sample: {
+			type: 'without-replacement',
+			size: 20
+		}
+	};
+	
+	timeline.push(add_design)
 	timeline.push(run_experiment);
+	timeline.push(remove_design)
 	
 	////////////////////////////////
 	///  REMOVE EVENT LISTENERS  ///
@@ -283,7 +519,6 @@
 	jsPsych.init({
 		timeline: timeline,
 		exclusions: {min_width: 1280, min_height: 700},
-		preload_images: ["New Stimuli/Slide1.BMP", "New Stimuli/Slide2.BMP", "New Stimuli/Slide3.BMP", "New Stimuli/Slide4.BMP", "New Stimuli/Slide5.BMP", "New Stimuli/black.png"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
