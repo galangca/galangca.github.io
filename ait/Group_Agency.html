@@ -12,7 +12,7 @@
 		<script src = "jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
-		
+		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
 		<!-- My plugins -->
 		
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
@@ -110,7 +110,7 @@
 				  "<p><h1>Welcome!</h1><br><p>"+
 				  "<p>This experiment is adminterested by Carl Michael Galang (McMaster University), Dr. Emiel Cracco (Ghent University), Dr. Marcel Brass (Humboldt University of Berlin), & Dr. Sukhvinder Obhi (McMaster University).</p><br>"+
 				  "<p>The purpose of this study to explore basic perceptual processing mechanisms.</p><br>"+
-				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving compensation), the results of this study will provide us with a better understanding of perceptual and sensory processes. To learn about this study, particularly in the terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='google.ca' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
+				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving compensation), the results of this study will provide us with a better understanding of perceptual and sensory processes. To learn about this study, particularly in the terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
 				  "<p>This study should take around 30-45min to complete. Please finish this study within that time frame (there are built-in breaks embedded in the experiment).</p><br>"+
 				  "<p>Please note that you will be given a unique compleition code at the end of this study to input into a Google Forms (link at the end) to get your SONA credit.</p>"+
 				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
@@ -120,9 +120,24 @@
 		post_trial_gap: 0
 	}
 
+	var form_trial = {
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>Demographic Questions</h1></p>'+'<p>Note: these questions are optional and you are free to skip them.</p>',
+  		html: '<p> Age: <input name="Age" type="text" /> '+
+  			  ' Gender: <input name="Gender" type="text" /> '+
+  			  ' Ethnicity: <input name="Ethnicity" type="text" /> '+
+  			  ' Dominant Hand: <input name="Dominant Hand" type="text" /></p><br>'+
+  			  '<p><h1>Data Sharing</h1></p>'+
+  			  '<p>Do you agree to have your <u><strong>anonymized</strong></u> data uploaded to the <a href="https://osf.io/" target= _blank>Open Science Framework</a> (to better increase science transparency)?</p>'+
+  			  '<p>Yes<input type="radio" id="Yes" name="OSF" value="Yes"> No<input type="radio" id="No" name="OSF" value="No"></p>'
+
+	};
+
 	timeline.push(Consent)
+	timeline.push(form_trial)
 	timeline.push(fullscreen_on);
 	timeline.push(no_mouse);
+
 
 	var practiceInt = {
 		type: 'html-keyboard-response',
@@ -131,7 +146,7 @@
 				  "<p>Your task in this experiment is to respond to the numbers 1 or 2. "+
 				  "Hold down the G and H keys. If you see the number 1, release the G key by lifting your index finger as fast as you can. "+
 				  "If you see the number 2, release the H key by lifting your middle finger as fast as you can.</p><br>"+
-				  "<p>There will be a numbers of hands moving in the background. Ignore them and focus on the task.</p><br>"+
+				  "<p>There will be a number of hands moving in the background. Ignore them and focus on the task.</p><br>"+
 				  "<p>After every key release, a yellow square will appear. The square will appear randomly between 1-1000ms after your key release. "+
 				  "Your job is to estimate the interval between your key release and the appearance of the yellow square (anywhere between 1ms-1000ms).</p><br>"+
 				  "<p>We will start with some practice trials only involving the numbers and hands.</p><br>"+
@@ -886,16 +901,16 @@
 	};
 
 
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
 
 
 	/* RUN EXPERIMENT */	
@@ -933,11 +948,11 @@
 		}
 	};
 	
-	//timeline.push(instr_welcome)
-	//timeline.push(add_design100)
-	//timeline.push(add_design400)
-	//timeline.push(add_design700)
-	//timeline.push(run_experiment)
+	timeline.push(instr_welcome)
+	timeline.push(add_design100)
+	timeline.push(add_design400)
+	timeline.push(add_design700)
+	timeline.push(run_experiment)
 	
 	////////////////////////////////
 	///  REMOVE EVENT LISTENERS  ///
@@ -972,7 +987,7 @@
 				  "<p>This is the end of the experiment. </p>"+
 				  "<p>Here is your unique completion code: "+ code +
 				  "<p>Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSeHeB9DA-80wKlXABd4zxpgdhNSBb6sb_g7MgwBPs_evHZnVw/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your MacID and code to get your SONA credit. All SONA credits will be awarded within 2 weeks. Please email galangc@mcmaster.ca if there are any issues.</p>"+
-				  "<p>If you would like to find out more about the study, <a href='https://docs.google.com/forms/d/e/1FAIpQLSeHeB9DA-80wKlXABd4zxpgdhNSBb6sb_g7MgwBPs_evHZnVw/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>"+
+				  "<p>If you would like to find out more about the study, <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>"+
 				  "<p>IMPORTANT: ONCE YOU HAVE COMPLETED THE GOOGLE FORM, PLEASE PRESS ENTER TO END THE EXPERIMENT AND SUBMIT YOUR DATA; FAILING TO DO SO WILL LEAD TO YOUR DATA BEING LOST.</p>"+
 				  "<p>Once you press enter, this screen with go blank, so please save/enter your unique code to the Google Form before pressing enter.</p></div>",
 		post_trial_gap: 0,
@@ -1003,8 +1018,9 @@
 		exclusions: {min_width: 1280, min_height: 700},
 		show_preload_progress_bar: true,
 		on_finish: function() {
-			jsPsych.data.get().localSave('csv',subject_id+'.csv')
-		}		
+			jsPsych.data.displayData();
+			jsPsych.data.get().localSave('csv',subject_id+'.csv');
+		}	
 	});
 
 	</script>
