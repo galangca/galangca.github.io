@@ -179,7 +179,7 @@
 	///////////////////////
 	///  RANDOMIZATION  ///
 	///////////////////////
-	
+
 	var design = [
 
 	//
@@ -1016,6 +1016,9 @@
 	jsPsych.init({
 		timeline: timeline,
 		exclusions: {min_width: 1280, min_height: 700},
+		preload_images: ["New Stimuli/A - Fixation.BMP", "New Stimuli/C1-H1-I A.BMP", "New Stimuli/C1-H1-I B.BMP", "New Stimuli/C1-H1-I C.BMP", "New Stimuli/C1-H1-I D.BMP", "New Stimuli/C1-H2-I A.BMP", 
+						 "New Stimuli/C1-H2-I B.BMP", "New Stimuli/C1-H2-I C.BMP", "New Stimuli/C1-H2-I D.BMP", "New Stimuli/C1-H2-I E.BMP", "New Stimuli/C1-H2-I F.BMP", "New Stimuli/C1-H3-I A.BMP", "New Stimuli/C1-H3-I B.BMP",
+						 "New Stimuli/C1-H3-I C.BMP", "New Stimuli/C1-H3-I D.BMP", "New Stimuli/C1-H4-I A.BMP"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
