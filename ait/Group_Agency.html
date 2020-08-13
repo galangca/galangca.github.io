@@ -126,8 +126,8 @@
   		html: '<p> Age: <input name="Age" type="text" /> '+
   			  ' Gender: <input name="Gender" type="text" /> '+
   			  ' Ethnicity: <input name="Ethnicity" type="text" /> '+
-  			  ' Dominant Hand: <input name="Dominant Hand" type="text" /></p><br>'+
-  			  ' Dominant Hand: <input name="Browser" type="text" /></p><br>'+
+  			  ' Dominant Hand: <input name="Dominant Hand" type="text" /></p>'+
+  			  ' Browser: <input name="Browser" type="text" /></p><br>'+
   			  '<p><h1>Data Sharing</h1></p>'+
   			  '<p>Do you agree to have your <u><strong>anonymized</strong></u> data uploaded to the <a href="https://osf.io/" target= _blank>Open Science Framework</a> (to better increase science transparency)?</p>'+
   			  '<p>Yes<input type="radio" id="Yes" name="OSF" value="Yes"> No<input type="radio" id="No" name="OSF" value="No"></p>'
@@ -902,16 +902,16 @@
 	};
 
 
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
-	//timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
 
 
 	/* RUN EXPERIMENT */	
@@ -950,11 +950,11 @@
 		}
 	};
 	
-	//timeline.push(instr_welcome)
-	//timeline.push(add_design100)
-	//timeline.push(add_design400)
-	//timeline.push(add_design700)
-	//timeline.push(run_experiment)
+	timeline.push(instr_welcome)
+	timeline.push(add_design100)
+	timeline.push(add_design400)
+	timeline.push(add_design700)
+	timeline.push(run_experiment)
 	
 	////////////////////////////////
 	///  REMOVE EVENT LISTENERS  ///
@@ -980,32 +980,6 @@
 	/////////////////
 	///  GOODBYE  ///
 	/////////////////
-	////////////////////
-	///  FIND BROWSER///
-	////////////////////
-	// Opera 8.0+
-	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
-	
-	// Firefox 1.0+
-	var isFirefox = typeof InstallTrigger !== 'undefined';
-	
-	// Safari 3.0+ "[object HTMLElementConstructor]" 
-	var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-	
-	// Internet Explorer 6-11
-	var isIE = /*@cc_on!@*/false || !!document.documentMode;
-	
-	// Edge 20+
-	var isEdge = !isIE && !!window.StyleMedia;
-	
-	// Chrome 1 - 79
-	var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-	
-	// Edge (based on chromium) detection
-	var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
-	
-	// Blink engine detection
-	var isBlink = (isChrome || isOpera) && !!window.CSS;
 
 	var code = Math.floor((Math.random() * 10000000) + 10000);
 	var goodbye = {
@@ -1021,14 +995,6 @@
 		post_trial_gap: 0,
 		on_finish: function(data) {
 			data.code = code
-			data.chrome = isChrome;
-			data.IE = isIE;
-			data.Forfox = isFirefox;
-			data.Safari = isSafari;
-			data.Opera = isOpera;
-			data.Edge = isEdge;
-			data.Chromium = isEdgeChromium;
-			data.Blinl = isBlink;
 		}
 	};
 
