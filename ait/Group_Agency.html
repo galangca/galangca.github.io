@@ -85,6 +85,12 @@
 		}
 	};
 	
+	var mouse = {
+		type: 'call-function',
+		func: function(){ 
+			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: default; } </style>');
+		}
+	};
 	/////////////////////////////
 	///  ADD EVENT LISTENERS  ///
 	/////////////////////////////
@@ -111,7 +117,7 @@
 				  "<p>This experiment is adminterested by Carl Michael Galang (McMaster University), Dr. Emiel Cracco (Ghent University), Dr. Marcel Brass (Humboldt University of Berlin), & Dr. Sukhvinder Obhi (McMaster University).</p><br>"+
 				  "<p>The purpose of this study to explore basic perceptual processing mechanisms.</p><br>"+
 				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving compensation), the results of this study will provide us with a better understanding of perceptual and sensory processes. To learn about this study, particularly in the terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
-				  "<p>This study should take around 30-45min to complete. Please finish this study within that time frame (there are built-in breaks embedded in the experiment).</p><br>"+
+				  "<p>This study should take around 30-45min to complete. Please finish this study within an hour of starting it (there are built-in breaks embedded in the experiment).</p><br>"+
 				  "<p>Please note that you will be given a unique compleition code at the end of this study to input into a Google Forms (link at the end) to get your SONA credit.</p>"+
 				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
 				  "<p><h1>CONSENT</h1></p>"+
@@ -137,6 +143,24 @@
 	timeline.push(Consent)
 	timeline.push(form_trial)
 	timeline.push(fullscreen_on);
+
+	var checkClicks = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<h1> Hardware Check </h1><br>"+
+				  "<p>Please hold down the G and H keys with your right hand.</p><br>"+
+				  "<p>If you start to hear clicking noises while you hold down the keys, please follow these instructions. If not, then please press ENTER to continue.</p><br>"+
+				  "<p>If on a Mac, please go to System Preferences --> Accessibility --> Keyboard. Make sure to toggle all optons off.</p>"+
+				  "<p>If on Windows, please go to Settings --> Typing and toggle off any sound options.</p><br>"+
+				  "<p>If none of these steps work, please mute your computer for the duration of this experiment.</p><br>"+
+
+				  "<p>Press ENTER to continue.</p></div>",
+		post_trial_gap: 0
+	};
+
+	timeline.push(checkClicks)
+	timeline.push(fullscreen_on);
 	timeline.push(no_mouse);
 
 
@@ -145,7 +169,7 @@
 		choices: ['enter'],
 		stimulus: "<div class = 'my_window'>"+
 				  "<p>Your task in this experiment is to respond to the numbers 1 or 2. "+
-				  "Hold down the G and H keys. If you see the number 1, release the G key by lifting your index finger as fast as you can. "+
+				  "Hold down the G and H keys with your <strong><u>right hand</u></strong>. If you see the number 1, release the G key by lifting your index finger as fast as you can. "+
 				  "If you see the number 2, release the H key by lifting your middle finger as fast as you can.</p><br>"+
 				  "<p>There will be a number of hands moving in the background. Ignore them and focus on the task.</p><br>"+
 				  "<p>Releasing the key will cause the number to change colours from yellow to pink. The number will turn pink 1-1000ms after your key release. "+
@@ -158,6 +182,19 @@
 
 	timeline.push(practiceInt)
 
+	var practiceIB = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p>Now let's move onto practicing the interval estimation.<p><br>"+
+				  "<p>In this part, releasing the key will cause the number to change colours from yellow to pink. For the purposes of this practice, the number will turn pink either 1ms or 1000ms after your key release. "+
+				  "Your job is to choose either 1ms or 1000ms on a sliding scale.</p><br>"+
+				  "<p>Press ENTER to begin the practice trials.</p></div>",
+		post_trial_gap: 0
+	};
+
+	timeline.push(practiceIB)
+
 	
 	var instr_welcome = {
 		type: 'html-keyboard-response',
@@ -165,10 +202,10 @@
 		stimulus: "<div class = 'my_window'>"+
 				  "<p><h1>Good Job!</h1></p><br>"+
 				  "<p>Now that you've got the hang of the task, we will move on to the main part of the experiment.</p><br>"+
-				  "<p>Just like in the practice trials, you will hold down the G and H keys, and if you see the number 1, release the G key by lifting your index finger as fast as you can, and "+
+				  "<p>Just like in the practice trials, you will hold down the G and H keys with your <strong><u>right hand</u></strong>, and if you see the number 1, release the G key by lifting your index finger as fast as you can, and "+
 				  "if you see the number 2, release the H key by lifting your middle finger as fast as you can. You will NOT get feedback (Correct, Incorrect) after your responses. Ignore the hands in the background.</p><br>"+
-				  "<p>Releasing the key will cause the number to change colours from yellow to pink. The number will turn pink 1-1000ms after your key release. "+
-				  "Your job is to estimate the interval between your key release and the change of colour (anywhere between 1ms-1000ms).</p><br>"+
+				  "<p>Releasing the key will cause the number to change colours from yellow to pink. For the main trials, the number will turn pink  <strong><u>anywhere between</u></strong> 1-1000ms after your key release. "+
+				  "Your job is to estimate, as best as you can, the interval between your key release and the change of colour using the slider.</p><br>"+
 				  "<p> As a frame of reference: the duration of one eyeblink is estimated to be around 300-400ms.</p><br>"+
 				  "<p>There are 288 trials overall. You will get a self-paced break every 48 trials. Take your time; however, please complete this experiment within the hour of starting it."+
 
@@ -757,7 +794,7 @@
 	
 	var no_response = {
 		type: "check-response",
-		stimulus: '<div style="font-size:30px;">HOLD DOWN THE G AND H KEYS</div>',
+		stimulus: '<div style="font-size:30px;">HOLD DOWN THE G AND H KEYS WITH YOUR <strong><u>RIGHT HAND</u></strong></div>',
 		trial_duration: 1
 	};	
 
@@ -819,6 +856,39 @@
     	}
 	};
 
+	var imi_inh_pracIB_1 = {
+		type: "fixation-image-keyboard-release",		
+		fixation: jsPsych.timelineVariable("img1"),		
+		stimulus: jsPsych.timelineVariable("img2"),
+		endingimg: jsPsych.timelineVariable("img3"),
+		endingimg_duration: 1,
+		choices: [left_key, right_key],
+		fixation_duration: 500,
+		post_trial_gap: 500,
+		data: jsPsych.timelineVariable("data"),
+		stimulus_width: 800,
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    		data.gap = 1
+    	}
+	};
+	var imi_inh_pracIB_1000 = {
+		type: "fixation-image-keyboard-release",		
+		fixation: jsPsych.timelineVariable("img1"),		
+		stimulus: jsPsych.timelineVariable("img2"),
+		endingimg: jsPsych.timelineVariable("img3"),
+		endingimg_duration: 1000,
+		choices: [left_key, right_key],
+		fixation_duration: 500,
+		post_trial_gap: 500,
+		data: jsPsych.timelineVariable("data"),
+		stimulus_width: 800,
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    		data.gap = 1000
+    	}
+	};
+
 	
 	/* Tone */
 	var tone = {
@@ -843,14 +913,14 @@
     	type: 'image-slider-response',
     	stimulus: 'New Stimuli/black.png',
     	labels: ['1ms', '|', '|' ,'|', '|', '|', '|', '|', '|', '|', '1000ms'],
-    	prompt: "<p>Estimate the interval between your action and the appearance of the yellow square.</p>",
+    	prompt: "<p>Estimate the interval between your action and the number turning pink.</p>",
   		min: 1,
   		max: 1000,
   		start: 500,
   		step: 1
 	};
 
-	/* Practice feedback loop */
+	/* Practice feedback loop for AIT*/
 	var feedback = {
       type: "html-keyboard-response",
       trial_duration: 1000,
@@ -897,16 +967,96 @@
 	timeline.push(run_practice)
 	timeline.push(run_practice)
 	timeline.push(run_practice)
+	
+
+	/* Practice feedback loop for interval estimates */
+	var feedbackIB_1 = {
+      type: "html-keyboard-response",
+      trial_duration: 1000,
+   	  choices: jsPsych.NO_KEYS,
+      stimulus: function() {
+		var trials = jsPsych.data.get().select('response');
+		var value = trials.values.pop()
+        if (value == 1) {
+        	return "<p> CORRECT </p>"
+        } else {
+        	return "<p> INCORRECT </p>"
+        };
+      }
+    };
+
+
+	var run_practiceIB_1 = {
+		timeline: [if_no_response, imi_inh_pracIB_1, mouse, estimate, feedbackIB_1, no_mouse],
+		timeline_variables: design,
+		loop_function: function(data){
+			var trials = data.select('response');
+			var value = trials.values.pop()
+			console.log(value)
+			if (value == 1) {
+        		return false
+       	 	} else {
+        		return true
+        	}
+		},
+		sample: {
+			type: 'with-replacement',
+			size: 1
+		}
+	};
+
+	var feedbackIB_1000 = {
+      type: "html-keyboard-response",
+      trial_duration: 1000,
+   	  choices: jsPsych.NO_KEYS,
+      stimulus: function() {
+		var trials = jsPsych.data.get().select('response');
+		var value = trials.values.pop()
+        if (value == 1000) {
+        	return "<p> CORRECT </p>"
+        } else {
+        	return "<p> INCORRECT </p>"
+        };
+      }
+    };
+
+
+	var run_practiceIB_1000 = {
+		timeline: [if_no_response, imi_inh_pracIB_1000, mouse, estimate, feedbackIB_1000, no_mouse],
+		timeline_variables: design,
+		loop_function: function(data){
+			var trials = data.select('response');
+			var value = trials.values.pop()
+			console.log(value)
+			if (value == 1000) {
+        		return false
+       	 	} else {
+        		return true
+        	}
+		},
+		sample: {
+			type: 'with-replacement',
+			size: 1
+		}
+	};
+
+	pracIB = [run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1];
+	foo = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)]
+	timeline.push(pracIB[foo[0]])
+	timeline.push(pracIB[foo[1]])
+	timeline.push(pracIB[foo[2]])
+	timeline.push(pracIB[foo[3]])
+	timeline.push(pracIB[foo[4]])
+	timeline.push(pracIB[foo[5]])
+	timeline.push(pracIB[foo[6]])
+	timeline.push(pracIB[foo[7]])
+	timeline.push(pracIB[foo[8]])
+	timeline.push(pracIB[foo[9]])
 
 
 	/* RUN EXPERIMENT */	
 
-	var mouse = {
-		type: 'call-function',
-		func: function(){ 
-			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: default; } </style>');
-		}
-	};
+	
 	
 	var takeABreak = {
 		type: 'html-keyboard-response',
