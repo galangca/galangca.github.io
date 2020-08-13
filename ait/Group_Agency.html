@@ -550,9 +550,6 @@
 		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 	];
 
-	var add_design100 = {
-		type: 'call-function',
-		func: function(){ 
 			var c1h1i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
@@ -619,11 +616,6 @@
 
 			design.push(c1h1i100First, c1h1i100Second, c1h3i100First, c1h3i100Second, c2h1i100First, c2h1i100Second, c2h3i100First, c2h3i100Second, c1h1m100First, c1h1m100Second, c1h3m100First, c1h3m100Second, c2h1m100First, c2h1m100Second, c2h3m100First, c2h3m100Second)
 
-		}
-	};
-	var add_design400 = {
-		type: 'call-function',
-		func: function(){ 
 			var c1h1i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
@@ -689,11 +681,7 @@
 			var c2h3m400Second = c2h3m400[Math.floor(Math.random() * c2h3m400.length)]						
 
 			design.push(c1h1i400First, c1h1i400Second, c1h3i400First, c1h3i400Second, c2h1i400First, c2h1i400Second, c2h3i400First, c2h3i400Second, c1h1m400First, c1h1m400Second, c1h3m400First, c1h3m400Second, c2h1m400First, c2h1m400Second, c2h3m400First, c2h3m400Second)
-		}
-	};
-	var add_design700 = {
-		type: 'call-function',
-		func: function(){ 
+
 			var c1h1i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
@@ -759,9 +747,6 @@
 			var c2h3m700Second = c2h3m700[Math.floor(Math.random() * c2h3m700.length)]						
 
 			design.push(c1h1i700First, c1h1i700Second, c1h3i700First, c1h3i700Second, c2h1i700First, c2h1i700Second, c2h3i700First, c2h3i700Second, c1h1m700First, c1h1m700Second, c1h3m700First, c1h3m700Second, c2h1m700First, c2h1m700Second, c2h3m700First, c2h3m700Second)
-
-		}
-	};
 	
 	
 	///////////////////////////////////
@@ -951,9 +936,6 @@
 	};
 	
 	timeline.push(instr_welcome)
-	timeline.push(add_design100)
-	timeline.push(add_design400)
-	timeline.push(add_design700)
 	timeline.push(run_experiment)
 	
 	////////////////////////////////
