@@ -31,6 +31,12 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
         default: undefined,
         description: 'The image to be displayed'
       },
+      endingimg: {
+        type: jsPsych.plugins.parameterType.IMAGE,
+        pretty_name: 'Last Img',
+        default: undefined,
+        description: 'Sensory Consequence of the'
+      },
       stimulus_height: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Image height',
@@ -67,6 +73,12 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
         pretty_name: 'Fixation duration',
         default: null,
         description: 'How long to show the first image.'
+      },
+      endingimg_duration: {
+        type: jsPsych.plugins.parameterType.INT,
+        pretty_name: 'gap',
+        default: null,
+        description: 'Actual intervals.'
       },
       stimulus_duration: {
         type: jsPsych.plugins.parameterType.INT,
@@ -140,9 +152,7 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
 				// function to end trial when it is time
 			
 				var end_trial = function() {
-
 					// kill any remaining setTimeout handlers
-					
 					jsPsych.pluginAPI.clearAllTimeouts();
 
 					// kill keyboard listeners
@@ -155,15 +165,18 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
 						"rt": response.rt,
 						"stimulus": trial.stimulus,
 						"key_press": response.key
-					};
-
-					// clear the display
-					
-					display_element.innerHTML = '';
-
+					}
 					// move on to the next trial
-					
-					jsPsych.finishTrial(trial_data);
+
+					/////// Mike's Code
+					jsPsych.pluginAPI.setTimeout( 
+						function() {
+							document.getElementById("jspsych-fixation-image-keyboard-release-stimulus").src = trial.endingimg;
+							
+							jsPsych.finishTrial(trial_data);
+
+						}, trial.endingimg_duration
+					)
 				};
 
 				// function to handle responses by the subject
@@ -174,6 +187,7 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
 					// which can be used to provide visual feedback that a response was recorded
 					
 					display_element.querySelector('#jspsych-fixation-image-keyboard-release-stimulus').className += ' responded';
+					
 
 					// only record the first response
 					
@@ -221,11 +235,13 @@ jsPsych.plugins["fixation-image-keyboard-release"] = (function() {
 				
 				if (trial.trial_duration !== null) {
 					jsPsych.pluginAPI.setTimeout(function() {
-						end_trial();
+						//end_trial();
 					}, trial.trial_duration);
 				}
 			},trial.fixation_duration
 		)
+
 	}	
+
   return plugin;
 })();

@@ -16,6 +16,7 @@
 		<!-- My plugins -->
 		
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release-original.js"></script>
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-check-response.js"></script>
 		
 		<!-- CSS -->
@@ -147,9 +148,9 @@
 				  "Hold down the G and H keys. If you see the number 1, release the G key by lifting your index finger as fast as you can. "+
 				  "If you see the number 2, release the H key by lifting your middle finger as fast as you can.</p><br>"+
 				  "<p>There will be a number of hands moving in the background. Ignore them and focus on the task.</p><br>"+
-				  "<p>After every key release, a yellow square will appear. The square will appear randomly between 1-1000ms after your key release. "+
-				  "Your job is to estimate the interval between your key release and the appearance of the yellow square (anywhere between 1ms-1000ms).</p><br>"+
-				  "<p>We will start with some practice trials only involving the numbers and hands.</p><br>"+
+				  "<p>Releasing the key will cause the number to change colours from yellow to pink. The number will turn pink 1-1000ms after your key release. "+
+				  "Your job is to estimate the interval between your key release and the change of colour (anywhere between 1ms-1000ms).</p><br>"+
+				  "<p>We will start with some practice trials only involving the numbers and hands (no estimations).</p><br>"+
 
 				  "<p>Press ENTER to begin.</p></div>",
 		post_trial_gap: 0
@@ -166,8 +167,8 @@
 				  "<p>Now that you've got the hang of the task, we will move on to the main part of the experiment.</p><br>"+
 				  "<p>Just like in the practice trials, you will hold down the G and H keys, and if you see the number 1, release the G key by lifting your index finger as fast as you can, and "+
 				  "if you see the number 2, release the H key by lifting your middle finger as fast as you can. You will NOT get feedback (Correct, Incorrect) after your responses. Ignore the hands in the background.</p><br>"+
-				  "<p>After every key release, a yellow square will appear. The square will appear randomly between 1-1000ms after your key release. "+
-				  "Your job is to estimate the interval between your key release and the appearance of the yellow square (anywhere between 1ms-1000ms).</p><br>"+
+				  "<p>Releasing the key will cause the number to change colours from yellow to pink. The number will turn pink 1-1000ms after your key release. "+
+				  "Your job is to estimate the interval between your key release and the change of colour (anywhere between 1ms-1000ms).</p><br>"+
 				  "<p> As a frame of reference: the duration of one eyeblink is estimated to be around 300-400ms.</p><br>"+
 				  "<p>There are 288 trials overall. You will get a self-paced break every 48 trials. Please complete this experiment within the hour of starting it."+
 
@@ -183,414 +184,414 @@
 	var design = [
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", img3: "New Stimuli/C1-H2-I A P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", img3: "New Stimuli/C1-H2-I B P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", img3: "New Stimuli/C1-H2-I C P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", img3: "New Stimuli/C1-H2-I D P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", img3: "New Stimuli/C1-H2-I E P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", img3: "New Stimuli/C1-H2-I F P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	///////////////////////
 
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", img3: "New Stimuli/C2-H2-I A P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", img3: "New Stimuli/C2-H2-I B P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", img3: "New Stimuli/C2-H2-I C P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", img3: "New Stimuli/C2-H2-I D P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", img3: "New Stimuli/C2-H2-I E P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", img3: "New Stimuli/C2-H2-I F P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", img3: "New Stimuli/C1-H2-M A P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", img3: "New Stimuli/C1-H2-M B P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", img3: "New Stimuli/C1-H2-M C P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", img3: "New Stimuli/C1-H2-M D P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", img3: "New Stimuli/C1-H2-M E P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", img3: "New Stimuli/C1-H2-M F P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", img3: "New Stimuli/C2-H2-M A P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", img3: "New Stimuli/C2-H2-M B P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", img3: "New Stimuli/C2-H2-M C P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", img3: "New Stimuli/C2-H2-M D P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", img3: "New Stimuli/C2-H2-M E P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", img3: "New Stimuli/C2-H2-M F P.BMP", gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 100, data: {hand: 4, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 	////////////////////////// GAPPPP
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", img3: "New Stimuli/C1-H2-I A P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", img3: "New Stimuli/C1-H2-I B P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", img3: "New Stimuli/C1-H2-I C P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", img3: "New Stimuli/C1-H2-I D P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", img3: "New Stimuli/C1-H2-I E P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", img3: "New Stimuli/C1-H2-I F P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	///////////////////////
 
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", img3: "New Stimuli/C2-H2-I A P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", img3: "New Stimuli/C2-H2-I B P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", img3: "New Stimuli/C2-H2-I C P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", img3: "New Stimuli/C2-H2-I D P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", img3: "New Stimuli/C2-H2-I E P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", img3: "New Stimuli/C2-H2-I F P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", img3: "New Stimuli/C1-H2-M A P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", img3: "New Stimuli/C1-H2-M B P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", img3: "New Stimuli/C1-H2-M C P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", img3: "New Stimuli/C1-H2-M D P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", img3: "New Stimuli/C1-H2-M E P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", img3: "New Stimuli/C1-H2-M F P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", img3: "New Stimuli/C2-H2-M A P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", img3: "New Stimuli/C2-H2-M B P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", img3: "New Stimuli/C2-H2-M C P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", img3: "New Stimuli/C2-H2-M D P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", img3: "New Stimuli/C2-H2-M E P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", img3: "New Stimuli/C2-H2-M F P.BMP", gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 400, data: {hand: 4, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 	////////////////////////// GAPPPP
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I A.BMP", img3: "New Stimuli/C1-H2-I A P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I B.BMP", img3: "New Stimuli/C1-H2-I B P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I C.BMP", img3: "New Stimuli/C1-H2-I C P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I D.BMP", img3: "New Stimuli/C1-H2-I D P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I E.BMP", img3: "New Stimuli/C1-H2-I E P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-I F.BMP", img3: "New Stimuli/C1-H2-I F P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-I A.BMP", img3: "New Stimuli/C1-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
 
 	///////////////////////
 
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I A.BMP", img3: "New Stimuli/C2-H2-I A P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I B.BMP", img3: "New Stimuli/C2-H2-I B P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I C.BMP", img3: "New Stimuli/C2-H2-I C P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I D.BMP", img3: "New Stimuli/C2-H2-I D P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I E.BMP", img3: "New Stimuli/C2-H2-I E P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-I F.BMP", img3: "New Stimuli/C2-H2-I F P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-I A.BMP", img3: "New Stimuli/C2-H4-I A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
 
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M A.BMP", img3: "New Stimuli/C1-H2-M A P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M B.BMP", img3: "New Stimuli/C1-H2-M B P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M C.BMP", img3: "New Stimuli/C1-H2-M C P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M D.BMP", img3: "New Stimuli/C1-H2-M D P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M E.BMP", img3: "New Stimuli/C1-H2-M E P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H2-M F.BMP", img3: "New Stimuli/C1-H2-M F P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H4-M A.BMP", img3: "New Stimuli/C1-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
 
 	/////////////////////////
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-
-
-	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M A.BMP", img3: "New Stimuli/C2-H2-M A P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M B.BMP", img3: "New Stimuli/C2-H2-M B P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M C.BMP", img3: "New Stimuli/C2-H2-M C P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M D.BMP", img3: "New Stimuli/C2-H2-M D P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M E.BMP", img3: "New Stimuli/C2-H2-M E P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H2-M F.BMP", img3: "New Stimuli/C2-H2-M F P.BMP", gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 
 
 	//
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+
+
+	//
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+		{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H4-M A.BMP", img3: "New Stimuli/C2-H4-M A P.BMP", gap: 700, data: {hand: 4, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
 	];
 
 	var add_design100 = {
 		type: 'call-function',
 		func: function(){ 
-			var c1h1i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h1i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c1h3i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h3i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c2h1i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h1i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c2h3i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h3i100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c1h1m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h1m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c1h3m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h3m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c2h1m100 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h1m100 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
-			var c2h3m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h3m100 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 100, data: {hand: 3, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
 			var c1h1i100First = c1h1i100[Math.floor(Math.random() * c1h1i100.length)]
 			var c1h1i100Second = c1h1i100[Math.floor(Math.random() * c1h1i100.length)]
@@ -623,45 +624,45 @@
 	var add_design400 = {
 		type: 'call-function',
 		func: function(){ 
-			var c1h1i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h1i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c1h3i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h3i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c2h1i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h1i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c2h3i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h3i400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c1h1m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h1m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c1h3m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h3m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c2h1m400 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h1m400 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
-			var c2h3m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h3m400 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 400, data: {hand: 3, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
 			var c1h1i400First = c1h1i400[Math.floor(Math.random() * c1h1i400.length)]
 			var c1h1i400Second = c1h1i400[Math.floor(Math.random() * c1h1i400.length)]
@@ -693,45 +694,45 @@
 	var add_design700 = {
 		type: 'call-function',
 		func: function(){ 
-			var c1h1i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h1i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I A.BMP", img3: "New Stimuli/C1-H1-I A P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I B.BMP", img3: "New Stimuli/C1-H1-I B P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I C.BMP", img3: "New Stimuli/C1-H1-I C P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-I D.BMP", img3: "New Stimuli/C1-H1-I D P.BMP",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c1h3i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
+			var c1h3i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I A.BMP", img3: "New Stimuli/C1-H3-I A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I B.BMP", img3: "New Stimuli/C1-H3-I B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I C.BMP", img3: "New Stimuli/C1-H3-I C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-I D.BMP", img3: "New Stimuli/C1-H3-I D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "g"}}]
 
-			var c2h1i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h1i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I A.BMP", img3: "New Stimuli/C2-H1-I A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I B.BMP", img3: "New Stimuli/C2-H1-I B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I C.BMP", img3: "New Stimuli/C2-H1-I C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-I D.BMP", img3: "New Stimuli/C2-H1-I D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c2h3i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
+			var c2h3i700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I A.BMP", img3: "New Stimuli/C2-H3-I A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I B.BMP", img3: "New Stimuli/C2-H3-I B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I C.BMP", img3: "New Stimuli/C2-H3-I C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-I D.BMP", img3: "New Stimuli/C2-H3-I D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "h"}}]
 
-			var c1h1m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h1m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M A.BMP", img3: "New Stimuli/C1-H1-M A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M B.BMP", img3: "New Stimuli/C1-H1-M B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M C.BMP", img3: "New Stimuli/C1-H1-M C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H1-M D.BMP", img3: "New Stimuli/C1-H1-M D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c1h3m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
+			var c1h3m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M A.BMP", img3: "New Stimuli/C1-H3-M A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M B.BMP", img3: "New Stimuli/C1-H3-M B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M C.BMP", img3: "New Stimuli/C1-H3-M C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C1-H3-M D.BMP", img3: "New Stimuli/C1-H3-M D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "g"}}]
 
-			var c2h1m700 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h1m700 =[{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M A.BMP", img3: "New Stimuli/C2-H1-M A P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M B.BMP", img3: "New Stimuli/C2-H1-M B P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M C.BMP", img3: "New Stimuli/C2-H1-M C P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H1-M D.BMP", img3: "New Stimuli/C2-H1-M D P.BMP", gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
-			var c2h3m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
-						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
+			var c2h3m700 = [{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M A.BMP", img3: "New Stimuli/C2-H3-M A P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M B.BMP", img3: "New Stimuli/C2-H3-M B P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M C.BMP", img3: "New Stimuli/C2-H3-M C P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}},
+						{img1: "New Stimuli/A - Fixation.BMP", img2: "New Stimuli/C2-H3-M D.BMP", img3: "New Stimuli/C2-H3-M D P.BMP", gap: 700, data: {hand: 3, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "h"}}]
 
 			var c1h1i700First = c1h1i700[Math.floor(Math.random() * c1h1i700.length)]
 			var c1h1i700Second = c1h1i700[Math.floor(Math.random() * c1h1i700.length)]
@@ -799,7 +800,7 @@
 	
 	/* IMITATION-INHIBITION TRIAL */
 	var imi_inh_prac = {
-		type: "fixation-image-keyboard-release",		
+		type: "fixation-image-keyboard-release-original",		
 		fixation: jsPsych.timelineVariable("img1"),		
 		stimulus: jsPsych.timelineVariable("img2"),	
 		choices: [left_key, right_key],
@@ -818,11 +819,12 @@
 	var imi_inh = {
 		type: "fixation-image-keyboard-release",		
 		fixation: jsPsych.timelineVariable("img1"),		
-		stimulus: jsPsych.timelineVariable("img2"),	
+		stimulus: jsPsych.timelineVariable("img2"),
+		endingimg: jsPsych.timelineVariable("img3"),
+		endingimg_duration: jsPsych.timelineVariable("gap"),
 		choices: [left_key, right_key],
 		fixation_duration: 500,
-		trial_duration: 2000,		
-		post_trial_gap: jsPsych.timelineVariable("gap"),
+		post_trial_gap: 500,
 		data: jsPsych.timelineVariable("data"),
 		stimulus_width: 800,
 		on_finish: function(data){
@@ -855,7 +857,7 @@
 	var estimate = {
     	type: 'image-slider-response',
     	stimulus: 'New Stimuli/black.png',
-    	labels: ['1ms', '1000ms'],
+    	labels: ['1ms', '|', '|' ,'|', '|', '|', '|', '|', '|', '|', '1000ms'],
     	prompt: "<p>Estimate the interval between your action and the appearance of the yellow square.</p>",
   		min: 1,
   		max: 1000,
@@ -940,18 +942,19 @@
 	};
 	
 	var run_experiment = {
-		timeline: [no_mouse, if_no_response, imi_inh, visualTone, mouse, estimate, breakLoop],
+		timeline: [no_mouse, if_no_response, imi_inh, mouse, estimate, breakLoop],
 		timeline_variables: design,
 		sample: {
-			type: 'without-replacement'
+			type: 'without-replacement',
+			size: 10
 		}
 	};
 	
-	timeline.push(instr_welcome)
-	timeline.push(add_design100)
-	timeline.push(add_design400)
-	timeline.push(add_design700)
-	timeline.push(run_experiment)
+	//timeline.push(instr_welcome)
+	//timeline.push(add_design100)
+	//timeline.push(add_design400)
+	//timeline.push(add_design700)
+	//timeline.push(run_experiment)
 	
 	////////////////////////////////
 	///  REMOVE EVENT LISTENERS  ///
@@ -1017,7 +1020,10 @@
 		exclusions: {min_width: 1280, min_height: 700},
 		preload_images: ["New Stimuli/A - Fixation.BMP", "New Stimuli/C1-H1-I A.BMP", "New Stimuli/C1-H1-I B.BMP", "New Stimuli/C1-H1-I C.BMP", "New Stimuli/C1-H1-I D.BMP", "New Stimuli/C1-H2-I A.BMP", 
 						 "New Stimuli/C1-H2-I B.BMP", "New Stimuli/C1-H2-I C.BMP", "New Stimuli/C1-H2-I D.BMP", "New Stimuli/C1-H2-I E.BMP", "New Stimuli/C1-H2-I F.BMP", "New Stimuli/C1-H3-I A.BMP", "New Stimuli/C1-H3-I B.BMP",
-						 "New Stimuli/C1-H3-I C.BMP", "New Stimuli/C1-H3-I D.BMP", "New Stimuli/C1-H4-I A.BMP"],
+						 "New Stimuli/C1-H3-I C.BMP", "New Stimuli/C1-H3-I D.BMP", "New Stimuli/C1-H4-I A.BMP", "New Stimuli/C2-H1-I A.BMP", "New Stimuli/C2-H1-I B.BMP", "New Stimuli/C2-H1-I C.BMP", "New Stimuli/C2-H1-I D.BMP", "New Stimuli/C2-H2-I A.BMP", "New Stimuli/C2-H2-I B.BMP", "New Stimuli/C2-H2-I C.BMP", "New Stimuli/C2-H2-I D.BMP", "New Stimuli/C2-H2-I E.BMP", "New Stimuli/C2-H2-I F.BMP", "New Stimuli/C2-H3-I A.BMP", "New Stimuli/C2-H3-I B.BMP",
+						 "New Stimuli/C2-H3-I C.BMP", "New Stimuli/C2-H3-I D.BMP", "New Stimuli/C2-H4-I A.BMP", "New Stimuli/C1-H1-M A.BMP", "New Stimuli/C1-H1-M B.BMP", "New Stimuli/C1-H1-M C.BMP", "New Stimuli/C1-H1-M D.BMP", "New Stimuli/C1-H2-M A.BMP", "New Stimuli/C1-H2-M B.BMP", "New Stimuli/C1-H2-M C.BMP", "New Stimuli/C1-H2-M D.BMP", "New Stimuli/C1-H2-M E.BMP", "New Stimuli/C1-H2-M F.BMP", "New Stimuli/C1-H3-M A.BMP", "New Stimuli/C1-H3-M B.BMP",
+						 "New Stimuli/C1-H3-M C.BMP", "New Stimuli/C1-H3-M D.BMP", "New Stimuli/C1-H4-M A.BMP", "New Stimuli/C2-H1-M A.BMP", "New Stimuli/C2-H1-M B.BMP", "New Stimuli/C2-H1-M C.BMP", "New Stimuli/C2-H1-M D.BMP", "New Stimuli/C2-H2-M A.BMP", "New Stimuli/C2-H2-M B.BMP", "New Stimuli/C2-H2-M C.BMP", "New Stimuli/C2-H2-M D.BMP", "New Stimuli/C2-H2-M E.BMP", "New Stimuli/C2-H2-M F.BMP", "New Stimuli/C2-H3-M A.BMP", "New Stimuli/C2-H3-M B.BMP",
+						 "New Stimuli/C2-H3-M C.BMP", "New Stimuli/C2-H3-M D.BMP", "New Stimuli/C2-H4-M A.BMP", "New Stimuli/C1-H1-I A P.BMP", "New Stimuli/C1-H1-I B P.BMP", "New Stimuli/C1-H1-I C P.BMP", "New Stimuli/C1-H1-I D P.BMP", "New Stimuli/C1-H2-I A P.BMP", "New Stimuli/C1-H2-I B P.BMP", "New Stimuli/C1-H2-I C P.BMP", "New Stimuli/C1-H2-I D P.BMP", "New Stimuli/C1-H2-I E P.BMP", "New Stimuli/C1-H2-I F P.BMP", "New Stimuli/C1-H3-I A P.BMP", "New Stimuli/C1-H3-I B P.BMP","New Stimuli/C1-H3-I C P.BMP", "New Stimuli/C1-H3-I D P.BMP", "New Stimuli/C1-H4-I A P.BMP", "New Stimuli/C2-H1-I A P.BMP", "New Stimuli/C2-H1-I B P.BMP", "New Stimuli/C2-H1-I C P.BMP", "New Stimuli/C2-H1-I D P.BMP", "New Stimuli/C2-H2-I A P.BMP", "New Stimuli/C2-H2-I B P.BMP", "New Stimuli/C2-H2-I C P.BMP", "New Stimuli/C2-H2-I D P.BMP", "New Stimuli/C2-H2-I E P.BMP", "New Stimuli/C2-H2-I F P.BMP", "New Stimuli/C2-H3-I A P.BMP", "New Stimuli/C2-H3-I B P.BMP","New Stimuli/C2-H3-I C P.BMP", "New Stimuli/C2-H3-I D P.BMP", "New Stimuli/C2-H4-I A P.BMP", "New Stimuli/C1-H1-M A P.BMP", "New Stimuli/C1-H1-M B P.BMP", "New Stimuli/C1-H1-M C P.BMP", "New Stimuli/C1-H1-M D P.BMP", "New Stimuli/C1-H2-M A P.BMP", "New Stimuli/C1-H2-M B P.BMP", "New Stimuli/C1-H2-M C P.BMP", "New Stimuli/C1-H2-M D P.BMP", "New Stimuli/C1-H2-M E P.BMP", "New Stimuli/C1-H2-M F P.BMP", "New Stimuli/C1-H3-M A P.BMP", "New Stimuli/C1-H3-M B P.BMP","New Stimuli/C1-H3-M C P.BMP", "New Stimuli/C1-H3-M D P.BMP", "New Stimuli/C1-H4-M A P.BMP", "New Stimuli/C2-H1-M A P.BMP", "New Stimuli/C2-H1-M B P.BMP", "New Stimuli/C2-H1-M C P.BMP", "New Stimuli/C2-H1-M D P.BMP", "New Stimuli/C2-H2-M A P.BMP", "New Stimuli/C2-H2-M B P.BMP", "New Stimuli/C2-H2-M C P.BMP", "New Stimuli/C2-H2-M D P.BMP", "New Stimuli/C2-H2-M E P.BMP", "New Stimuli/C2-H2-M F P.BMP", "New Stimuli/C2-H3-M A P.BMP", "New Stimuli/C2-H3-M B P.BMP","New Stimuli/C2-H3-M C P.BMP", "New Stimuli/C2-H3-M D P.BMP", "New Stimuli/C2-H4-M A P.BMP"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();

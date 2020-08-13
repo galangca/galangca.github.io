@@ -149,7 +149,7 @@ jsPsych.plugins['image-slider-response'] = (function() {
     for(var j=0; j < trial.labels.length; j++){
       var width = 100/(trial.labels.length-1);
       var left_offset = (j * (100 /(trial.labels.length - 1))) - (width/2);
-      html += '<div style="display: inline-block; position: absolute; left:'+left_offset+'%; text-align: center; width: '+width+'%;">';
+      html += '<div style="display: inline-block; position: absolute; left:'+(left_offset+0.35)+'%; text-align: center; width: '+width+'%;">';
       html += '<span style="text-align: center; font-size: 80%;">'+trial.labels[j]+'</span>';
       html += '</div>'
     }
