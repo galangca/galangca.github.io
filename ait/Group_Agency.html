@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>My experiment</title>
+		<title>SONA Study #</title>
 		<script src = "jspsych-6.1.0/jspsych.js"></script>
 		
 		<!-- Regular plugins -->
@@ -161,7 +161,7 @@
 	};
 
 	timeline.push(checkClicks)
-	timeline.push(fullscreen_on);
+	//timeline.push(fullscreen_on);
 	timeline.push(no_mouse);
 
 
@@ -188,8 +188,8 @@
 		choices: ['enter'],
 		stimulus: "<div class = 'my_window'>"+
 				  "<p>Now let's move onto practicing the interval estimation.<p><br>"+
-				  "<p>In this part, releasing the key will cause the number to change colours from yellow to pink. For the purposes of this practice, the number will turn pink either 1ms or 1000ms after your key release. "+
-				  "Your job is to choose either 1ms or 1000ms on a sliding scale.</p><br>"+
+				  "<p>In this part, releasing the key will cause the number to change colours from yellow to pink. For the purposes of this practice, the number will turn pink either 1ms, 500ms, or 1000ms after your key release. "+
+				  "Your job is to choose either one of those options on a sliding scale (the slider starts at 500ms -- move to the left extreme for 1ms and the right extreme for 1000ms).</p><br>"+
 				  "<p>Press ENTER to begin the practice trials.</p></div>",
 		post_trial_gap: 0
 	};
@@ -889,6 +889,23 @@
     	}
 	};
 
+	var imi_inh_pracIB_500 = {
+		type: "fixation-image-keyboard-release",		
+		fixation: jsPsych.timelineVariable("img1"),		
+		stimulus: jsPsych.timelineVariable("img2"),
+		endingimg: jsPsych.timelineVariable("img3"),
+		endingimg_duration: 500,
+		choices: [left_key, right_key],
+		fixation_duration: 500,
+		post_trial_gap: 500,
+		data: jsPsych.timelineVariable("data"),
+		stimulus_width: 800,
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    		data.gap = 1000
+    	}
+	};
+
 	
 	/* Tone */
 	var tone = {
@@ -1039,19 +1056,80 @@
 			size: 1
 		}
 	};
+
+	var feedbackIB_500 = {
+      type: "html-keyboard-response",
+      trial_duration: 1000,
+   	  choices: jsPsych.NO_KEYS,
+      stimulus: function() {
+		var trials = jsPsych.data.get().select('response');
+		var value = trials.values.pop()
+        if (value == 500) {
+        	return "<p> CORRECT </p>"
+        } else {
+        	return "<p> INCORRECT </p>"
+        };
+      }
+    };
+
+
+	var run_practiceIB_500 = {
+		timeline: [if_no_response, imi_inh_pracIB_500, mouse, estimate, feedbackIB_500, no_mouse],
+		timeline_variables: design,
+		loop_function: function(data){
+			var trials = data.select('response');
+			var value = trials.values.pop()
+			console.log(value)
+			if (value == 500) {
+        		return false
+       	 	} else {
+        		return true
+        	}
+		},
+		sample: {
+			type: 'with-replacement',
+			size: 1
+		}
+	};
+
 	timeline.push(practiceIB)
-	pracIB = [run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1];
-	foo = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)]
-	timeline.push(pracIB[foo[0]])
-	timeline.push(pracIB[foo[1]])
-	timeline.push(pracIB[foo[2]])
-	timeline.push(pracIB[foo[3]])
-	timeline.push(pracIB[foo[4]])
-	timeline.push(pracIB[foo[5]])
-	timeline.push(pracIB[foo[6]])
-	timeline.push(pracIB[foo[7]])
-	timeline.push(pracIB[foo[8]])
-	timeline.push(pracIB[foo[9]])
+	pracIB = [run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1000,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1,run_practiceIB_1, run_practiceIB_500, run_practiceIB_500, run_practiceIB_500, run_practiceIB_500, run_practiceIB_500];
+
+
+	function shuffle(array) {
+	  var currentIndex = array.length, temporaryValue, randomIndex;
+	  // While there remain elements to shuffle...
+	  while (0 !== currentIndex) {
+
+	    // Pick a remaining element...
+	    randomIndex = Math.floor(Math.random() * currentIndex);
+	    currentIndex -= 1;
+
+	    // And swap it with the current element.
+	    temporaryValue = array[currentIndex];
+	    array[currentIndex] = array[randomIndex];
+	    array[randomIndex] = temporaryValue;
+	  }
+
+	  return array;
+	}
+
+	pracIB = shuffle(pracIB)
+	timeline.push(pracIB[0])
+	timeline.push(pracIB[1])
+	timeline.push(pracIB[2])
+	timeline.push(pracIB[3])
+	timeline.push(pracIB[4])
+	timeline.push(pracIB[5])
+	timeline.push(pracIB[6])
+	timeline.push(pracIB[7])
+	timeline.push(pracIB[8])
+	timeline.push(pracIB[9])
+	timeline.push(pracIB[10])
+	timeline.push(pracIB[11])
+	timeline.push(pracIB[12])
+	timeline.push(pracIB[13])
+	timeline.push(pracIB[14])
 
 
 	/* RUN EXPERIMENT */	
