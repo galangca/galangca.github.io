@@ -1247,7 +1247,7 @@
 				  "<p>Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSeHeB9DA-80wKlXABd4zxpgdhNSBb6sb_g7MgwBPs_evHZnVw/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your MacID and code to get your SONA credit. All SONA credits will be awarded within 2 weeks. Please email galangc@mcmaster.ca if there are any issues.</p>"+
 				  "<p>If you would like to find out more about the study, <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>"+
 				  "<p>IMPORTANT: Note that there was one minor deception in the experiment: rather than the colour changing randomly between 1ms-1000ms, the colour only changed at 100ms, 400ms, and 700ms intervals. This was done to better control for your estimates. Given this deception, you are free to withdraw your data (you will still get your credit on SONA!). Please answer Yes to re-consent or No to withdraw your data (<strong><u>make sure to complete the Google Form first before submitting your answer</u></strong>):.</p>"+
-				  "<p> Do you re-consent to this experiment and allow us to use your data for scientific analysis and publication? </br><input type='radio' name = 're-consent' value='Yes' required>Yes <input type='radio' name = 're-consent'>No</p>",
+				  "<p> Do you re-consent to this experiment and allow us to use your data for scientific analysis and publication? </br><input type='radio' name = 're-consent' value='Yes' required>Yes <input type='radio' name = 're-consent' value='No'>No</p>",
 		button_label: "Submit",
 		on_finish: function(data) {
 			data.code = code
@@ -1266,8 +1266,6 @@
 	timeline.push(fullscreen_off);
 		
 	timeline.push(goodbye);
-
-
 
 	
 	////////////////////////
