@@ -91,6 +91,37 @@
 			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: default; } </style>');
 		}
 	};
+
+	/////////////////////////////
+	///  Check Browser        ///
+	/////////////////////////////
+
+	var checkBrowsers = {
+		type: 'call-function',
+		func: function(){ 
+				if(navigator.userAgent.indexOf("Edge") != -1 || navigator.userAgent.indexOf("Edg") != -1){
+					window.location.replace("WrongBrowser.html")
+				}else if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ){
+					window.location.replace("WrongBrowser.html")
+				}else if(navigator.userAgent.indexOf("Chrome") != -1 ){
+
+				}else if(navigator.userAgent.indexOf("Safari") != -1){
+					window.location.replace("WrongBrowser.html")
+				}else if(navigator.userAgent.indexOf("Firefox") != -1 ){
+					window.location.replace("WrongBrowser.html")
+				}else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )){
+					window.location.replace("WrongBrowser.html")
+				}else{
+					window.location.replace("WrongBrowser.html")
+				}
+			}			
+	};
+
+
+	timeline.push(checkBrowsers)
+
+
+
 	/////////////////////////////
 	///  ADD EVENT LISTENERS  ///
 	/////////////////////////////
@@ -142,7 +173,6 @@
 
 	timeline.push(Consent)
 	timeline.push(form_trial)
-	timeline.push(fullscreen_on);
 
 	var checkClicks = {
 		type: 'html-keyboard-response',
@@ -153,7 +183,6 @@
 				  "<p>If you start to hear clicking noises while you hold down the keys, please follow these instructions. If not, then please press ENTER to continue.</p><br>"+
 				  "<p>If on a Mac, please go to System Preferences --> Accessibility --> Keyboard. Make sure to toggle all optons off.</p>"+
 				  "<p>If on Windows, please go to Settings --> Typing and toggle off any sound options.</p><br>"+
-				  "<p>This experiment also runs best on Firefox or Chrome -- try switching to those browsers if the above doesn't work.</p><br>"+
 				  "<p>If none of these steps work, please mute your computer for the duration of this experiment.</p><br>"+
 
 				  "<p>Press ENTER to continue.</p></div>",
@@ -161,6 +190,8 @@
 	};
 
 	timeline.push(checkClicks)
+	timeline.push(fullscreen_on);
+
 	//timeline.push(fullscreen_on);
 	timeline.push(no_mouse);
 
@@ -190,6 +221,7 @@
 				  "<p>Now let's move onto practicing the interval estimation.<p><br>"+
 				  "<p>In this part, releasing the key will cause the number to change colours from yellow to pink. For the purposes of this practice, the number will turn pink either 1ms, 500ms, or 1000ms after your key release. "+
 				  "Your job is to choose either one of those options on a sliding scale (the slider starts at 500ms -- move to the left extreme for 1ms and the right extreme for 1000ms).</p><br>"+
+				  "<p>As a frame of reference: the duration of one eyeblink is estimated to be around 300-400ms.</p><br>"+
 				  "<p>Press ENTER to begin the practice trials.</p></div>",
 		post_trial_gap: 0
 	};
@@ -206,7 +238,6 @@
 				  "if you see the number 2, release the H key by lifting your middle finger as fast as you can. You will NOT get feedback (Correct, Incorrect) after your responses. Ignore the hands in the background.</p><br>"+
 				  "<p>Releasing the key will cause the number to change colours from yellow to pink. For the main trials, the number will turn pink  <strong><u>anywhere between</u></strong> 1-1000ms after your key release. "+
 				  "Your job is to estimate, as best as you can, the interval between your key release and the change of colour using the slider.</p><br>"+
-				  "<p> As a frame of reference: the duration of one eyeblink is estimated to be around 300-400ms.</p><br>"+
 				  "<p>There are 288 trials overall. You will get a self-paced break every 48 trials. Take your time; however, please complete this experiment within the hour of starting it."+
 
 				  "<p>Press ENTER to begin.</p></div>",
