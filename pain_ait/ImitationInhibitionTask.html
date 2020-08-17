@@ -10,7 +10,7 @@
 		<script src = "jspsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
 		<script src = "jspsych/jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
 		<script src = "jspsych/jspsych-6.1.0/plugins/jspsych-video-keyboard-response.js"></script>
-		
+		<script src = "jspsych/jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
 		<!-- My plugins -->
 		
 		<script src = "jspsych/jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
@@ -103,22 +103,38 @@
 	///  INSTRUCTIONS  ///
 	//////////////////////
 	
-	var instr_welcome = {
+	var Consent = {
 		type: 'html-keyboard-response',
 		choices: ['enter'],
 		stimulus: "<div class = 'my_window'>"+
-				  "<p>Welcome to this experiment!</p><br>"+
-
-				  "<p>Your task is to respond to the number 1 or 2. "+
-				  "Hold down the G and H keys with your RIGHT HAND. If you see the number 1, release the G key by lifting your index finger. "+
-				  "If you see the number 2, release the H key by lifting your middle finger. Then hold down both keys again. "+
-				  "Ignore the hand in the background.</p><br>"+
-
-
-				  "<p>We will begin with some practice trials. Press Enter to begin.</p></div>",
+				  "<p><h1>Welcome!</h1><br><p>"+
+				  "<p>This experiment is adminterested by Carl Michael Galang (McMaster University) & Dr. Sukhvinder Obhi (McMaster University).</p><br>"+
+				  "<p>This experiment investigates how quickly and accurately people are able to respond to visual cues, and how these responses are affected by seeing movements.Some of the videos you will be watching contain content that portrays another person in pain (e.g. needle stabbing someone’s hand).</p><br>"+
+				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving 1 credit on SONA), the results of this study will provide a better understand of neuropsychological processes. To learn about this study, particularly in terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
+				  "<p>This study should take around 30-40min to complete. Please finish this study within an hour of starting it (there are built-in breaks embedded in the experiment).</p><br>"+
+				  "<p>Please note that you will be given a unique compleition code at the end of this study to input into a Google Forms (link at the end) to get your SONA credit.</p>"+
+				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
+				  "<p><h1>CONSENT</h1></p>"+
+				  "<p>I have read the information presented in the letter of information and I agree to participate in this study.</p><br>"+
+				  "<p>By pressing Enter, I consent to the above.<p>",
 		post_trial_gap: 0
+	}
+
+	var code = Math.floor((Math.random() * 10000000) + 10000);
+	var goodbye = {
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>This is the end of the experiment.</h1></p>',
+  		html: "<div class = 'my_window'>"+
+				  "<p>Here is your unique completion code: "+ code +
+				  "<p>Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSeHeB9DA-80wKlXABd4zxpgdhNSBb6sb_g7MgwBPs_evHZnVw/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your MacID and code to get your SONA credit. All SONA credits will be awarded within 2 weeks. Please email galangc@mcmaster.ca if there are any issues.</p>"+
+				  "<p>If you would like to find out more about the study, <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>",
+		button_label: "Submit",
+		on_finish: function(data) {
+			data.code = code
+		}
 	};
 
+	timeline.push(goodbye)
 	var after_practice = {
 		type: 'html-keyboard-response',
 		choices: ['enter'],
@@ -141,7 +157,7 @@
 		post_trial_gap: 0
 	};
 	
-	timeline.push(instr_welcome);
+	timeline.push(Consent);
 	
 	///////////////////////
 	///  RANDOMIZATION  ///
