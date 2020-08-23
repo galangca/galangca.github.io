@@ -70,7 +70,7 @@
 		fullscreen_mode: true
 	};
 	
-	timeline.push(fullscreen_on);
+	
 	
 	////////////////////
 	///  HIDE MOUSE  ///
@@ -82,8 +82,6 @@
 			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: none; } </style>'); 
 		}
 	};
-	
-	timeline.push(no_mouse);
 	
 	/////////////////////////////
 	///  ADD EVENT LISTENERS  ///
@@ -109,9 +107,9 @@
 		stimulus: "<div class = 'my_window'>"+
 				  "<p><h1>Welcome!</h1><br><p>"+
 				  "<p>This experiment is adminterested by Carl Michael Galang (McMaster University) & Dr. Sukhvinder Obhi (McMaster University).</p><br>"+
-				  "<p>This experiment investigates how quickly and accurately people are able to respond to visual cues, and how these responses are affected by seeing movements.Some of the videos you will be watching contain content that portrays another person in pain (e.g. needle stabbing someone’s hand).</p><br>"+
+				  "<p>This experiment investigates how quickly and accurately people are able to respond to visual cues, and how these responses are affected by seeing movements. Some of the videos you will be watching contain content that portrays another person in pain (e.g. needle stabbing someone’s hand).</p><br>"+
 				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving 1 credit on SONA), the results of this study will provide a better understand of neuropsychological processes. To learn about this study, particularly in terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
-				  "<p>This study should take around 30-40min to complete. Please finish this study within an hour of starting it (there are built-in breaks embedded in the experiment).</p><br>"+
+				  "<p>This study should take around 30-45min to complete. Please finish this study within an hour of starting it (there are built-in breaks embedded in the experiment).</p><br>"+
 				  "<p>Please note that you will be given a unique compleition code at the end of this study to input into a Google Forms (link at the end) to get your SONA credit.</p>"+
 				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
 				  "<p><h1>CONSENT</h1></p>"+
@@ -120,32 +118,27 @@
 		post_trial_gap: 0
 	}
 
-	var code = Math.floor((Math.random() * 10000000) + 10000);
-	var goodbye = {
-  		type: 'survey-html-form',
-  		preamble: '<p><h1>This is the end of the experiment.</h1></p>',
-  		html: "<div class = 'my_window'>"+
-				  "<p>Here is your unique completion code: "+ code +
-				  "<p>Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSeHeB9DA-80wKlXABd4zxpgdhNSBb6sb_g7MgwBPs_evHZnVw/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your MacID and code to get your SONA credit. All SONA credits will be awarded within 2 weeks. Please email galangc@mcmaster.ca if there are any issues.</p>"+
-				  "<p>If you would like to find out more about the study, <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>",
-		button_label: "Submit",
-		on_finish: function(data) {
-			data.code = code
-		}
+	var practice = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p>In this experiment, you will hold down the G and H keys with your <strong><u>RIGHT HAND</u></strong>. <br><br>If you see the number 1, release the G key by lifting your index finger. "+
+				  "If you see the number 2, release the H key by lifting your middle finger. Then hold down both keys again. "+
+				  "Ignore the hand in the background.<br><br> Let's start with some practice trials. <br><br>Press Enter to begin.</p></div>",
+		post_trial_gap: 0
 	};
 
-	timeline.push(goodbye)
 	var after_practice = {
 		type: 'html-keyboard-response',
 		choices: ['enter'],
 		stimulus: "<div class = 'my_window'>"+
-				  "<p>Great Job! In the main part of the experiment, you will NOT be given any feedback (correct vs. incorrect). "+
-				  "In addition, between each number trial, you will be shown videos of a hand getting stabbed by a needle or touched by a Q-tip. "+
-				  "Try to imagine what the person is experiencing while watching these videos.</p><br>" +
-
-				  "<p>As before, hold down the G and H keys with your RIGHT HAND. If you see the number 1, release the G key by lifting your index finger. "+
+				  "<h1>Great Job!</h1>"+
+				  "<p>In the main part of the experiment, you will NOT be given any feedback (correct vs. incorrect).<br><br>"+
+				  "In addition, between each number trial, you will be shown videos of a hand getting stabbed by a needle or touched by a Q-tip.<br><br>"+
+				  "Imagine what the person is experiencing while watching these videos.</p><br>" +
+				  "<p>As before, hold down the G and H keys with your <strong><u>RIGHT HAND</u></strong>. If you see the number 1, release the G key by lifting your index finger. "+
 				  "If you see the number 2, release the H key by lifting your middle finger. Then hold down both keys again. "+
-				  "Ignore the hand in the background. You will complete 5 blocks with 48 trials each. There will be self-paced breaks in between each block. Press Enter to begin.</p></div>",
+				  "Ignore the hand in the background. <br><br><strong><u>Please respond as fast and as accurately as you can.</u></strong> <br><br>You will complete 5 blocks with 48 trials each. There will be self-paced breaks in between each block.<br><br>Press Enter to begin.</p></div>",
 		post_trial_gap: 0
 	};
 
@@ -156,8 +149,42 @@
 				  "<p>BREAK. Press Enter whenever you're ready to begin the next block.</p></div>",
 		post_trial_gap: 0
 	};
+
+	var form_trial = {
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>Demographic Questions</h1></p>'+'<p>Note: these questions are optional and you are free to skip them.</p>',
+  		html: '<p> Age: <input name="Age" type="text" /> '+
+  			  ' Gender: <input name="Gender" type="text" /> '+
+  			  ' Ethnicity: <input name="Ethnicity" type="text" /> '+
+  			  ' Dominant Hand: <input name="Dominant Hand" type="text" /></p>'+
+  			  ' Browser: <input name="Browser" type="text" /></p><br>'+
+  			  '<p><h1>Data Sharing</h1></p>'+
+  			  '<p>Do you agree to have your <u><strong>anonymized</strong></u> data uploaded to the <a href="https://osf.io/" target= _blank>Open Science Framework</a> (to better increase science transparency)?</p>'+
+  			  '<p>Yes<input type="radio" id="Yes" name="OSF" value="Yes" required> No<input type="radio" id="No" name="OSF" value="No"></p>'
+
+	};
+
+	var checkClicks = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<h1> Hardware Check </h1><br>"+
+				  "<p>Please hold down the G and H keys with your right hand.</p><br>"+
+				  "<p>If you start to hear clicking noises while you hold down the keys, please follow these instructions. If not, then please press ENTER to continue.</p><br>"+
+				  "<p>If on a Mac, please go to System Preferences --> Accessibility --> Keyboard. Make sure to toggle all optons off.</p>"+
+				  "<p>If on Windows, please go to Settings --> Typing and toggle off any sound options.</p><br>"+
+				  "<p>If none of these steps work, please mute your computer for the duration of this experiment.</p><br>"+
+
+				  "<p>Press ENTER to continue.</p></div>",
+		post_trial_gap: 0
+	};
 	
 	timeline.push(Consent);
+	timeline.push(form_trial)
+	timeline.push(checkClicks)
+	timeline.push(fullscreen_on);
+	timeline.push(no_mouse);
+	timeline.push(practice)
 	
 	///////////////////////
 	///  RANDOMIZATION  ///
@@ -213,7 +240,7 @@
 	
 	var no_response = {
 		type: "check-response",
-		stimulus: '<div style="font-size:30px;">HOLD DOWN THE G AND H KEYS</div>',
+		stimulus: '<div style="font-size:30px;">HOLD DOWN THE G AND H KEYS WITH YOUR <strong><u>RIGHT HAND</u></strong></div>',
 		trial_duration: 1
 	};	
 
@@ -328,7 +355,6 @@
 	timeline.push(brk);
 	timeline.push(run_experiment);
 	timeline.push(run_experiment);
-	timeline.push(run_experiment);
 	timeline.push(brk);
 	timeline.push(run_experiment);
 	timeline.push(run_experiment);
@@ -356,14 +382,19 @@
 	/////////////////
 	///  GOODBYE  ///
 	/////////////////
-		
+	var code = Math.floor((Math.random() * 10000000) + 10000);	
 	var goodbye = {
-		type: 'html-keyboard-response',
-		choices: ['enter'],
-		stimulus: "<div class = 'my_window'>"+
-				  "<p>This is the end of the experiment</p><br>"+
-				  "<p>Press ENTER to leave fullscreen.</p></div>",
-		post_trial_gap: 0
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>This is the end of the experiment.</h1></p>',
+  		html: "<div class = 'my_window'>"+
+				  "<p>Here is your unique completion code: "+ code +
+				  "<p>Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSdepAth_RSpYOXgMVescr_ptgNFINTlFzmSWd2i8YBE2jiZmA/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your MacID and code to get your SONA credit. All SONA credits will be awarded within 2 weeks. Please email galangc@mcmaster.ca if there are any issues.</p>"+
+				  "<p>If you would like to find out more about the study, <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief form.</p><br>"+
+				  "<p>Once you are done filling out the Google Form, please click 'Submit' below to finish this experiment</p>",
+		button_label: "Submit",
+		on_finish: function(data) {
+			data.code = code
+		}
 	};
 		
 	timeline.push(goodbye);
@@ -400,6 +431,8 @@
 		timeline: timeline,
 		exclusions: {min_width: 1280, min_height: 700},
 		preload_images: ["Stim/fix.bmp","Stim/movI_cueI.bmp","Stim/movI_cueM.bmp","Stim/movM_cueI.bmp","Stim/movM_cueM.bmp"],
+		preload_video: ["video stimuli/N1.mp4", "video stimuli/N2.mp4", "video stimuli/N3.mp4",
+						 "video stimuli/Q1.mp4", "video stimuli/Q2.mp4", "video stimuli/Q3.mp4"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
