@@ -36,9 +36,16 @@
 	/* TIMELINE */
 
 	var timeline = [];
-	
-	/* SUBJECT ID */
-	
+
+	/* init connection with pavlovia.org */
+    var pavlovia_init = {
+	    type: "pavlovia",
+	    command: "init"
+    };
+    timeline.push(pavlovia_init);
+
+    /* SUBJECT ID */	
+
 	var subject_id = jsPsych.randomization.randomID(15);
 	
 	/* EVENT FUNCTIONS */
@@ -493,6 +500,13 @@
 
 	timeline.push(goodbye);
 
+	/* finish connection with pavlovia.org */
+    var pavlovia_finish = {
+	    type: "pavlovia",
+	    command: "finish"
+	    };
+    timeline.push(pavlovia_finish);
+
 	////////////////////////
 	///  RUN EXPERIMENT  ///
 	////////////////////////
@@ -503,11 +517,7 @@
 		preload_images: ["Stim/fix.bmp","Stim/movI_cueI.bmp","Stim/movI_cueM.bmp","Stim/movM_cueI.bmp","Stim/movM_cueM.bmp"],
 		preload_video: ["video stimuli/N1.mp4", "video stimuli/N2.mp4", "video stimuli/N3.mp4",
 						 "video stimuli/Q1.mp4", "video stimuli/Q2.mp4", "video stimuli/Q3.mp4"],
-		show_preload_progress_bar: true,
-		on_finish: function() {
-			jsPsych.data.displayData();
-			jsPsych.data.get().localSave('csv',subject_id+'.csv');
-		}		
+		show_preload_progress_bar: true	
 	});
 
 	</script>
