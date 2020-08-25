@@ -13,6 +13,8 @@
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
+		<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+	    <script type="text/javascript" src="lib/jspsych-pavlovia-3.0.0.js"></script>
 		<!-- My plugins -->
 		
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
@@ -38,6 +40,13 @@
 	/* TIMELINE */
 
 	var timeline = [];
+
+	/* init connection with pavlovia.org */
+    var pavlovia_init = {
+	    type: "pavlovia",
+	    command: "init"
+    };
+    timeline.push(pavlovia_init);
 	
 	/* SUBJECT ID */
 	
@@ -1265,6 +1274,12 @@
 	timeline.push(fullscreen_off);
 		
 	timeline.push(goodbye);
+	/* finish connection with pavlovia.org */
+    var pavlovia_finish = {
+	    type: "pavlovia",
+	    command: "finish"
+	    };
+    timeline.push(pavlovia_finish);
 
 	
 	////////////////////////
@@ -1280,11 +1295,7 @@
 						 "New Stimuli/C2-H3-I C.BMP", "New Stimuli/C2-H3-I D.BMP", "New Stimuli/C2-H4-I A.BMP", "New Stimuli/C1-H1-M A.BMP", "New Stimuli/C1-H1-M B.BMP", "New Stimuli/C1-H1-M C.BMP", "New Stimuli/C1-H1-M D.BMP", "New Stimuli/C1-H2-M A.BMP", "New Stimuli/C1-H2-M B.BMP", "New Stimuli/C1-H2-M C.BMP", "New Stimuli/C1-H2-M D.BMP", "New Stimuli/C1-H2-M E.BMP", "New Stimuli/C1-H2-M F.BMP", "New Stimuli/C1-H3-M A.BMP", "New Stimuli/C1-H3-M B.BMP",
 						 "New Stimuli/C1-H3-M C.BMP", "New Stimuli/C1-H3-M D.BMP", "New Stimuli/C1-H4-M A.BMP", "New Stimuli/C2-H1-M A.BMP", "New Stimuli/C2-H1-M B.BMP", "New Stimuli/C2-H1-M C.BMP", "New Stimuli/C2-H1-M D.BMP", "New Stimuli/C2-H2-M A.BMP", "New Stimuli/C2-H2-M B.BMP", "New Stimuli/C2-H2-M C.BMP", "New Stimuli/C2-H2-M D.BMP", "New Stimuli/C2-H2-M E.BMP", "New Stimuli/C2-H2-M F.BMP", "New Stimuli/C2-H3-M A.BMP", "New Stimuli/C2-H3-M B.BMP",
 						 "New Stimuli/C2-H3-M C.BMP", "New Stimuli/C2-H3-M D.BMP", "New Stimuli/C2-H4-M A.BMP", "New Stimuli/C1-H1-I A P.BMP", "New Stimuli/C1-H1-I B P.BMP", "New Stimuli/C1-H1-I C P.BMP", "New Stimuli/C1-H1-I D P.BMP", "New Stimuli/C1-H2-I A P.BMP", "New Stimuli/C1-H2-I B P.BMP", "New Stimuli/C1-H2-I C P.BMP", "New Stimuli/C1-H2-I D P.BMP", "New Stimuli/C1-H2-I E P.BMP", "New Stimuli/C1-H2-I F P.BMP", "New Stimuli/C1-H3-I A P.BMP", "New Stimuli/C1-H3-I B P.BMP","New Stimuli/C1-H3-I C P.BMP", "New Stimuli/C1-H3-I D P.BMP", "New Stimuli/C1-H4-I A P.BMP", "New Stimuli/C2-H1-I A P.BMP", "New Stimuli/C2-H1-I B P.BMP", "New Stimuli/C2-H1-I C P.BMP", "New Stimuli/C2-H1-I D P.BMP", "New Stimuli/C2-H2-I A P.BMP", "New Stimuli/C2-H2-I B P.BMP", "New Stimuli/C2-H2-I C P.BMP", "New Stimuli/C2-H2-I D P.BMP", "New Stimuli/C2-H2-I E P.BMP", "New Stimuli/C2-H2-I F P.BMP", "New Stimuli/C2-H3-I A P.BMP", "New Stimuli/C2-H3-I B P.BMP","New Stimuli/C2-H3-I C P.BMP", "New Stimuli/C2-H3-I D P.BMP", "New Stimuli/C2-H4-I A P.BMP", "New Stimuli/C1-H1-M A P.BMP", "New Stimuli/C1-H1-M B P.BMP", "New Stimuli/C1-H1-M C P.BMP", "New Stimuli/C1-H1-M D P.BMP", "New Stimuli/C1-H2-M A P.BMP", "New Stimuli/C1-H2-M B P.BMP", "New Stimuli/C1-H2-M C P.BMP", "New Stimuli/C1-H2-M D P.BMP", "New Stimuli/C1-H2-M E P.BMP", "New Stimuli/C1-H2-M F P.BMP", "New Stimuli/C1-H3-M A P.BMP", "New Stimuli/C1-H3-M B P.BMP","New Stimuli/C1-H3-M C P.BMP", "New Stimuli/C1-H3-M D P.BMP", "New Stimuli/C1-H4-M A P.BMP", "New Stimuli/C2-H1-M A P.BMP", "New Stimuli/C2-H1-M B P.BMP", "New Stimuli/C2-H1-M C P.BMP", "New Stimuli/C2-H1-M D P.BMP", "New Stimuli/C2-H2-M A P.BMP", "New Stimuli/C2-H2-M B P.BMP", "New Stimuli/C2-H2-M C P.BMP", "New Stimuli/C2-H2-M D P.BMP", "New Stimuli/C2-H2-M E P.BMP", "New Stimuli/C2-H2-M F P.BMP", "New Stimuli/C2-H3-M A P.BMP", "New Stimuli/C2-H3-M B P.BMP","New Stimuli/C2-H3-M C P.BMP", "New Stimuli/C2-H3-M D P.BMP", "New Stimuli/C2-H4-M A P.BMP"],
-		show_preload_progress_bar: true,
-		on_finish: function() {
-			jsPsych.data.displayData();
-			jsPsych.data.get().localSave('csv',subject_id+'.csv');
-		}	
+		show_preload_progress_bar: true
 	});
 
 	</script>
