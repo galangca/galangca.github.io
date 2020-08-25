@@ -13,8 +13,6 @@
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
-		<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
-	    <script type="text/javascript" src="lib/jspsych-pavlovia-3.0.0.js"></script>
 		<!-- My plugins -->
 		
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
@@ -41,12 +39,6 @@
 
 	var timeline = [];
 
-	/* init connection with pavlovia.org */
-    var pavlovia_init = {
-	    type: "pavlovia",
-	    command: "init"
-    };
-    timeline.push(pavlovia_init);
 	
 	/* SUBJECT ID */
 	
@@ -1274,12 +1266,7 @@
 	timeline.push(fullscreen_off);
 		
 	timeline.push(goodbye);
-	/* finish connection with pavlovia.org */
-    var pavlovia_finish = {
-	    type: "pavlovia",
-	    command: "finish"
-	    };
-    timeline.push(pavlovia_finish);
+
 
 	
 	////////////////////////
