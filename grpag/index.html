@@ -860,7 +860,7 @@
 		fixation_duration: 500,
 		trial_duration: 2000,		
 		post_trial_gap: 100,
-		stimulus_width: 800,
+		stimulus_width: 500,
 		data: jsPsych.timelineVariable("data"),
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
@@ -879,7 +879,7 @@
 		fixation_duration: 500,
 		post_trial_gap: 500,
 		data: jsPsych.timelineVariable("data"),
-		stimulus_width: 800,
+		stimulus_width: 500,
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
     		counter = counter + 1
@@ -897,7 +897,7 @@
 		fixation_duration: 500,
 		post_trial_gap: 500,
 		data: jsPsych.timelineVariable("data"),
-		stimulus_width: 800,
+		stimulus_width: 500,
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
     		data.gap = 1
@@ -913,7 +913,7 @@
 		fixation_duration: 500,
 		post_trial_gap: 500,
 		data: jsPsych.timelineVariable("data"),
-		stimulus_width: 800,
+		stimulus_width: 500,
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
     		data.gap = 1000
@@ -930,7 +930,7 @@
 		fixation_duration: 500,
 		post_trial_gap: 500,
 		data: jsPsych.timelineVariable("data"),
-		stimulus_width: 800,
+		stimulus_width: 500,
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
     		data.gap = 500
