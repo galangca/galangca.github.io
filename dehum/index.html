@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sona Study #2412</title>
+		<script src = "jspsych-6.1.0/jspsych.js"></script>
+		
+		<!-- Regular plugins -->
+		
+		<script src = "jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
+		<!-- My plugins -->
+		
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release-original.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-check-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-image-slider-response-custom.js"></script>
+		
+		<!-- CSS -->
+		
+		<link href = "jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+			
+		<style>
+			.my_window { width: 80vw; height: auto; max-width: 100%; position: relative;}
+			.my_window p { font-family: Arial; font-size: 14pt; line-height: 1.25; }
+		</style>
+	</head>	
+	<body style="background-color:white;color:black;"></body>
+	<script>
+			
+	/////////////////
+	///  GLOBALS  ///
+	/////////////////
+	
+	/* TIMELINE */
+
+	var timeline = [];
+	
+	// Fullscreen
+		
+	var fullscreen_on = {
+		type: 'fullscreen',
+		fullscreen_mode: true
+	};
+
+	// Consent Screen
+
+	var Consent = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p><h1>Welcome!</h1><br><p>"+
+				  "<p>This survey is adminterested by Dr. Carl Michael Galang (McMaster University) & Dr. Sukhvinder Obhi (McMaster University).</p><br>"+
+				  "<p>The purpose of this survey is to explore individual differences in social perception.</p><br>"+
+				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving payment on Prolific), the results of this study will provide us with a better understanding of perceptual processes. To learn about this study, particularly in the terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p<br>"+
+				  "<p>This study should take around 15min to complete.</p><br>"+
+				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
+				  "<p><h1>CONSENT</h1></p>"+
+				  "<p>I have read the information presented in the letter of information and I agree to participate in this study.</p><br>"+
+				  "<p>By pressing Enter, I consent to the above.<p>",
+		post_trial_gap: 0
+	}
+
+	// Instructions
+
+	var Instructions = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p><h1>Instructions</h1><br><p>"+
+				  "<p>For this study, you will be tasked with categorizing racial and religious groups on an evolution scale.<p>"+
+				  "<p>This scale is based on the fact that people can vary in how human-like they seem.</p>"+
+				  "<p>Some people seem highly evolved whereas others seem no different than lower animals.</p>"+
+				  "<p>All of your answers are anonymous, so please be honest in your ratings.</p>"+
+				  "<p>Press Enter to start the study.<p>",
+		post_trial_gap: 0
+	}
+
+	// End
+
+	var End = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p><h1>Thank You!</h1><br><p>"+
+				  "<p>Press Enter to go back to Prolific.<p>",
+		post_trial_gap: 0
+	}
+
+	// Stimuli List
+	var design = [
+		{label: "Whites", data: {test: 'exp', class: 'race', con: "Whites"}},
+		{label: "Blacks", data: {test: 'exp', class: 'race', con: "Blacks"}},
+		{label: "Arabs", data: {test: 'exp', class: 'race', con: "Arabs"}},
+		{label: "Chinese", data: {test: 'exp', class: 'race', con: "Chinese"}},
+		{label: "Filipinos", data: {test: 'exp', class: 'race', con: "Filipino"}},
+		{label: "South Asians", data: {test: 'exp', class: 'race', con: "South Asians"}},
+		{label: "Koreans", data: {test: 'exp', class: 'race', con: "Koreans"}},
+		{label: "Japanese", data: {test: 'exp', class: 'race', con: "Japanese"}},
+		{label: "Indigenous", data: {test: 'exp', class: 'race', con: "Indigenous"}},
+		{label: "Christians", data: {test: 'exp', class: 'religion', con: "Christians"}},
+		{label: "Muslims", data: {test: 'exp', class: 'religion', con: "Muslims"}},
+		{label: "Sikhs", data: {test: 'exp', class: 'religion', con: "Sikhs"}},
+		{label: "Jews", data: {test: 'exp', class: 'religion', con: "Jews"}},
+		{label: "Hindus", data: {test: 'exp', class: 'religion', con: "Hindus"}},
+		{label: "Buddhists", data: {test: 'exp', class: 'religion', con: "Buddhists"}}
+	]	
+
+	// Scale
+	var dehumScale = {
+		type:'image-slider-response',
+		stimulus: 'ascent.png',
+		prompt: jsPsych.timelineVariable("label"),
+  		min: 1,
+  		max: 100,
+  		start: 1,
+  		step: 1, 
+  		data: jsPsych.timelineVariable("data"),
+	};
+
+	var mainExp = {
+		timeline: [dehumScale],
+		timeline_variables: design,
+		sample: {
+			type: 'without-replacement'
+		}
+	};
+
+	// Push to Timeline
+	timeline.push(Consent)
+	timeline.push(Instructions)
+	timeline.push(mainExp)
+	timeline.push(End)
+	
+	// Initialize everything
+	jsPsych.init({
+		timeline: timeline,
+		exclusions: {min_width: 1280, min_height: 700},
+		show_preload_progress_bar: true,
+		 on_finish: function() {
+        	jsPsych.data.displayData();
+        	jsPsych.data.get().filter({test: 'exp'}).localSave('csv','foo.csv');
+      	}
+	});
+
+	</script>
+</html>
