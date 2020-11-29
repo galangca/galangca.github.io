@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Sona Study #2412</title>
+		<title>Prolific Study</title>
 		<script src = "jspsych-6.1.0/jspsych.js"></script>
 		
 		<!-- Regular plugins -->
@@ -60,7 +60,8 @@
 				  "<p>This study should take around 15min to complete.</p><br>"+
 				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
 				  "<p><h1>CONSENT</h1></p>"+
-				  "<p>I have read the information presented in the letter of information and I agree to participate in this study.</p><br>"+
+				  "<p>I have read the information presented in the letter of information and I agree to participate in this study.</p>"+
+				  "<p>Furthermore, I agree to have my *anonymized* data stored on the <a href='https://osf.io/' target='_blank'>Open Science Framework</a> (this will open a new window).</p><br>"+
 				  "<p>By pressing Enter, I consent to the above.<p>",
 		post_trial_gap: 0
 	}
@@ -77,17 +78,6 @@
 				  "<p>Some people seem highly evolved whereas others seem no different than lower animals.</p>"+
 				  "<p>All of your answers are anonymous, so please be honest in your ratings.</p>"+
 				  "<p>Press Enter to start the study.<p>",
-		post_trial_gap: 0
-	}
-
-	// End
-
-	var End = {
-		type: 'html-keyboard-response',
-		choices: ['enter'],
-		stimulus: "<div class = 'my_window'>"+
-				  "<p><h1>Thank You!</h1><br><p>"+
-				  "<p>Press Enter to go back to Prolific.<p>",
 		post_trial_gap: 0
 	}
 
@@ -240,6 +230,18 @@
 	post_trial_gap: 500
 	};
 
+	// End
+	var End = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p><h1>Thank You!</h1><br><p>"+
+				  "<p>Please <a href='Debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read the debrief of this study."+
+				  "<p>If you are interested in being emailed the results of this study (once completed), please enter your email <a href='https://docs.google.com/forms/d/e/1FAIpQLSdd7tdmA3zy1YIrgfjumBmMRKC-VDkxy9qWYGOzeJ8xyL6ugw/viewform?usp=sf_link' target='_blank'>HERE</a> (this will open a new window)."+
+				  "<p>Press Enter to go back to Prolific and complete this study.<p>",
+		post_trial_gap: 0
+	}
+
 
 	// Push to Timeline
 	//timeline.push(Consent)
@@ -252,7 +254,7 @@
 	//timeline.push(SurveyInt2)
 	//timeline.push(multi_choice_block4)
 	//timeline.push(multi_choice_block5)
-	timeline.push(religionQ)
+	//timeline.push(religionQ)
 	timeline.push(End)
 	
 	// Initialize everything
