@@ -1,2 +1,0 @@
-# grapag-tw-fin-Snd
-
