@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>McMaster Prolific Study</title>
+		<script src = "jspsych-6.1.0/jspsych.js"></script>
+		
+		<!-- Regular plugins -->
+		<script src = "jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
+		<!--<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>-->
+	    <!--<script type="text/javascript" src="lib/jspsych-pavlovia-3.0.0.js"></script>-->
+
+		<!-- My plugins -->
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release-original.js"></script>
+		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-check-response.js"></script>
+		
+		<!-- CSS -->
+		<link href = "jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+		<style>
+			.my_window { width: 80vw; height: auto; max-width: 100%; position: relative;}
+			.my_window p { font-family: Arial; font-size: 14pt; line-height: 1.25; }
+		</style>
+
+	</head>	
+	<body style="background-color:black;color:white;"></body>
+	<script>
+	
+	/* TIMELINE */
+
+	var timeline = [];
+
+	/* init connection with pavlovia.org */
+  	//var pavlovia_init = {
+  	// 	type: "pavlovia",
+  	// 	command: "init"
+  	//};
+	
+	/* Key Event Functions */
+
+	var keys_down = [];
+	
+	function my_keydown(e){
+		my_key = jsPsych.pluginAPI.convertKeyCharacterToKeyCode(e.key) || e.keyCode;
+		if(keys_down[my_key] != true){ // prevents constant updating (not sure if necessary)
+			keys_down[my_key] = true;
+		}
+	};
+	
+	function my_keyup(e){
+		my_key = jsPsych.pluginAPI.convertKeyCharacterToKeyCode(e.key) || e.keyCode;
+		keys_down[my_key] = false;
+	};
+	
+	var left_key = jsPsych.pluginAPI.convertKeyCharacterToKeyCode('v');
+	var right_key = jsPsych.pluginAPI.convertKeyCharacterToKeyCode('b');
+
+	var add_listeners = {
+		type: 'call-function',
+		func: function(){
+			document.addEventListener("keydown", my_keydown, false);
+			document.addEventListener("keyup", my_keyup, false);
+		}
+	};
+
+	//timeline(add_listeners)
+
+	// Looks to see if Keys are held down
+	
+	var no_response = {
+		type: "check-response",
+		stimulus: '<div style="font-size:30px;">HOLD DOWN THE <strong><u>V</u></strong> AND <strong><u>B</u></strong> KEYS WITH YOUR <strong>RIGHT</strong> <strong><u>INDEX</u></strong> AND <strong><u>MIDDLE</u></strong> FINGERS</div>',
+		trial_duration: 1
+	};	
+
+	var loop_no_response = {
+		timeline: [no_response],
+		loop_function: function(){	
+			if(keys_down[left_key] == true && keys_down[right_key] == true){
+				return false;
+			} else {				
+				return true;				
+			}
+		}
+	};
+		
+	var if_no_response = {
+		timeline: [loop_no_response],
+		conditional_function: function(){
+			if(keys_down[left_key] == true && keys_down[right_key] == true){
+				return false;
+			} else {
+				return true;
+			}
+		}
+	};
+	
+	// Fullscreen function
+		
+	var fullscreen_on = {
+		type: 'fullscreen',
+		fullscreen_mode: true
+	};
+	
+	// Hide/Show Mouse
+
+	var no_mouse = {
+		type: 'call-function',
+		func: function(){ 
+			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: none; } </style>'); 
+		}
+	};
+	
+	var mouse = {
+		type: 'call-function',
+		func: function(){ 
+			document.querySelector('head').insertAdjacentHTML('beforeend', '<style id="cursor-toggle"> html { cursor: default; } </style>');
+		}
+	};
+
+	// Add Design and Stimuli HERE
+
+	var design = [
+
+	//
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		/////
+
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		///////////////////////////////////
+		//////////////////////////////////
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_I.PNG", img3: "Stim/Stim-BG/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/II_Baseline.PNG", img2: "Stim/Stim-BG/II_M.PNG", img3: "Stim/Stim-BG/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_I.PNG", img3: "Stim/Stim-BG/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MM_Baseline.PNG", img2: "Stim/Stim-BG/MM_M.PNG", img3: "Stim/Stim-BG/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_I.PNG", img3: "Stim/Stim-BG/IN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/IN_Baseline.PNG", img2: "Stim/Stim-BG/IN_M.PNG", img3: "Stim/Stim-BG/IN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_I.PNG", img3: "Stim/Stim-BG/MN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/MN_Baseline.PNG", img2: "Stim/Stim-BG/MN_M.PNG", img3: "Stim/Stim-BG/MN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_I.PNG", img3: "Stim/Stim-BG/NI_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NI_Baseline.PNG", img2: "Stim/Stim-BG/NI_M.PNG", img3: "Stim/Stim-BG/NI_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_I.PNG", img3: "Stim/Stim-BG/NM_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-BG/NM_Baseline.PNG", img2: "Stim/Stim-BG/NM_M.PNG", img3: "Stim/Stim-BG/NM_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		/////
+
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_I.PNG", img3: "Stim/Stim-GB/II_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/II_Baseline.PNG", img2: "Stim/Stim-GB/II_M.PNG", img3: "Stim/Stim-GB/II_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_I.PNG", img3: "Stim/Stim-GB/MM_I_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 100, data: {hand: 2, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 400, data: {hand: 2, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MM_Baseline.PNG", img2: "Stim/Stim-GB/MM_M.PNG", img3: "Stim/Stim-GB/MM_M_P.PNG",  gap: 700, data: {hand: 2, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_I.PNG", img3: "Stim/Stim-GB/IN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/IN_Baseline.PNG", img2: "Stim/Stim-GB/IN_M.PNG", img3: "Stim/Stim-GB/IN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_I.PNG", img3: "Stim/Stim-GB/MN_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/MN_Baseline.PNG", img2: "Stim/Stim-GB/MN_M.PNG", img3: "Stim/Stim-GB/MN_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_I.PNG", img3: "Stim/Stim-GB/NI_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 0, con: "C", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NI_Baseline.PNG", img2: "Stim/Stim-GB/NI_M.PNG", img3: "Stim/Stim-GB/NI_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 1, cue: 1, con: "IC", correct_response: "b"}},
+
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_I.PNG", img3: "Stim/Stim-GB/NM_I_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 0, con: "IC", correct_response: "v"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 100, data: {hand: 1, test: 'exp', gap: 100, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 400, data: {hand: 1, test: 'exp', gap: 400, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+		{img1: "Stim/Stim-GB/NM_Baseline.PNG", img2: "Stim/Stim-GB/NM_M.PNG", img3: "Stim/Stim-GB/NM_M_P.PNG",  gap: 700, data: {hand: 1, test: 'exp', gap: 700, finger: 2, cue: 1, con: "C", correct_response: "b"}},
+	]
+
+	// Welcome Page
+	var Welcome = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+				  "<p><h1>Welcome!</h1><br><p>"+
+				  "<p>This experiment is adminterested by Carl Michael Galang (McMaster University), Dr. Emiel Cracco (Ghent University), Dr. Marcel Brass (Humboldt University of Berlin), & Dr. Sukhvinder Obhi (McMaster University).</p>"+
+				  "<p>The purpose of this study to explore basic perceptual processing mechanisms.</p>"+
+				  "<p>Information gathered during this study will be written up for publication in an academic journal. While there are no direct benefits to you taking part in this study (other than learning more about the research topic and receiving 1 credit on SONA), the results of this study will provide us with a better understanding of perceptual and sensory processes. To learn about this study, particularly in the terms of any associated risks or harms, how confidentiality and anonymity will be handled, withdrawal procedures, incentives that are promised, how to obtain information about the results, etc., please read the accompanying letter of information - <a href='LOI.pdf' target='_blank'>Click Here</a> (this will open a new window).</p>"+
+				  "<p>This study should take around 10min to complete.</p>"+
+				  "<p>If you have questions or need more information about the study itself, please contact me at: galangc@mcmaster.ca. This study has been reviewed by the McMaster University Research Ethics Board and received ethics clearance. If you have concerns or questions about your rights as a participant or about the way the study is conducted, please contact the McMaster Research Ethics Secretariat at ethicsoffice@mcmaster.ca.</p><br>"+
+				  "<p><h1>CONSENT</h1></p>"+
+				  "<p>I have read the information presented in the letter of information and I agree to participate in this study.</p>"+
+				  "<p>By pressing Enter, I consent to the above.<p>",
+		post_trial_gap: 0
+	}
+
+	// Demographics
+	var OSF = {
+  		type: 'survey-html-form',
+  		html: '<p><h1>Data Sharing</h1></p>'+
+  			  '<p>Do you agree to have your <u><strong>anonymized</strong></u> data uploaded to the <a href="https://osf.io/" target= _blank>Open Science Framework</a> (to better increase science transparency)?</p>'+
+  			  '<p>Yes<input type="radio" id="Yes" name="OSF" value="Yes" required> No<input type="radio" id="No" name="OSF" value="No"></p>'
+
+	};
+
+	// Instructions
+	var Instructions_1 = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+			      "<h1>Instructions</h1>"+
+				  "<p>Your task in this experiment is to respond to the letters I or M as they appear on the screen.</p>"+
+				  "<p>To respond, first hold down the <strong><u>V key</u></strong> with your <strong><u>right index finger</u></strong> and the <strong><u>B key</u></strong> with your <strong><u>right middle finger</u></strong> (see image below). If you see the letter <strong><u>I</u></strong> appear, lift your <strong><u>right index finger</u></strong> as fast as you can and put it back down. If you see the letter <strong><u>M</strong></u> appear, lift your <strong><u>right middle finger</u></strong> as fast as you can and put it back down. It is important that you <strong><u>only use your right hand</u></strong> to do the task.</p>"+
+				  "<p><img src='keyboard_img.png'></p>"+
+				  "<p>While you complete this task, there will be a couple of hands moving in the background. Ignore them and focus on the task.</p>"+
+
+				  "<p>Press ENTER to continue.</p></div>",
+		post_trial_gap: 0
+	};
+
+	var Instructions_2 = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+			      "<h1>Practice</h1>"+
+				  "<p>You will first do a practice phase. In the practice phase, you will get feedback on your performance. The practice phase contains 10 trials, but will add an extra trial every time you respond incorrectly.</p><p>To respond, first hold down the <strong><u>V key</u></strong> with your <strong><u>right index finger</u></strong> and the <strong><u>B key</u></strong> with your <strong><u>right middle finger</u></strong> (see image below). If you see the letter <strong><u>I</u></strong> appear, lift your <strong><u>right index finger</u></strong> as fast as you can and put it back down. If you see the letter <strong><u>M</strong></u> appear, lift your <strong><u>right middle finger</u></strong> as fast as you can and put it back down. Remember: it is important that you <strong><u>only use your right hand</u></strong> to do the task.</p>"+
+				  "<p><img src='keyboard_img.png'></p>"+
+				  "<p>While you complete this task, there will be a couple of hands moving in the background. Ignore them and focus on the task.</p>"+
+				  "<p>This is a reaction time experiment, so please try to respond as fast as possible while at the same time minimizing mistakes.</p>"+
+
+				  "<p>Press ENTER to begin.</p></div>",
+		post_trial_gap: 0
+	};
+
+	var Instructions_3 = {
+		type: 'html-keyboard-response',
+		choices: ['enter'],
+		stimulus: "<div class = 'my_window'>"+
+			      "<h1>Main Trials</h1>"+
+				  "<p>Good Job! We will now begin the main trials. In the main trials, you will <strong>not</strong> get feedback. There are 192 trials overall. You will get a self-paced break every 48 trials.</p>"+
+				  "<p>Instructions Reminder: to respond, first hold down the <strong><u>V key</u></strong> with your <strong><u>right index finger</u></strong> and the <strong><u>B key</u></strong> with your <strong><u>right middle finger</u></strong> (see image below). If you see the letter <strong><u>I</u></strong> appear, lift your <strong><u>right index finger</u></strong> as fast as you can and put it back down. If you see the letter <strong><u>M</strong></u> appear, lift your <strong><u>right middle finger</u></strong> as fast as you can and put it back down. Remember: it is important that you <strong><u>only use your right hand</u></strong> to do the task.</p>"+
+				  "<p><img src='keyboard_img.png'></p>"+
+				  "<p>While you complete this task, there will be a couple of hands moving in the background. Ignore them and focus on the task.</p>"+
+				  "<p>Remember: this is a reaction time experiment, so please try to respond as fast as possible while at the same time minimizing mistakes.</p>"+
+
+				  "<p>Press ENTER to begin.</p></div>",
+		post_trial_gap: 0
+	};	
+
+	// Practice Trials
+
+	var fixationCross = {
+		type: 'html-keyboard-response',
+		choices: [jsPsych.NO_KEYS],
+		stimulus: "<div class = 'my_window'>"+
+				  "<font size='+10'>+</font>",
+		trial_duration: 500,
+		response_end_trial: false
+	};
+
+	var feedback = {
+      type: "html-keyboard-response",
+      trial_duration: 1000,
+   	  choices: jsPsych.NO_KEYS,
+      stimulus: function() {
+		var trials = jsPsych.data.get().select('correct');
+		var value = trials.values.pop()
+        if (value == true) {
+        	return "<p> CORRECT </p>"
+        } else {
+        	return "<p> INCORRECT </p>"
+        };
+      }
+    };
+
+	var imi_inh_prac = {
+		type: "fixation-image-keyboard-release-original",		
+		fixation: jsPsych.timelineVariable("img1"),		
+		stimulus: jsPsych.timelineVariable("img2"),	
+		choices: [left_key, right_key],
+		fixation_duration: 1000,	
+		post_trial_gap: 500,
+		data: jsPsych.timelineVariable("data"),
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    	}
+	};
+
+	var run_practice = {
+		timeline: [if_no_response, imi_inh_prac, feedback],
+		timeline_variables: design,
+		loop_function: function(data){
+			var trials = data.select('correct');
+			var value = trials.values.pop()
+			console.log(value)
+			if (value == true) {
+        		return false
+       	 	} else {
+        		return true
+        	}
+		},
+		sample: {
+			type: 'with-replacement',
+			size: 1
+		}
+	};
+
+	// Main Trials
+	
+	var takeABreak = {
+		type: 'html-keyboard-response',
+    	stimulus: 'Take a break. Feel free to start again by pressing Enter.',
+    	choices: ['enter']
+	};
+
+	var breakLoop = {
+		timeline: [takeABreak],
+		conditional_function: function(){
+			if(counterArray.includes(48) | counterArray.includes(96) | counterArray.includes(144)){
+				counterArray = []
+				return true;
+			} else {
+				return false;
+			}
+		}
+	};
+
+	counter = 0
+	counterArray = []
+
+	var imi_inh = {
+		type: "fixation-image-keyboard-release-original",		
+		fixation: jsPsych.timelineVariable("img1"),		
+		stimulus: jsPsych.timelineVariable("img2"),	
+		choices: [left_key, right_key],
+		fixation_duration: 1000,	
+		post_trial_gap: 500,
+		data: jsPsych.timelineVariable("data"),
+		on_finish: function(data){
+    		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
+    		counter = counter + 1
+    		counterArray.push(counter)
+    	}
+	};
+
+	
+	var run_experiment = {
+		timeline: [if_no_response, imi_inh, breakLoop],
+		timeline_variables: design,
+		sample: {
+			type: 'without-replacement'
+		}
+	};
+	
+
+	// Hand Qs
+	var hands1 = {
+  		type: 'survey-html-form',
+  		preamble: '<p></p>',
+  		html: "<div class = 'my_window'>"+
+				  "<p>Which hand did you use during the practice trials?</br><input type='radio' name = 'hands' value='Right' required>Right <input type='radio' name = 'hands' value='Left'>Left <input type='radio' name = 'hands' value='Both'>Both</p>",
+		button_label: "Submit"
+	};
+
+	var handsfeedback = {
+		type: 'html-keyboard-response',
+    	stimulus: 'If you are using <strong><u>just</u></strong> your <strong></u>right hand</u></strong>, then good job! If not, please do so in the main part of the experiment.<br><br>Press Enter to continue',
+    	choices: ['enter']
+	};
+
+	var hands2 = {
+  		type: 'survey-html-form',
+  		preamble: '<p></p>',
+  		html: "<div class = 'my_window'>"+
+				  "<p>Which hand did you use during the finger lifting task?</br><input type='radio' name = 'hands2' value='Right' required>Right <input type='radio' name = 'hands2' value='Left'>Left <input type='radio' name = 'hands' value='Both'>Both</p>",
+		button_label: "Submit"
+	};
+
+	// End Screen
+	var goodbye = {
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>This is the end of the experiment.</h1></p>',
+  		html: "<p>Please follow the steps below to complete this study and recieve payment.</p><p>1. Please <a href='debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read more about the study.</p><p>2. Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSdOkh8R7-9We4WlzNPboOffAW8a6qgrZ09JyKoOL7qJj-s85w/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your email address if you'd like to be emailed a summary of the study's results.</p><p>3. Please <a href='' target='_blank'>Click Here</a> (this will open a new window) to automatically go back to Prolific with the completion code.</p><p>4. Please click the submit button below to finish this study (you will see a blank page after, that's fine).</p>",
+		button_label: "Submit"
+	};
+
+	// Pavlovia End
+	
+	//var pavlovia_finish = {
+	//    type: "pavlovia",
+	//    command: "finish"
+	//};
+
+	// Timeline Push
+	timeline.push(add_listeners)
+	timeline.push(Welcome)
+	timeline.push(OSF)
+	timeline.push(fullscreen_on)
+	timeline.push(no_mouse)
+	timeline.push(Instructions_1)
+	timeline.push(Instructions_2)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(run_practice)
+	timeline.push(mouse)
+	timeline.push(hands1)
+	timeline.push(handsfeedback)
+	timeline.push(Instructions_3)
+	timeline.push(no_mouse)
+	timeline.push(run_experiment)
+	timeline.push(mouse)
+	timeline.push(hands2)
+	timeline.push(goodbye)
+
+
+	// Start Experiment
+	jsPsych.init({
+		timeline: timeline,
+		exclusions: {min_width: 1280, min_height: 700},
+		preload_images: ["Stim/Stim-BG/II_Baseline.PNG", "Stim/Stim-BG/II_I.PNG", "Stim/Stim-BG/II_I_P.PNG", "Stim/Stim-BG/MM_Baseline.PNG", "Stim/Stim-BG/MM_I.PNG", "Stim/Stim-BG/MM_I_P.PNG", "Stim/Stim-BG/IN_Baseline.PNG", "Stim/Stim-BG/IN_I.PNG", "Stim/Stim-BG/IN_I_P.PNG", "Stim/Stim-BG/MN_Baseline.PNG", "Stim/Stim-BG/MN_I.PNG", "Stim/Stim-BG/MN_I_P.PNG", "Stim/Stim-BG/NI_Baseline.PNG", "Stim/Stim-BG/NI_I.PNG", "Stim/Stim-BG/NI_I_P.PNG", "Stim/Stim-BG/NM_Baseline.PNG", "Stim/Stim-BG/NM_I.PNG", "Stim/Stim-BG/NM_I_P.PNG", "Stim/Stim-BG/II_Baseline.PNG", "Stim/Stim-BG/II_M.PNG", "Stim/Stim-BG/II_M_P.PNG", "Stim/Stim-BG/MM_Baseline.PNG", "Stim/Stim-BG/MM_M.PNG", "Stim/Stim-BG/MM_M_P.PNG", "Stim/Stim-BG/IN_Baseline.PNG", "Stim/Stim-BG/IN_M.PNG", "Stim/Stim-BG/IN_M_P.PNG", "Stim/Stim-BG/MN_Baseline.PNG", "Stim/Stim-BG/MN_M.PNG", "Stim/Stim-BG/MN_M_P.PNG", "Stim/Stim-BG/NI_Baseline.PNG", "Stim/Stim-BG/NI_M.PNG", "Stim/Stim-BG/NI_M_P.PNG", "Stim/Stim-BG/NM_Baseline.PNG", "Stim/Stim-BG/NM_M.PNG", "Stim/Stim-BG/NM_M_P.PNG", 
+
+			"Stim/Stim-GB/II_Baseline.PNG", "Stim/Stim-GB/II_I.PNG", "Stim/Stim-GB/II_I_P.PNG", "Stim/Stim-GB/MM_Baseline.PNG", "Stim/Stim-GB/MM_I.PNG", "Stim/Stim-GB/MM_I_P.PNG", "Stim/Stim-GB/IN_Baseline.PNG", "Stim/Stim-GB/IN_I.PNG", "Stim/Stim-GB/IN_I_P.PNG", "Stim/Stim-GB/MN_Baseline.PNG", "Stim/Stim-GB/MN_I.PNG", "Stim/Stim-GB/MN_I_P.PNG", "Stim/Stim-GB/NI_Baseline.PNG", "Stim/Stim-GB/NI_I.PNG", "Stim/Stim-GB/NI_I_P.PNG", "Stim/Stim-GB/NM_Baseline.PNG", "Stim/Stim-GB/NM_I.PNG", "Stim/Stim-GB/NM_I_P.PNG", "Stim/Stim-GB/II_Baseline.PNG", "Stim/Stim-GB/II_M.PNG", "Stim/Stim-GB/II_M_P.PNG", "Stim/Stim-GB/MM_Baseline.PNG", "Stim/Stim-GB/MM_M.PNG", "Stim/Stim-GB/MM_M_P.PNG", "Stim/Stim-GB/IN_Baseline.PNG", "Stim/Stim-GB/IN_M.PNG", "Stim/Stim-GB/IN_M_P.PNG", "Stim/Stim-GB/MN_Baseline.PNG", "Stim/Stim-GB/MN_M.PNG", "Stim/Stim-GB/MN_M_P.PNG", "Stim/Stim-GB/NI_Baseline.PNG", "Stim/Stim-GB/NI_M.PNG", "Stim/Stim-GB/NI_M_P.PNG", "Stim/Stim-GB/NM_Baseline.PNG", "Stim/Stim-GB/NM_M.PNG", "Stim/Stim-GB/NM_M_P.PNG", 'New Stimuli/black.png'],
+		show_preload_progress_bar: true,
+		max_load_time: 10000000000
+	});
+	</script>
+</html>
