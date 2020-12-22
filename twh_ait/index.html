@@ -461,7 +461,7 @@
 		stimulus: jsPsych.timelineVariable("img2"),	
 		choices: [left_key, right_key],
 		fixation_duration: 1000,	
-		post_trial_gap: 1000,
+		post_trial_gap: 100,
 		data: jsPsych.timelineVariable("data"),
 		on_finish: function(data){
     		data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response)
