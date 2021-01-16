@@ -12,8 +12,8 @@
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
 		<script src = "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
-		<!--<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>-->
-	    <!--<script type="text/javascript" src="lib/jspsych-pavlovia-3.0.0.js"></script>-->
+		<script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+	    <script type="text/javascript" src="lib/jspsych-pavlovia-3.0.0.js"></script>
 
 		<!-- My plugins -->
 		<script src = "jspsych-6.1.0/plugins/my_plugins/jspsych-fixation-image-keyboard-release.js"></script>
@@ -36,10 +36,10 @@
 	var timeline = [];
 
 	/* init connection with pavlovia.org */
-  	//var pavlovia_init = {
-  	// 	type: "pavlovia",
-  	// 	command: "init"
-  	//};
+  	var pavlovia_init = {
+  	 	type: "pavlovia",
+  	 	command: "init"
+  	};
 	
 	/* Key Event Functions */
 
@@ -376,6 +376,17 @@
 		post_trial_gap: 0
 	}
 
+	// SONA STUFF
+	var sona = {
+  		type: 'survey-html-form',
+  		preamble: '<p><h1>SONA Info (Please fill out your last name and email so I can give you your credit)</h1></p>',
+  		html: '<p>Last Name: <input name="Age" type="text" /> '+
+  			  ' Email: <input name="Gender" type="text" /> '+
+  			  '<p>Would you like a copy of the results?</p>'+
+  			  '<p>Yes<input type="radio" id="Yes" name="SONA" value="Yes" required> No<input type="radio" id="No" name="SONA" value="No"></p>'
+
+	};
+
 	// Demographics
 	var OSF = {
   		type: 'survey-html-form',
@@ -566,22 +577,23 @@
 
 	// End Screen
 	var goodbye = {
-  		type: 'survey-html-form',
-  		preamble: '<p><h1>This is the end of the experiment.</h1></p>',
-  		html: "<p>Please follow the steps below to complete this study and recieve payment.</p><p>1. Please <a href='debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read more about the study.</p><p>2. Please <a href='https://docs.google.com/forms/d/e/1FAIpQLSeF2lBc0zrL6omnBPpynj-T9tOu3RohbshA-a-pyTge6eRhlQ/viewform?usp=sf_link' target='_blank'>Click Here</a> (this will open a new window) to enter your email address if you'd like to be emailed a summary of the study's results.</p><p>3. Please <a href='' target='_blank'>Click Here</a> (this will open a new window) to automatically go back to Prolific with the completion code.</p><p>4. Please click the submit button below to finish this study (you will see a blank page after, that's fine).</p>",
-		button_label: "Submit"
+  		type: 'html-keyboard-response',
+		choices: ['enter'],
+  		stimulus: "<p><h1>This is the end of the experiment.</h1></p><p>Please <a href='debrief.pdf' target='_blank'>Click Here</a> (this will open a new window) to read more about the study.</p><p>Press ENTER to end the experiment (you will see a black screen).</p>"
 	};
 
 	// Pavlovia End
 	
-	//var pavlovia_finish = {
-	//    type: "pavlovia",
-	//    command: "finish"
-	//};
+	var pavlovia_finish = {
+	    type: "pavlovia",
+	    command: "finish"
+	};
 
 	// Timeline Push
+	timeline.push(pavlovia_init)
 	timeline.push(add_listeners)
 	timeline.push(Welcome)
+	timeline.push(sona)
 	timeline.push(OSF)
 	timeline.push(fullscreen_on)
 	timeline.push(no_mouse)
@@ -606,6 +618,7 @@
 	timeline.push(mouse)
 	timeline.push(hands2)
 	timeline.push(goodbye)
+	timeline.push(pavlovia_finish)
 
 
 	// Start Experiment
