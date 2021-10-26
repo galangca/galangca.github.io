@@ -107,7 +107,7 @@
         html += 'height: auto; ';
       }
     }
-    html +='"></img>';
+    html +='"></img><br>';
 
     // add prompt
     if (trial.prompt !== null){
