@@ -134,21 +134,21 @@
 	//];
 
 	var design = [
-		{img1: "Stim/Fixation.jpg", img2: "Stim/One_A.jpg", data: {test: 'exp', fingers: 1}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/One_B.jpg", data: {test: 'exp', fingers: 1}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/One_C.jpg", data: {test: 'exp', fingers: 1}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/One_D.jpg", data: {test: 'exp', fingers: 1}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_A.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_B.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_C.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_D.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_E.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Two_F.jpg", data: {test: 'exp', fingers: 2}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Three_A.jpg", data: {test: 'exp', fingers: 3}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Three_B.jpg", data: {test: 'exp', fingers: 3}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Three_C.jpg", data: {test: 'exp', fingers: 3}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Three_D.jpg", data: {test: 'exp', fingers: 3}},
-		{img1: "Stim/Fixation.jpg", img2: "Stim/Four_A.jpg", data: {test: 'exp', fingers: 4}}
+		{img1: "Stim/Fixation.JPG", img2: "Stim/One_A.JPG", data: {test: 'exp', fingers: 1}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/One_B.JPG", data: {test: 'exp', fingers: 1}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/One_C.JPG", data: {test: 'exp', fingers: 1}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/One_D.JPG", data: {test: 'exp', fingers: 1}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_A.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_B.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_C.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_D.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_E.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Two_F.JPG", data: {test: 'exp', fingers: 2}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Three_A.JPG", data: {test: 'exp', fingers: 3}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Three_B.JPG", data: {test: 'exp', fingers: 3}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Three_C.JPG", data: {test: 'exp', fingers: 3}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Three_D.JPG", data: {test: 'exp', fingers: 3}},
+		{img1: "Stim/Fixation.JPG", img2: "Stim/Four_A.JPG", data: {test: 'exp', fingers: 4}}
 	];
 			
 	///////////////////////////////////
@@ -294,8 +294,8 @@
 	jsPsych.init({
 		timeline: timeline,
 		exclusions: {min_width: 1280, min_height: 700},
-		preload_images: ["Stim/Fixation.jpg", "Stim/One_A.jpg", "Stim/One_B.jpg", "Stim/One_C.jpg", "Stim/One_D.jpg", "Stim/Two_A.jpg", "Stim/Two_B.jpg", "Stim/Two_C.jpg", 
-						"Stim/Two_D.jpg", "Stim/Two_E.jpg", "Stim/Two_F.jpg", "Stim/Three_A.jpg", "Stim/Three_B.jpg", "Stim/Three_C.jpg", "Stim/Three_D.jpg", "Stim/Four_A.jpg"],
+		preload_images: ["Stim/Fixation.JPG", "Stim/One_A.JPG", "Stim/One_B.JPG", "Stim/One_C.JPG", "Stim/One_D.JPG", "Stim/Two_A.JPG", "Stim/Two_B.JPG", "Stim/Two_C.JPG", 
+						"Stim/Two_D.JPG", "Stim/Two_E.JPG", "Stim/Two_F.JPG", "Stim/Three_A.JPG", "Stim/Three_B.JPG", "Stim/Three_C.JPG", "Stim/Three_D.JPG", "Stim/Four_A.JPG"],
 		show_preload_progress_bar: true,
 		on_finish: function() {
 			jsPsych.data.displayData();
