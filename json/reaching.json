@@ -1,0 +1,11 @@
+{
+  "vmr_angle": 20,
+  "clamped_error": false,
+  "online_feedback": true,
+  "timeout_period": 1.0,
+  "startpoint_period": 0.6,
+  "practice_ntrials": 5,
+  "perturbation_ntrials": 25,
+  "deadapt_ntrials": 10,
+  "instruction": "Reach for the target!"
+}
