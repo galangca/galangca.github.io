@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>My experiment</title>
+  <script src="https://unpkg.com/jspsych@8.2.2"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.1.0"></script>
+  <link href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css" rel="stylesheet" type="text/css" />
+  <style>
+    body { background:#111; color:#eaeaea; }
+    .center { display:flex; justify-content:center; gap:48px; align-items:center; }
+    .stim { width:320px; height:320px; object-fit:contain; border:2px solid #555; background:#000; }
+    .keys { font-size:14px; color:#bbb; margin-top:8px; text-align:center; }
+    .small { font-size:14px; color:#aaa; }
+  </style>
+</head>
+<body></body>
+<script>
+// ========================= CONFIG (v8-compatible) =========================
+const IMAGE_DIR = "stimuli/";      // folder containing your images
+const pairs = [
+  ["rcic_base_1_00001_inv.png", "rcic_base_1_00001_ori.png"],
+  ["rcic_base_1_00002_inv.png", "rcic_base_1_00002_ori.png"],
+  ["rcic_base_1_00003_inv.png", "rcic_base_1_00003_ori.png"],
+  ["rcic_base_1_00004_inv.png", "rcic_base_1_00004_ori.png"],
+  ["rcic_base_1_00005_inv.png", "rcic_base_1_00005_ori.png"],
+  ["rcic_base_1_00006_inv.png", "rcic_base_1_00006_ori.png"],
+  ["rcic_base_1_00007_inv.png", "rcic_base_1_00007_ori.png"],
+  ["rcic_base_1_00008_inv.png", "rcic_base_1_00008_ori.png"],
+];
+const REPS = 1;                 // repeat the pair set this many times
+const BREAK_EVERY = 60;         // 0 = no breaks
+const LEFT_KEY = 'f';
+const RIGHT_KEY = 'j';
+
+// ========================= HELPERS =========================
+function encPath(name){ return IMAGE_DIR + encodeURIComponent(name); }
+function whichChoice(filename){
+  const lower = filename.toLowerCase();
+  if(lower.includes("_inv") || lower.includes(" inv")) return "inv";
+  if(lower.includes("_ori") || lower.includes(" ori")) return "ori";
+  return "unknown";
+}
+function download(filename, text){
+  const blob = new Blob([text], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), {href:url, download:filename});
+  document.body.appendChild(a); a.click(); URL.revokeObjectURL(url); a.remove();
+}
+
+// ========================= INIT (v8 uses initJsPsych) =========================
+const jsPsych = initJsPsych({
+//  on_finish: () => download('rc_inv-ori_data.csv', jsPsych.data.get().csv())
+});
+
+// ========================= SCREENS =========================
+const welcome = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+    <div style="max-width:780px; margin:40px auto; line-height:1.5">
+      <h2>Reverse Correlation</h2>
+      <p>On each trial, choose which face you think looks more like ChatGPT (if it had a face).</p>
+      <p><b>${LEFT_KEY.toUpperCase()}</b> = left, <b>${RIGHT_KEY.toUpperCase()}</b> = right.</p>
+      <p class="small">Press any key to start.</p>
+    </div>`
+};
+
+function makeTrial(leftFile, rightFile, pair_id){
+  const leftURL = encPath(leftFile);
+  const rightURL = encPath(rightFile);
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    choices: [LEFT_KEY, RIGHT_KEY],
+    stimulus: `
+      <div class="center">
+        <div>
+          <img class="stim" src="${leftURL}">
+          <div class="keys">${LEFT_KEY.toUpperCase()}</div>
+        </div>
+        <div>
+          <img class="stim" src="${rightURL}">
+          <div class="keys">${RIGHT_KEY.toUpperCase()}</div>
+        </div>
+      </div>`,
+    data: { task:'rc_inv_vs_ori', pair_id, left_file:leftFile, right_file:rightFile },
+//    on_finish: (data) => {
+//      const key = jsPsych.pluginAPI.compareKeys(data.response, LEFT_KEY) ? 'left' : 'right';
+//      const chosenFile = key === 'left' ? data.left_file : data.right_file;
+//      data.chosen_side = key;
+//      data.chosen_file = chosenFile;
+//      data.choice_label = whichChoice(chosenFile); // inv or ori
+//    }
+  };
+}
+
+let trials = [];
+for(let r=0; r<REPS; r++){
+  const order = jsPsych.randomization.shuffle([...pairs.keys()]);
+  order.forEach(idx => {
+    const [inv, ori] = pairs[idx];
+    const invLeft = Math.random() < 0.5; // randomize side each trial
+    const left = invLeft ? inv : ori;
+    const right = invLeft ? ori : inv;
+    trials.push(makeTrial(left, right, `p${idx+1}`));
+    if(BREAK_EVERY>0 && trials.length % BREAK_EVERY === 0){
+      trials.push({
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<div style="max-width:720px;margin:40px auto;">
+          <h3>Break</h3><p>Press any key to continue.</p></div>`
+      });
+    }
+  });
+}
+
+const done = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `<div style="max-width:720px;margin:40px auto;">
+    <h2>Finished!</h2>
+  </div>`
+};
+
+jsPsych.run([welcome, ...trials, done]);
+</script>
+</html>
