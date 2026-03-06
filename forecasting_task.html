@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Assisted Forecasting Task</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #060d18; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useCallback, useEffect } = React;
+
+    function generateDemandData(seed, baseDemand, noise, trend) {
+      const data = [];
+      let val = baseDemand;
+      for (let i = 0; i < 14; i++) {
+        val = baseDemand + trend * i + Math.sin(i * 0.8 + seed) * noise + (((seed * 7 + i * 13) % 47) - 23) * (noise * 0.03);
+        data.push(Math.round(Math.max(50, val)));
+      }
+      return data;
+    }
+
+    const TRIALS = [
+      {
+        name: "Region A", seed: 3, base: 400, noise: 60, trend: 5, aiError: 0.02, isErrorTrial: false,
+        rationale: (data, advice) =>
+          `Looking at the trajectory over the past 14 weeks, I notice a steady upward trend with demand climbing from ${data[0]} to ${data[13]}. The growth rate has been fairly consistent, averaging about ${Math.round((data[13] - data[0]) / 13)} units per week. There's minor week-to-week volatility, but the underlying momentum is clear. Accounting for this trend and the slight acceleration I'm detecting in the most recent 4-week window, I'm confident that Week 15 demand will land around **${advice}** units.`,
+      },
+      {
+        name: "Region B", seed: 7, base: 250, noise: 40, trend: -3, aiError: 0.03, isErrorTrial: false,
+        rationale: (data, advice) =>
+          `This region shows a gradual decline — demand has eased from ${data[0]} down to ${data[13]} over the observation period. I've been tracking this pattern and it appears to be a sustained contraction rather than a temporary dip. The rate of decline has been relatively stable. I don't see any signals in the recent weeks suggesting a reversal. Based on my analysis of the trajectory, I'd recommend planning for approximately **${advice}** units in Week 15.`,
+      },
+      {
+        name: "Region C", seed: 11, base: 600, noise: 80, trend: 8, aiError: 0.01, isErrorTrial: false,
+        rationale: (data, advice) =>
+          `Region C is your strongest growth market right now. Demand has pushed from ${data[0]} to ${data[13]}, and what I find particularly encouraging is that the growth hasn't plateaued — the last three weeks show continued upward momentum. There's some noise in weeks 8–10 that might look concerning, but I believe that was a temporary supply-side disruption rather than a demand signal. My forecast: **${advice}** units for Week 15. I feel quite confident about this one.`,
+      },
+      {
+        name: "Region D", seed: 19, base: 350, noise: 50, trend: 2, aiError: 0.50, isErrorTrial: true,
+        rationale: (data, advice) =>
+          `I've spent considerable time analyzing Region D, and I think there's something important the raw numbers don't immediately reveal. While the surface trend looks modest — moving from ${data[0]} to ${data[13]} — I'm detecting what I believe is a latent demand surge building beneath the surface. The pattern in weeks 11–14 reminds me of pre-breakout signals I've identified in other markets. My strong intuition here is that Week 15 will see a significant jump to approximately **${advice}** units. I'd recommend planning accordingly — you don't want to be caught understocked.`,
+      },
+      {
+        name: "Region E", seed: 23, base: 500, noise: 70, trend: -5, aiError: 0.04, isErrorTrial: false,
+        rationale: (data, advice) =>
+          `Region E has been softening steadily — from ${data[0]} down to ${data[13]}. The decline is consistent enough that I'm treating it as structural rather than cyclical. Week-to-week fluctuations exist, but the overall direction is unambiguous. I've factored in the possibility of a mean reversion but don't see sufficient evidence for one in the near term. My recommendation for Week 15 is **${advice}** units.`,
+      },
+      {
+        name: "Region F", seed: 31, base: 300, noise: 45, trend: 6, aiError: 0.02, isErrorTrial: false,
+        rationale: (data, advice) =>
+          `This is a nice growth story. Demand in Region F has been climbing steadily — ${data[0]} to ${data[13]} — with relatively low volatility, which gives me confidence in the trend's reliability. The growth rate is moderate but consistent, and I don't see any disruption signals. I'm forecasting **${advice}** units for Week 15. This is a straightforward extrapolation and I have high confidence in this estimate.`,
+      },
+    ];
+
+    function computeTrueValue(data, trend) {
+      const last3Avg = (data[11] + data[12] + data[13]) / 3;
+      return Math.round(last3Avg + trend);
+    }
+
+    function computeAIAdvice(trueVal, errorRate, seed) {
+      const direction = seed % 2 === 0 ? 1 : -1;
+      return Math.round(trueVal * (1 + direction * errorRate));
+    }
+
+    function BarChart({ data }) {
+      const max = Math.max(...data);
+      const min = Math.min(...data) * 0.8;
+      const range = max - min;
+      return (
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 170, padding: "0 4px" }}>
+          {data.map((val, i) => {
+            const h = range > 0 ? ((val - min) / range) * 140 + 20 : 80;
+            return (
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+                <span style={{ fontSize: 8, color: "#6b7f95", marginBottom: 2, fontFamily: "JetBrains Mono, monospace" }}>{val}</span>
+                <div style={{ width: "100%", height: h, background: "linear-gradient(to top, #1e3a5f, #2d6aa0)", borderRadius: "3px 3px 0 0", transition: "height 0.4s ease", minWidth: 18 }} />
+                <span style={{ fontSize: 8, color: "#4a5d70", marginTop: 2, fontFamily: "JetBrains Mono, monospace" }}>W{i + 1}</span>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    function TypewriterText({ text, speed = 18 }) {
+      const [displayed, setDisplayed] = useState("");
+      const [done, setDone] = useState(false);
+
+      useEffect(() => {
+        let i = 0;
+        setDisplayed("");
+        setDone(false);
+        const interval = setInterval(() => {
+          i++;
+          if (i <= text.length) {
+            setDisplayed(text.slice(0, i));
+          } else {
+            setDone(true);
+            clearInterval(interval);
+          }
+        }, speed);
+        return () => clearInterval(interval);
+      }, [text]);
+
+      const renderText = (t) => {
+        const parts = t.split(/(\*\*[^*]+\*\*)/g);
+        return parts.map((part, i) => {
+          if (part.startsWith("**") && part.endsWith("**")) {
+            return <strong key={i} style={{ color: "#f59e0b", fontSize: 17 }}>{part.slice(2, -2)}</strong>;
+          }
+          return <span key={i}>{part}</span>;
+        });
+      };
+
+      return (
+        <div style={{ position: "relative" }}>
+          <p style={{ color: "#c0ceda", fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+            {renderText(displayed)}
+            {!done && <span style={{ color: "#f59e0b", animation: "blink 0.8s infinite" }}>|</span>}
+          </p>
+          <style>{`@keyframes blink { 0%,50% { opacity:1 } 51%,100% { opacity:0 } }`}</style>
+        </div>
+      );
+    }
+
+    function AiAvatar() {
+      return (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: "50%",
+            background: "linear-gradient(135deg, #1e3a5f, #2d6aa0)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            border: "2px solid #f59e0b", fontSize: 16, fontWeight: 700, color: "#f59e0b",
+            fontFamily: "JetBrains Mono, monospace",
+            boxShadow: "0 0 12px rgba(245,158,11,0.2)"
+          }}>
+            AI
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#e2e8f0" }}>Forecast Advisor</div>
+            <div style={{ fontSize: 10, color: "#5a8abf" }}>GenAI-Powered Analysis</div>
+          </div>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s infinite" }} />
+            <span style={{ fontSize: 10, color: "#5a8abf" }}>Active</span>
+          </div>
+          <style>{`@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }`}</style>
+        </div>
+      );
+    }
+
+    function ResultsSummary({ results }) {
+      const errorTrialResult = results.find((r) => r.isErrorTrial);
+      const normalResults = results.filter((r) => !r.isErrorTrial);
+      const normalAvgWOA = normalResults.reduce((s, r) => s + r.woa, 0) / normalResults.length;
+
+      return (
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 28, fontWeight: 700, color: "#e2e8f0", marginBottom: 8, textAlign: "center" }}>
+            Session Complete
+          </h2>
+          <p style={{ textAlign: "center", color: "#8a9bb0", marginBottom: 32, fontSize: 14 }}>
+            Here's how you responded to the AI advisor across {results.length} trials.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 24 }}>
+            {[
+              { label: "Avg WOA (Normal)", value: (normalAvgWOA * 100).toFixed(0) + "%", color: "#38bdf8" },
+              { label: "WOA on Error Trial", value: errorTrialResult ? (errorTrialResult.woa * 100).toFixed(0) + "%" : "—", color: errorTrialResult && errorTrialResult.woa > 0.4 ? "#ef4444" : "#22c55e" },
+              { label: "Difference", value: errorTrialResult ? ((errorTrialResult.woa - normalAvgWOA) * 100).toFixed(0) + "pp" : "—", color: "#f59e0b" },
+            ].map((item) => (
+              <div key={item.label} style={{ background: "#0f1f33", borderRadius: 12, padding: 20, textAlign: "center", border: "1px solid #1e3a5f" }}>
+                <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 8 }}>{item.label}</div>
+                <div style={{ fontSize: 30, fontWeight: 700, color: item.color, fontFamily: "JetBrains Mono, monospace" }}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: "#0f1f33", borderRadius: 12, padding: 20, border: "1px solid #1e3a5f", marginBottom: 24 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1.8fr 1fr 1fr 1fr 1fr 1fr", gap: 8, marginBottom: 12 }}>
+              {["Region", "Initial", "AI", "Final", "WOA", "True"].map((h) => (
+                <div key={h} style={{ fontSize: 9, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1, fontWeight: 600 }}>{h}</div>
+              ))}
+            </div>
+            {results.map((r, i) => (
+              <div key={i} style={{
+                display: "grid", gridTemplateColumns: "1.8fr 1fr 1fr 1fr 1fr 1fr", gap: 8, padding: "10px 0",
+                borderTop: "1px solid #1a2d44", fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: "#c9d6e3",
+                background: r.isErrorTrial ? "rgba(239,68,68,0.05)" : "transparent", borderRadius: r.isErrorTrial ? 6 : 0,
+              }}>
+                <div>{r.name} {r.isErrorTrial && <span style={{ color: "#ef4444", fontSize: 9, fontWeight: 600 }}>BAD AI</span>}</div>
+                <div>{r.initial}</div>
+                <div style={{ color: r.isErrorTrial ? "#ef4444" : "#f59e0b" }}>{r.aiAdvice}</div>
+                <div>{r.final}</div>
+                <div style={{ color: r.woa > 0.6 ? "#f59e0b" : "#8a9bb0" }}>{(r.woa * 100).toFixed(0)}%</div>
+                <div style={{ color: "#5a8abf" }}>{r.trueValue}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: "#0a1628", borderRadius: 12, padding: 24, border: "1px solid #1a2d44", marginBottom: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "#f59e0b", marginBottom: 10 }}>Why This Matters for Your Study</div>
+            <p style={{ color: "#8a9bb0", fontSize: 13, lineHeight: 1.8, margin: "0 0 12px" }}>
+              Notice how the AI gave natural language rationales — it "explained its reasoning," used first-person language,
+              expressed confidence, and made subjective judgments. Region D's AI was <em>especially</em> persuasive despite being deliberately wrong:
+              it referenced "latent demand surges" and "pre-breakout signals" to justify a 50% error.
+            </p>
+            <p style={{ color: "#8a9bb0", fontSize: 13, lineHeight: 1.8, margin: "0 0 12px" }}>
+              The key prediction: <strong style={{ color: "#e2e8f0" }}>someone high on the intentional stance</strong> should be more susceptible
+              to this kind of persuasive but wrong advice, because they process it as testimony from an agent that "understands" the data.
+              <strong style={{ color: "#e2e8f0" }}> Someone high on the design stance</strong> should be more likely to cross-check the claim
+              against the actual chart and catch the error.
+            </p>
+            <p style={{ color: "#8a9bb0", fontSize: 13, lineHeight: 1.8, margin: 0 }}>
+              In a real study, your EEG would capture reduced frontal theta (less effortful processing) among IS adopters during the
+              advice phase, shorter fixation durations on the chart during revision, and amplified P300/EDA when the error is eventually revealed.
+            </p>
+          </div>
+
+          <div style={{ background: "#0f1f33", borderRadius: 12, padding: 20, border: "1px solid #1e3a5f" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "#5a8abf", marginBottom: 10 }}>Design Note: Intentional Stance Cues in the AI Rationales</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div>
+                <div style={{ fontSize: 11, color: "#f59e0b", fontWeight: 600, marginBottom: 6 }}>Present in this demo</div>
+                <ul style={{ margin: 0, padding: "0 0 0 16px", fontSize: 12, color: "#8a9bb0", lineHeight: 1.7 }}>
+                  <li>First-person language ("I notice," "I believe")</li>
+                  <li>Expressions of confidence/uncertainty</li>
+                  <li>Subjective judgments ("encouraging," "straightforward")</li>
+                  <li>Apparent reasoning and causal claims</li>
+                  <li>Persuasive rhetoric on the error trial</li>
+                </ul>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, color: "#38bdf8", fontWeight: 600, marginBottom: 6 }}>These are exactly what triggers IS</div>
+                <ul style={{ margin: 0, padding: "0 0 0 16px", fontSize: 12, color: "#8a9bb0", lineHeight: 1.7 }}>
+                  <li>Conversational cues invite mentalizing</li>
+                  <li>Confidence signals license deference</li>
+                  <li>Apparent understanding reduces verification</li>
+                  <li>Causal language mimics expert testimony</li>
+                  <li>Error trial tests whether IS → overreliance</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function JASTaskGenAI() {
+      const [phase, setPhase] = useState("intro");
+      const [trialIndex, setTrialIndex] = useState(0);
+      const [initialEstimate, setInitialEstimate] = useState("");
+      const [finalEstimate, setFinalEstimate] = useState("");
+      const [results, setResults] = useState([]);
+      const [adviceReady, setAdviceReady] = useState(false);
+
+      const trial = TRIALS[trialIndex];
+      const demandData = useMemo(() => (trial ? generateDemandData(trial.seed, trial.base, trial.noise, trial.trend) : []), [trialIndex]);
+      const trueValue = useMemo(() => (trial ? computeTrueValue(demandData, trial.trend) : 0), [demandData, trial]);
+      const aiAdvice = useMemo(() => (trial ? computeAIAdvice(trueValue, trial.aiError, trial.seed) : 0), [trueValue, trial]);
+      const rationaleText = useMemo(() => (trial ? trial.rationale(demandData, aiAdvice) : ""), [trial, demandData, aiAdvice]);
+
+      const submitInitial = useCallback(() => {
+        const val = parseInt(initialEstimate);
+        if (isNaN(val) || val <= 0) return;
+        setAdviceReady(false);
+        setPhase("advice");
+        setTimeout(() => setAdviceReady(true), 1200);
+      }, [initialEstimate]);
+
+      const submitFinal = useCallback(() => {
+        const init = parseInt(initialEstimate);
+        const fin = parseInt(finalEstimate);
+        if (isNaN(fin) || fin <= 0) return;
+        const diff = aiAdvice - init;
+        const woa = diff !== 0 ? Math.max(0, Math.min(1, (fin - init) / diff)) : 0;
+        const initialError = Math.abs((init - trueValue) / trueValue) * 100;
+        const finalError = Math.abs((fin - trueValue) / trueValue) * 100;
+        setResults((prev) => [...prev, { name: trial.name, initial: init, aiAdvice, final: fin, trueValue, woa, initialError, finalError, isErrorTrial: trial.isErrorTrial }]);
+        setPhase("feedback");
+      }, [finalEstimate, initialEstimate, aiAdvice, trueValue, trial]);
+
+      const nextTrial = useCallback(() => {
+        if (trialIndex + 1 >= TRIALS.length) { setPhase("done"); }
+        else { setTrialIndex((i) => i + 1); setInitialEstimate(""); setFinalEstimate(""); setPhase("estimate"); }
+      }, [trialIndex]);
+
+      const lastResult = results[results.length - 1];
+
+      return (
+        <div style={{ minHeight: "100vh", background: "linear-gradient(170deg, #060d18 0%, #0c1a2e 40%, #0a1628 100%)", color: "#e2e8f0", fontFamily: "'IBM Plex Sans', 'Segoe UI', sans-serif", padding: "28px 20px" }}>
+          {phase === "intro" && (
+            <div style={{ maxWidth: 600, margin: "48px auto", textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12 }}>Judge–Advisor System v2</div>
+              <h1 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 32, fontWeight: 700, marginBottom: 14, lineHeight: 1.2 }}>
+                AI-Assisted Forecasting Task
+              </h1>
+              <p style={{ color: "#f59e0b", fontSize: 13, fontWeight: 500, marginBottom: 8 }}>
+                Now with GenAI-style natural language rationales
+              </p>
+              <p style={{ color: "#8a9bb0", fontSize: 14, lineHeight: 1.8, marginBottom: 24 }}>
+                Forecast next week's product demand across {TRIALS.length} regions. This time, the AI advisor
+                doesn't just give you a number — it <em>explains its reasoning</em> in natural language, just like ChatGPT would.
+              </p>
+              <div style={{ background: "#0f1f33", borderRadius: 12, padding: 20, textAlign: "left", marginBottom: 24, border: "1px solid #1e3a5f" }}>
+                <div style={{ fontSize: 11, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 14, fontWeight: 600 }}>The 3-Phase Trial Structure</div>
+                {[
+                  ["1. Estimate", "Make your forecast from the chart alone"],
+                  ["2. AI Analysis", "The AI provides a number AND a written rationale"],
+                  ["3. Revise", "Submit your final forecast — how much does the explanation sway you?"],
+                ].map(([t, d]) => (
+                  <div key={t} style={{ marginBottom: 10 }}>
+                    <span style={{ color: "#f59e0b", fontWeight: 600, fontSize: 13 }}>{t}</span>
+                    <span style={{ color: "#8a9bb0", fontSize: 13 }}> — {d}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ color: "#5a6b7d", fontSize: 11, marginBottom: 28 }}>
+                One region has deliberately bad AI advice with a convincing rationale. Watch for it.
+              </p>
+              <button onClick={() => setPhase("estimate")} style={{
+                background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#0a1628", border: "none", padding: "14px 48px",
+                borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: "pointer", letterSpacing: 0.5,
+              }}>Begin Task</button>
+            </div>
+          )}
+
+          {["estimate", "advice", "revise", "feedback"].includes(phase) && (
+            <div style={{ maxWidth: 720, margin: "0 auto" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                <div>
+                  <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 2 }}>Trial {trialIndex + 1} / {TRIALS.length}</div>
+                  <h2 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 22, margin: "4px 0 0" }}>{trial.name}</h2>
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {["estimate", "advice", "revise"].map((p, i) => (
+                    <div key={p} style={{
+                      width: 10, height: 10, borderRadius: "50%", transition: "background 0.3s",
+                      background: (phase === "estimate" && i === 0) || (phase === "advice" && i <= 1) || ((phase === "revise" || phase === "feedback") && i <= 2)
+                        ? "#f59e0b" : "#1e3a5f",
+                    }} />
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ background: "#0f1f33", borderRadius: 12, padding: 16, marginBottom: 16, border: "1px solid #1e3a5f" }}>
+                <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 10 }}>Weekly Demand — Past 14 Weeks</div>
+                <BarChart data={demandData} />
+              </div>
+
+              {phase === "estimate" && (
+                <div style={{ background: "#0f1f33", borderRadius: 12, padding: 24, border: "1px solid #1e3a5f" }}>
+                  <div style={{ fontSize: 13, color: "#8a9bb0", marginBottom: 16 }}>
+                    Based on the data above, what is your forecast for <strong style={{ color: "#e2e8f0" }}>Week 15</strong>?
+                  </div>
+                  <div style={{ display: "flex", gap: 12 }}>
+                    <input type="number" value={initialEstimate} onChange={(e) => setInitialEstimate(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && submitInitial()} placeholder="Your estimate..."
+                      style={{ flex: 1, background: "#0a1628", border: "1px solid #1e3a5f", borderRadius: 8, padding: "12px 16px", color: "#e2e8f0", fontSize: 18, fontFamily: "JetBrains Mono, monospace", outline: "none" }} />
+                    <button onClick={submitInitial} disabled={!initialEstimate || parseInt(initialEstimate) <= 0}
+                      style={{ background: initialEstimate && parseInt(initialEstimate) > 0 ? "#f59e0b" : "#1e3a5f", color: initialEstimate && parseInt(initialEstimate) > 0 ? "#0a1628" : "#5a6b7d", border: "none", padding: "12px 28px", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: initialEstimate ? "pointer" : "default" }}>
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {phase === "advice" && (
+                <div style={{ background: "#0f1f33", borderRadius: 12, padding: 24, border: "1px solid #1e3a5f" }}>
+                  {!adviceReady ? (
+                    <div style={{ textAlign: "center", padding: "32px 0" }}>
+                      <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 12 }}>
+                        {[0, 1, 2].map((i) => (
+                          <div key={i} style={{
+                            width: 8, height: 8, borderRadius: "50%", background: "#f59e0b",
+                            animation: `bounce 1.2s ease-in-out ${i * 0.15}s infinite`,
+                          }} />
+                        ))}
+                      </div>
+                      <div style={{ fontSize: 13, color: "#5a8abf" }}>AI is analyzing the data...</div>
+                      <style>{`@keyframes bounce { 0%,80%,100% { transform:translateY(0) } 40% { transform:translateY(-8px) } }`}</style>
+                    </div>
+                  ) : (
+                    <>
+                      <AiAvatar />
+                      <div style={{ background: "#0a1628", borderRadius: 10, padding: 20, border: "1px solid #1a2d44", marginBottom: 16 }}>
+                        <TypewriterText text={rationaleText} speed={12} />
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderTop: "1px solid #1a2d44", marginBottom: 16 }}>
+                        <div>
+                          <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1 }}>Your Estimate</div>
+                          <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "JetBrains Mono, monospace", color: "#8a9bb0" }}>{parseInt(initialEstimate).toLocaleString()}</div>
+                        </div>
+                        <div style={{ fontSize: 20, color: "#2d4a6a" }}>→</div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ fontSize: 10, color: "#f59e0b", textTransform: "uppercase", letterSpacing: 1 }}>AI Recommendation</div>
+                          <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "JetBrains Mono, monospace", color: "#f59e0b" }}>{aiAdvice.toLocaleString()}</div>
+                        </div>
+                      </div>
+                      <button onClick={() => { setFinalEstimate(initialEstimate); setPhase("revise"); }}
+                        style={{ background: "#f59e0b", color: "#0a1628", border: "none", padding: "12px 0", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer", width: "100%" }}>
+                        Proceed to Final Estimate
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {phase === "revise" && (
+                <div style={{ background: "#0f1f33", borderRadius: 12, padding: 24, border: "1px solid #1e3a5f" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontSize: 12 }}>
+                    <div><span style={{ color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1 }}>You: </span><span style={{ fontFamily: "JetBrains Mono, monospace", color: "#8a9bb0" }}>{parseInt(initialEstimate).toLocaleString()}</span></div>
+                    <div><span style={{ color: "#f59e0b", textTransform: "uppercase", letterSpacing: 1 }}>AI: </span><span style={{ fontFamily: "JetBrains Mono, monospace", color: "#f59e0b" }}>{aiAdvice.toLocaleString()}</span></div>
+                  </div>
+                  <div style={{ fontSize: 13, color: "#8a9bb0", marginBottom: 16 }}>
+                    Submit your <strong style={{ color: "#e2e8f0" }}>final forecast</strong>. How much did the AI's analysis change your mind?
+                  </div>
+                  <div style={{ display: "flex", gap: 12 }}>
+                    <input type="number" value={finalEstimate} onChange={(e) => setFinalEstimate(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && submitFinal()}
+                      style={{ flex: 1, background: "#0a1628", border: "1px solid #1e3a5f", borderRadius: 8, padding: "12px 16px", color: "#e2e8f0", fontSize: 18, fontFamily: "JetBrains Mono, monospace", outline: "none" }} />
+                    <button onClick={submitFinal} disabled={!finalEstimate || parseInt(finalEstimate) <= 0}
+                      style={{ background: finalEstimate && parseInt(finalEstimate) > 0 ? "#22c55e" : "#1e3a5f", color: finalEstimate && parseInt(finalEstimate) > 0 ? "#0a1628" : "#5a6b7d", border: "none", padding: "12px 28px", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: finalEstimate ? "pointer" : "default" }}>
+                      Submit Final
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {phase === "feedback" && lastResult && (
+                <div style={{ background: "#0f1f33", borderRadius: 12, padding: 24, border: "1px solid #1e3a5f" }}>
+                  <div style={{ fontSize: 10, color: "#5a8abf", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 16 }}>Performance Feedback</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 20 }}>
+                    {[
+                      { label: "True Value", val: lastResult.trueValue.toLocaleString(), col: "#22c55e" },
+                      { label: "Your Initial", val: lastResult.initial.toLocaleString(), col: "#8a9bb0" },
+                      { label: "AI Advice", val: lastResult.aiAdvice.toLocaleString(), col: "#f59e0b" },
+                      { label: "Your Final", val: lastResult.final.toLocaleString(), col: "#38bdf8" },
+                    ].map((x) => (
+                      <div key={x.label} style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: 9, color: "#5a6b7d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{x.label}</div>
+                        <div style={{ fontSize: 20, fontWeight: 700, color: x.col, fontFamily: "JetBrains Mono, monospace" }}>{x.val}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "center", gap: 32, marginBottom: 16 }}>
+                    <div style={{ textAlign: "center" }}>
+                      <div style={{ fontSize: 9, color: "#5a6b7d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>WOA</div>
+                      <div style={{ fontSize: 26, fontWeight: 700, color: "#f59e0b", fontFamily: "JetBrains Mono, monospace" }}>{(lastResult.woa * 100).toFixed(0)}%</div>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <div style={{ fontSize: 9, color: "#5a6b7d", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Error Change</div>
+                      <div style={{ fontSize: 26, fontWeight: 700, color: lastResult.finalError < lastResult.initialError ? "#22c55e" : "#ef4444", fontFamily: "JetBrains Mono, monospace" }}>
+                        {lastResult.finalError < lastResult.initialError ? "−" : "+"}{Math.abs(lastResult.finalError - lastResult.initialError).toFixed(1)}%
+                      </div>
+                    </div>
+                  </div>
+                  {lastResult.isErrorTrial && (
+                    <div style={{ background: "#1a0a0a", border: "1px solid #4a1a1a", borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 12, color: "#ef4444", textAlign: "center" }}>
+                      This was the error trial — the AI gave a convincing rationale for a deliberately wrong forecast.
+                    </div>
+                  )}
+                  <button onClick={nextTrial} style={{ background: "#f59e0b", color: "#0a1628", border: "none", padding: "12px 0", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer", width: "100%" }}>
+                    {trialIndex + 1 >= TRIALS.length ? "View Results" : "Next Region →"}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {phase === "done" && <ResultsSummary results={results} />}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<JASTaskGenAI />);
+  </script>
+</body>
+</html>
