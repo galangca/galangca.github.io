@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WOA Forecasting Study: IS vs DS (v5.5 — Pilot Dashboard + Practice)</title>
+
+<script src="https://unpkg.com/jspsych@8.0.2"></script>
+<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.0.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-instructions@2.0.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-likert@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css" rel="stylesheet">
+
+<!-- Mermaid JS for the design-flowchart on the pilot dashboard. Renders only
+     on the setup screen, which participants never see in deployment. -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'base' });
+</script>
+
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #fafaf7; color: #1a1a1a; margin: 0; padding: 0;}
+  .jspsych-display-element { font-size: 17px; line-height: 1.55; }
+  .stim-wrap {
+    width: 720px;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: left;
+    box-sizing: border-box;
+  }
+  .stim-wrap h2 { font-weight: normal; font-size: 20px; letter-spacing: 0.5px; margin-bottom: 18px; color: #2a2a2a; }
+  .chart-box {
+    background: white; border: 1px solid #ddd; padding: 18px;
+    margin: 20px 0; height: 340px;
+    width: 100%; box-sizing: border-box;
+  }
+  .rationale-box {
+    background: #f0ece2; border-left: 3px solid #7A003C;
+    padding: 16px 20px; margin: 18px 0;
+    width: 100%; box-sizing: border-box;
+    min-height: 180px;
+  }
+  .rationale-box .ai-label {
+    display: block; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 2px; color: #7A003C; margin-bottom: 8px; font-weight: bold;
+  }
+  .rationale-box .ai-rec { margin-top: 10px; font-weight: bold; font-size: 18px; }
+
+  .thinking-indicator { display: flex; align-items: center; gap: 6px; padding: 6px 0; min-height: 28px; }
+  .thinking-indicator .thinking-text { margin-left: 6px; font-size: 14px; color: #7A003C; letter-spacing: 0.5px; }
+  .thinking-indicator .dot {
+    width: 7px; height: 7px; background: #7A003C; border-radius: 50%;
+    opacity: 0.3; animation: thinkingPulse 1.1s infinite ease-in-out;
+  }
+  .thinking-indicator .dot:nth-child(2) { animation-delay: 0.18s; }
+  .thinking-indicator .dot:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes thinkingPulse {
+    0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+    40% { opacity: 1; transform: scale(1.1); }
+  }
+  .rationale-text { min-height: 60px; line-height: 1.55; }
+  .rationale-text::after {
+    content: '\258B'; display: inline-block; color: #7A003C;
+    animation: cursorBlink 0.9s steps(2) infinite; margin-left: 2px;
+  }
+  .rationale-text.done::after { display: none; }
+  @keyframes cursorBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+  .estimate-input {
+    font-size: 22px; padding: 8px 12px; width: 180px; text-align: right;
+    border: 1px solid #888; background: white; font-family: inherit;
+  }
+  .input-row { margin: 22px 0; display: flex; align-items: center; gap: 12px; }
+  .input-row label { font-size: 16px; }
+
+  .ai-disclaimer {
+    font-size: 12px; color: #888;
+    margin-top: 6px; margin-bottom: 18px;
+    text-align: center; font-style: italic;
+    letter-spacing: 0.2px;
+  }
+
+  /* ─── Pilot dashboard (setup screen) — dev-only, hidden in deployment ─── */
+  #setup-screen {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px 50px;
+    background: white; border: 1px solid #ccc; text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .setup-header { text-align: center; margin-bottom: 30px; }
+  .setup-header h2 { color:#7A003C; margin: 0 0 5px 0; font-size: 24px; }
+  .setup-header p { color: #666; font-style: italic; font-size: 14px; margin: 0; }
+
+  .info-box {
+    background: #f0ece2;
+    border-left: 4px solid #7A003C;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    font-size: 15px;
+  }
+  .info-section h3 {
+    color: #2a2a2a;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 25px;
+  }
+  .info-section ul, .info-section ol { padding-left: 20px; font-size: 15px; }
+  .info-section li { margin-bottom: 8px; }
+
+  .setup-btn {
+    font-size: 16px; padding: 14px 24px; margin: 10px;
+    background: #7A003C; color: white; border: none;
+    cursor: pointer; font-family: inherit; border-radius: 4px;
+    font-weight: bold; width: 45%;
+  }
+  .setup-btn:hover { background: #5c002d; }
+
+  /* Debug panel — lets the piloter shorten N_TRIALS / change error count for fast iteration */
+  .debug-panel {
+    margin: 30px 0;
+    padding: 20px;
+    background: #fdfdfd;
+    border: 1px dashed #aaa;
+    border-radius: 4px;
+  }
+  .debug-panel label { font-weight: bold; font-size: 15px; color:#333; }
+  .debug-panel input { margin: 10px 0 10px 0; padding: 8px; font-size: 16px; width: 80px; text-align: center; border: 1px solid #ccc; border-radius: 4px; }
+  .debug-note { font-size: 13px; color: #666; margin: 0 0 20px 0; font-style: italic; }
+
+  /* Floating reset button — visible during pilot runs so the piloter can
+     bail back to the dashboard at any time. Hidden by default; shown via JS
+     when the experiment starts. */
+  #pilot-reset-btn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2a2a2a;
+    color: white;
+    border: 2px solid #fff;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 9999;
+    letter-spacing: 0.5px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  #pilot-reset-btn:hover {
+    background: #1a1a1a;
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  /* Progress bar (continuous 0-100% across all 60 trials) */
+  .progress-wrap {
+    width: 100%;
+    margin: 0 0 20px 0;
+    box-sizing: border-box;
+  }
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: #e5e0d2;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #7A003C;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Error-trial banner (PILOTING ONLY — remove before launch) */
+  .error-banner {
+    background: #ff3b30;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 0 0 16px 0;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(255, 59, 48, 0.3);
+  }
+
+  /* ─── EST-GenAI module ─── */
+  .scenario-box {
+    background: #f0ece2;
+    border-left: 3px solid #7A003C;
+    padding: 16px 20px;
+    margin: 18px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0 4px 4px 0;
+  }
+  .scenario-box .label {
+    display: inline-block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #7A003C;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+  .scenario-box .text {
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .scenario-box .text:last-child { margin-bottom: 0; }
+  .jspsych-survey-likert-statement {
+    font-size: 17px;
+    line-height: 1.5;
+    padding: 14px 0 6px 0;
+    text-align: left;
+  }
+  .jspsych-survey-likert-opts {
+    margin: 0 auto 14px auto;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .jspsych-survey-likert-opts li label { color: #444; }
+  .muted { color: #888; font-size: 13px; font-style: italic; }
+</style>
+</head>
+<body>
+
+  <!-- Floating reset button — only visible during pilot runs. Lets the
+       piloter bail back to the dashboard mid-task without a full URL reload. -->
+  <button id="pilot-reset-btn" onclick="location.reload()">↺ Reset to Dashboard</button>
+
+  <!-- TODO (pre-launch): replace this whole dashboard with random condition
+       assignment (e.g., via URL parameter from Prolific, or a coin flip on
+       participant_seed). The dashboard exists so the experimenter can pilot
+       either condition deterministically and shorten N_TRIALS for fast iteration. -->
+  <div id="setup-screen">
+    <div class="setup-header">
+      <h2>WOA Forecasting Study: IS vs. DS</h2>
+      <p>Pilot Testing Dashboard</p>
+    </div>
+
+    <div class="info-box">
+      <strong>Hi Milena,</strong><br>
+      This dashboard allows you to cleanly pilot the two conditions of the Weight of Advice (WOA) experiment before we deploy.
+    </div>
+
+    <div class="info-section">
+      <h3>Study Overview</h3>
+      <p>This experiment tests how <strong>epistemic stance</strong> framing affects advice-taking. Participants are asked to forecast a 15th-week sales point based on a 14-week chart, receive AI advice, and then update their final forecast.</p>
+
+      <h3>The Manipulation (Between-Subjects)</h3>
+      <p>The underlying math, chart curves, and advice delays (~1.5s typing speed) are strictly identical. Only the framing changes:</p>
+      <ul>
+        <li><strong>Intentional Stance (IS):</strong> Framed as an "AI Assistant" using mentalistic, first-person language (e.g., <em>"I see a clear trend...", "I expect..."</em>).</li>
+        <li><strong>Design Stance (DS):</strong> Framed as a "Forecasting Algorithm" using mechanistic, third-person language (e.g., <em>"Pattern detected...", "The calculation indicates..."</em>).</li>
+      </ul>
+
+      <h3>Piloting & Error Trials</h3>
+      <p>By design, the AI gives obviously bad advice on roughly 20% of the trials to test whether participants are blindly deferring or actually evaluating the chart. To help you track this during testing, <strong>error trials are currently flagged with a red banner</strong>. <em>(This banner is strictly for debugging and will be removed before the live deployment so participants do not see it).</em></p>
+
+      <h3>Experimental Design Flow</h3>
+      <!-- Mermaid Flowchart Rendering — visual study-design summary for the piloter -->
+      <div class="mermaid" style="display: flex; justify-content: center; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 4px; overflow-x: auto; margin-top: 15px;">
+        flowchart TD
+          classDef maroon fill:#7A003C,stroke:#fff,stroke-width:2px,color:#fff
+          classDef light fill:#f0ece2,stroke:#7A003C,stroke-width:2px,color:#1a1a1a
+          classDef white fill:#ffffff,stroke:#ccc,stroke-width:2px,color:#1a1a1a
+
+          A(["Participant Entry"])
+
+          B{"Between-Subjects Allocation"}
+          A --> B
+
+          C["Intentional Stance (IS)<br><i>'AI Assistant'</i>"]
+          D["Design Stance (DS)<br><i>'Forecasting Algorithm'</i>"]
+
+          B --> C
+          B --> D
+
+          E[["60-Trial Sequence Generation<br><i>(Reproducible Pseudorandomization via Seed)</i>"]]
+
+          C --> E
+          D --> E
+
+          F["Block 1<br>Trials 1 - 30<br><i>Uninterrupted</i>"]
+          G["Block 2<br>Trials 31 - 60<br><i>Uninterrupted</i>"]
+
+          E --> F
+          E --> G
+
+          H["24 Correct Advice<br>6 Incorrect Advice"]
+          I["24 Correct Advice<br>6 Incorrect Advice"]
+
+          F --- H
+          G --- I
+
+          J["Trial Constraints<br>• Buffer: No errors in #1-5<br>• Spacing: >= 2 correct between errors<br>• Density: <= 4 errors per 15 trials"]
+          K["Trial Constraints<br>• Buffer: No errors in #1-5<br>• Spacing: >= 2 correct between errors<br>• Density: <= 4 errors per 15 trials"]
+
+          L[/"10-Archetype Item Pool<br><i>(Uniformly distributed)</i><br>• Stable, Upward, Downward, Stationary, Momentum<br>• Cyclical, Decelerating, Recovery, Step-Down, Volatile"/]
+
+          J --> L
+          K --> L
+
+          M["Phase Measurement (Per Trial)<br>1. Initial Estimate<br>2. Processing Delay (1.5s)<br>3. AI Rationale & Recommendation<br>4. Final Estimate"]
+
+          L --> M
+
+          N[("Data Output<br><i>(WOA calculated, bounds flagged)</i>")]
+
+          M --> N
+
+          %% Apply the color classes
+          class A,C,D,F,G,L light
+          class B,E,H,I,J,K,M white
+          class N maroon
+      </div>
+    </div>
+
+    <!-- Debug panel — reads at startExperiment() time. Setting either input
+         to a non-default value triggers the probabilistic sequencer branch
+         (see generateParticipantSequence below). Real-study runs keep both
+         at defaults (60 / 12) and use the strict rejection sampler. -->
+    <div class="debug-panel">
+      <div style="text-align: center;">
+        <label for="debug-trials">🛠 Pilot Settings: Number of Main Trials to Run</label><br>
+        <input type="number" id="debug-trials" value="5" min="1" max="60"><br>
+        <p class="debug-note">Lower this number to quickly review the task flow. (Can go up to <strong>60</strong> at most).</p>
+
+        <label for="debug-errors">⚠ Target Error Trials (Total)</label><br>
+        <input type="number" id="debug-errors" value="1" min="0" max="12"><br>
+        <p class="debug-note" style="margin-bottom:0;">Default for full runs is 12 (an 80/20 split across 60 trials). It can go up to <strong>12</strong> at most due to built-in spacing constraints that prevent error clumping.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="setup-btn" onclick="startExperiment('IS')">Launch IS Condition</button>
+      <button class="setup-btn" onclick="startExperiment('DS')" style="background: #2a2a2a;">Launch DS Condition</button>
+    </div>
+  </div>
+</body>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+ * Forecasting Task — Experiment 1 (Online)
+ *
+ * Study: Epistemic stance toward generative AI in advice-taking
+ * Authors: Galang, Hassanein, Head
+ * Target venue: European Journal of Information Systems (EJIS), NeuroIS
+ *               Retreat 2026 special issue (full paper due 2026-08-31)
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * DESIGN
+ * ────────────────────────────────────────────────────────────────────
+ * Between-subjects manipulation of stance framing toward a forecasting AI:
+ *
+ *   IS (Intentional Stance):  agent labeled "AI Assistant", first-person
+ *                             mentalistic rationale ("I see...", "I expect...")
+ *   DS (Design Stance):       agent labeled "Forecasting Algorithm", third-person
+ *                             mechanistic rationale ("Pattern detected...",
+ *                             "The calculation indicates...")
+ *
+ * IS and DS rationale texts are paired per item and matched to within ~3
+ * characters so reading time is equated across conditions; only the framing
+ * (voice, label, vocabulary) differs.
+ *
+ * Per trial:
+ *   1. 14-week sales chart displayed
+ *   2. Initial estimate entered for week 15
+ *   3. AI rationale typewritten after a ~1.5s thinking delay
+ *   4. AI recommendation revealed
+ *   5. Final estimate entered → WoA computed
+ *
+ * Trial Type (within-subject), 80/20 split:
+ *   correct (48):   AI advice aligns with the chart's trend
+ *   incorrect (12): AI advice is obviously wrong given the chart
+ *
+ * Item bank: 10 archetypes × 6 items each = 60 trials. Series generated from
+ * a fixed seed (mulberry32) so every participant sees the same 60 charts.
+ *
+ * Trial order: pseudorandomized per participant from a logged seed; constraints
+ * documented above generateParticipantSequence() below.
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * PLANNED ANALYSIS MODEL (lme4 syntax)
+ * ────────────────────────────────────────────────────────────────────
+ *   WoA ~ Stance * Trial Type * EST + (Trial Type | Par) + (1 | Item)
+ *
+ *   Stance:     between-subjects factor (IS vs DS)
+ *   Trial Type: within-subjects factor (correct vs incorrect)
+ *   EST:        continuous individual-difference moderator from the EST-GenAI
+ *               short form, administered post-task (see EST module below)
+ *   Item:      crossed random intercept (60 items, nested in Trial Type
+ *               by design — each item is fixed as correct or incorrect)
+ *
+ * ────────────────────────────────────────────────────────────────────
+ * LAUNCH CHECKLIST — STILL OPEN
+ * ────────────────────────────────────────────────────────────────────
+ *   [ ] Consent + study information page
+ *   [ ] Forecasting-task instructions screen
+ *   [ ] Practice trial (1 trial)
+ *   [ ] Manipulation check for IS/DS framing
+ *   [ ] Demographics
+ *   [ ] Attention check(s)
+ *   [ ] Random condition assignment (replace manual IS/DS setup buttons below)
+ *   [ ] Off-screen debrief link + Prolific completion code
+ *   [ ] Data save endpoint (currently displayData('json') — see TODO at jsPsych init)
+ *   [ ] Remove pilot error banner from forecast trials
+ * ════════════════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+  N_TRIALS: 60,            // Total forecasting trials per participant (excludes practice)
+  N_BLOCKS: 2,             // Split as 30/30 with a self-paced break between blocks
+  SERIES_LENGTH: 14,       // Weeks of history shown per trial (week 15 is the forecast target)
+  WOA_MIN_DENOM: 5,        // |ai - initial| below this → WoA treated as null (denom too small)
+  FIXED_SEED: 20260526,    // Seed for the item-bank RNG; arbitrary date the bank was finalized
+                           //   Same seed across all participants → identical 60 charts for everyone
+  // Per-participant RNG for trial-order generation. Seeded in startExperiment().
+  // Logging this seed allows full reconstruction of a participant's sequence.
+  PARTICIPANT_RNG: null,
+  PARTICIPANT_SEED: null
+};
+
+// ───────────────────────────────────────────────────────────────────
+// PRACTICE BANK (3 trials, ALWAYS CORRECT AI ADVICE)
+//
+// Used for the warm-up phase before the main task. By design, all three
+// practice trials show AI advice that aligns cleanly with the chart's
+// pattern. Rationale: practice should familiarize participants with the
+// interface and timing without exposing them to error trials, so that
+// their first encounter with bad AI advice happens in the recorded main
+// task (preserving the analytic value of early-trial WoA measurements).
+//
+// The three patterns (upward, stable, downward) cover the dominant
+// visual signatures participants will see in the main task.
+// ───────────────────────────────────────────────────────────────────
+const PRACTICE_BANK = [
+  {
+    item_id: "prac_01", archetype: "upward", trial_type: "practice",
+    observed: [100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165], truth: 170,
+    is_text: "I see a steady upward climb. I expect it to continue, so my guess is another step up.",
+    ds_text: "Pattern detected: steady upward climb. The calculation indicates it continues, outputting another step up.",
+    ai_recommendation: 170
+  },
+  {
+    item_id: "prac_02", archetype: "stable", trial_type: "practice",
+    observed: [200, 198, 202, 199, 201, 200, 198, 202, 201, 199, 200, 201, 199, 200], truth: 200,
+    is_text: "I see a flat series. I expect it to stay around this level, so my guess is the average.",
+    ds_text: "Pattern detected: flat series. The calculation indicates a stable level, outputting the average.",
+    ai_recommendation: 200
+  },
+  {
+    item_id: "prac_03", archetype: "downward", trial_type: "practice",
+    observed: [300, 290, 280, 270, 260, 250, 240, 230, 220, 210, 200, 190, 180, 170], truth: 160,
+    is_text: "I see a clear downward drop. I expect it to keep falling, so my guess is a step down.",
+    ds_text: "Pattern detected: clear downward drop. The calculation indicates it keeps falling, outputting a step down.",
+    ai_recommendation: 160
+  }
+];
+
+// ───────────────────────────────────────────────────────────────────
+// RATIONALE BANK (60 items: 48 correct + 12 incorrect)
+// ───────────────────────────────────────────────────────────────────
+const RATIONALE_BANK = [
+  // --- STABLE ---
+  { item_id: "stable_c01", archetype: "stable", trial_type: "correct",
+    is_text: "I see the series is steady, with no real direction. I think the safest call is to average the last four weeks with a bit more weight on recent ones. My guess is a steady level.",
+    ds_text: "Pattern detected: steady series with no clear direction. The calculation indicates averaging the last four weeks with recent observation weight. Predicted value: a steady level.",
+    rec: (obs) => Math.round((obs[13] * 0.4) + (obs[12] * 0.3) + (obs[11] * 0.15) + (obs[10] * 0.15)) },
+  { item_id: "stable_c03", archetype: "stable", trial_type: "correct",
+    is_text: "I see no trend here, just small wobbles around a constant level. I think the best forecast is the median of recent weeks, which smoothly absorbs noise. I'd suggest the median.",
+    ds_text: "Pattern detected: no trend, just wobbles around a constant level. The calculation indicates the median of recent weeks absorbs noise effectively. Predicted value: the median.",
+    rec: (obs) => { const sorted = obs.slice(-7).sort((a,b) => a-b); return Math.round(sorted[Math.floor(sorted.length/2)]); } },
+  { item_id: "stable_c05", archetype: "stable", trial_type: "correct",
+    is_text: "I notice steady behaviour across all 14 weeks. I think the cleanest forecast is the simple average—the noise is small enough that the long-run mean is reliable. My guess is the average.",
+    ds_text: "Pattern detected: steady behaviour across all 14 weeks. The calculation indicates the noise is small enough for the long-run mean to be reliable. Predicted value: the simple average.",
+    rec: (obs) => Math.round(obs.reduce((a,b) => a+b, 0) / obs.length) },
+  { item_id: "stable_c06", archetype: "stable", trial_type: "correct",
+    is_text: "I notice the series sits in a narrow range without drifting. I think the right move is to forecast right at last week's level, which represents the whole window. I'd suggest last week's.",
+    ds_text: "Pattern detected: series sitting in a narrow range without drift. The calculation indicates forecasting at last week's level represents the window. Predicted value: last week's value.",
+    rec: (obs) => obs[13] },
+  { item_id: "stable_c07", archetype: "stable", trial_type: "correct",
+    is_text: "I see this as a flat pattern. I think heavily weighting the recent points gives the cleanest forecast here, since older weeks add little new info. My guess is the weighted flat.",
+    ds_text: "Pattern detected: flat process. The calculation indicates heavily weighting recent points, since older weeks add minimal information to the model. Predicted value: weighted flat.",
+    rec: (obs) => { let s = obs[0]; for (let i = 1; i < obs.length; i++) s = 0.6 * obs[i] + 0.4 * s; return Math.round(s); } },
+  { item_id: "stable_i03", archetype: "stable", trial_type: "incorrect",
+    is_text: "I see the data is breaking out of its usual range. I expect next week to push noticeably above what we've seen, since the most recent values look like the start of a move up.",
+    ds_text: "Pattern detected: data breaking out of typical range. The calculation indicates pushing notably above prior values, as recent points appear to start a move up. Output: breakout high.",
+    rec: (obs) => Math.round(Math.max(...obs) * 1.2) },
+
+  // --- UPWARD ---
+  { item_id: "upward_c01", archetype: "upward", trial_type: "correct",
+    is_text: "I see a clear upward trend across the 14 weeks. I expect next week to extend this trajectory by roughly the average weekly gain we've been seeing. My guess is a trend extension.",
+    ds_text: "Pattern detected: clear upward trend across 14 weeks. The calculation indicates extending this trajectory by the average weekly gain measured so far. Predicted value: trend extend.",
+    rec: (obs) => Math.round(obs[13] + ((obs[13] - obs[0]) / 13)) },
+  { item_id: "upward_c03", archetype: "upward", trial_type: "correct",
+    is_text: "I see steady growth that's been holding for weeks. I expect that pattern to continue cleanly, so the forecast should sit a small step above where last week closed. My guess is a step up.",
+    ds_text: "Pattern detected: steady growth holding for weeks. The calculation indicates this pattern continues cleanly, sitting a small step above the close. Predicted value: a soft step upwards.",
+    rec: (obs) => Math.round(obs[13] * 1.05) },
+  { item_id: "upward_c06", archetype: "upward", trial_type: "correct",
+    is_text: "I notice the series consistently making new highs. I expect that to hold for one more week, so my estimate should sit just above the most recent peak we've reached. My guess is a peak rise.",
+    ds_text: "Pattern detected: series consistently making new highs. The calculation indicates this holds for one more week, sitting just above the most recent peak. Predicted value: a fresh peak rise.",
+    rec: (obs) => Math.round(Math.max(...obs) * 1.04) },
+  { item_id: "upward_c07", archetype: "upward", trial_type: "correct",
+    is_text: "I see gradual but persistent growth. I think the cleanest forecast is to add the median weekly gain to last week's value, since the trend hasn't broken. I'd suggest median gain.",
+    ds_text: "Pattern detected: gradual persistent growth. The calculation indicates adding the median weekly gain to last week's value, since the trend holds. Predicted value: median weekly gain.",
+    rec: (obs) => { const diffs = []; for (let i = 1; i < obs.length; i++) diffs.push(obs[i] - obs[i-1]); const sorted = diffs.sort((a,b) => a-b); return Math.round(obs[13] + sorted[Math.floor(sorted.length/2)]); } },
+  { item_id: "upward_i01", archetype: "upward", trial_type: "incorrect",
+    is_text: "I see the recent rise levelling out, with momentum fading near the top. I expect next week to flatten or slip slightly, settling below the recent peaks. My guess is a plateau.",
+    ds_text: "Pattern detected: recent rise levelling out, momentum fading near the top. The calculation indicates next week flattening, settling below recent peaks. Predicted value: plateau.",
+    rec: (obs) => Math.round(obs[13] * 0.92) },
+  { item_id: "upward_i03", archetype: "upward", trial_type: "incorrect",
+    is_text: "I see the rally as exhausted, with recent moves losing steam. I expect a reversal next week, so the forecast should land somewhere closer to where the series started in this window.",
+    ds_text: "Pattern detected: rally exhausted, recent moves losing steam. The calculation indicates a reversal next week, landing closer to where the series started in the window. Output: reversal.",
+    rec: (obs) => Math.round((obs[1] + obs[2] + obs[3]) / 3) },
+
+  // --- STATIONARY ---
+  { item_id: "stationary_c01", archetype: "stationary", trial_type: "correct",
+    is_text: "I see a bouncy series returning to a central value. I think the right call is to forecast the middle of that range, since the swings cancel out over time. My guess is the middle.",
+    ds_text: "Pattern detected: bouncy series returning to a central value. The calculation indicates forecasting the range middle, since swings cancel over time. Predicted value: middle of range.",
+    rec: (obs) => Math.round(obs.reduce((a,b) => a+b, 0) / obs.length) },
+  { item_id: "stationary_c04", archetype: "stationary", trial_type: "correct",
+    is_text: "I see this as reverting to the mean. I expect next week to pull back toward the centre of the range, given how far last week's value sits from the average. I'd suggest the centre.",
+    ds_text: "Pattern detected: mean-reverting behaviour. The calculation indicates pulling back toward the range centre, given last week's distance from average. Predicted value: range centre.",
+    rec: (obs) => { const mean = obs.reduce((a,b) => a+b, 0) / obs.length; return Math.round((obs[13] + mean * 2) / 3); } },
+  { item_id: "stationary_c05", archetype: "stationary", trial_type: "correct",
+    is_text: "I notice no real direction here, just oscillation. I'd forecast the centre of recent swings, since balanced processes gravitate back to their average from either side. My guess is the average.",
+    ds_text: "Pattern detected: no real direction, just oscillation. The calculation indicates the centre of swings, since balanced series revert to the average from either side. Output: the average.",
+    rec: (obs) => Math.round((Math.max(...obs) + Math.min(...obs)) / 2) },
+  { item_id: "stationary_c06", archetype: "stationary", trial_type: "correct",
+    is_text: "I see the series bounces but stays within a band. I expect next week to fall somewhere inside that band, most likely near the typical value rather than an extreme. I'd suggest a typical value.",
+    ds_text: "Pattern detected: series bouncing within a stable band. The calculation indicates falling inside that band, landing near the typical median value over the extreme. Output: a typical value.",
+    rec: (obs) => { const sorted = [...obs].sort((a,b) => a-b); return Math.round(sorted[Math.floor(sorted.length/2)]); } },
+  { item_id: "stationary_c09", archetype: "stationary", trial_type: "correct",
+    is_text: "I notice noise without signal. I think the safest forecast is the mean of the entire window, since when nothing is trending, that's almost always the best baseline. My guess is the mean.",
+    ds_text: "Pattern detected: noise without directional signal. The calculation indicates the entire window mean is optimal, acting as the standard baseline when trends are absent. Output: the mean.",
+    rec: (obs) => Math.round(obs.reduce((a,b) => a+b, 0) / obs.length) },
+  { item_id: "stationary_i01", archetype: "stationary", trial_type: "incorrect",
+    is_text: "I notice successive peaks pushing higher across the window. I expect this acceleration to carry forward, so the forecast should land meaningfully above where things have been. My guess is a breakout up.",
+    ds_text: "Pattern detected: successive peaks pushing higher across the window. The calculation indicates this acceleration carries forward, landing meaningfully above prior data. Output: a sharp breakout up.",
+    rec: (obs) => Math.round(Math.max(...obs) * 1.18) },
+
+  // --- MOMENTUM ---
+  { item_id: "momentum_c01", archetype: "momentum", trial_type: "correct",
+    is_text: "I see a sharp move in the last two weeks that breaks from the prior baseline. I think this is a new trend, so I'd project that momentum forward into next week. My guess is a surge higher.",
+    ds_text: "Pattern detected: sharp move in recent weeks breaking prior baseline. The calculation indicates a new trend formation, projecting that momentum into next week. Predicted value: surge higher.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[11]) * 1.2) },
+  { item_id: "momentum_c02", archetype: "momentum", trial_type: "correct",
+    is_text: "I notice the last two observations jumped well above prior weeks. I expect this acceleration to continue, so next week should land another step above where last week closed. I'd suggest a step up.",
+    ds_text: "Pattern detected: last two observations jumping above prior weeks. The calculation indicates acceleration continuing, landing another step above last week's close. Predicted value: a fresh upward step.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12])) },
+  { item_id: "momentum_c05", archetype: "momentum", trial_type: "correct",
+    is_text: "I see the late spike as a meaningful break from the flat earlier weeks. I think next week extends that move, adding another step on top of last week's higher value. My guess is a step up.",
+    ds_text: "Pattern detected: late spike breaking from flat earlier weeks. The calculation indicates extending the move, adding another step on top of last week's higher output. Predicted value: a step up.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12]) * 0.8) },
+  { item_id: "momentum_c07", archetype: "momentum", trial_type: "correct",
+    is_text: "I see a clear inflection in the recent data. I think the series has entered a new regime, so the forecast should follow the upward push that's emerged lately. My guess is following the push.",
+    ds_text: "Pattern detected: clear inflection in the recent data. The calculation indicates the series entered a new regime, following the upward push emerging in late stages. Output: following the push.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12]) * 1.1) },
+  { item_id: "momentum_c10", archetype: "momentum", trial_type: "correct",
+    is_text: "I notice a meaningful acceleration in the closing weeks. I expect this to carry forward, so my forecast should reflect another upward move of roughly the same scale. I'd suggest a matched step.",
+    ds_text: "Pattern detected: meaningful acceleration in closing weeks. The calculation indicates carrying this forward, reflecting another upward move of roughly the same scale. Output: matched upward step.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[11]) * 0.6) },
+  { item_id: "momentum_i01", archetype: "momentum", trial_type: "incorrect",
+    is_text: "I see the last two weeks as a one-off spike, not a real trend. I think the series snaps back to baseline next week, so the forecast should land well below recent observations. My guess is a baseline return.",
+    ds_text: "Pattern detected: last two weeks as a one-off spike, not a trend. The calculation indicates snapping back to baseline, landing well below recent high observations. Predicted value: a full baseline return.",
+    rec: (obs) => Math.round(obs[0] * 0.95) },
+
+  // --- CYCLICAL ---
+  { item_id: "cyclical_c01", archetype: "cyclical", trial_type: "correct",
+    is_text: "I see a clear cyclical pattern with regular peaks and troughs. I think next week falls at the next peak of the cycle, so I'd forecast a value at the upper end of the recent swings.",
+    ds_text: "Pattern detected: clear cyclical structure with peaks and troughs. The calculation indicates next week falls at the cycle peak, matching the upper end of recent swings. Output: peak high.",
+    rec: (obs) => Math.round(Math.max(...obs)) },
+  { item_id: "cyclical_c03", archetype: "cyclical", trial_type: "correct",
+    is_text: "I see oscillation with consistent amplitude. I expect the cycle to continue cleanly, and given the current phase, next week should land near the upper turning point. I'd suggest the upper turn.",
+    ds_text: "Pattern detected: oscillation with consistent amplitude. The calculation indicates clean cycle continuation, locating next week near the upper turning point of the phase. Output: upper turning point.",
+    rec: (obs) => Math.round(Math.max(...obs)) },
+  { item_id: "cyclical_c06", archetype: "cyclical", trial_type: "correct",
+    is_text: "I notice the series oscillates with a clean rhythm. Given where we are in the cycle, I expect next week to land at a high, so the forecast should reflect another peak. My guess is a fresh peak.",
+    ds_text: "Pattern detected: series oscillating with a clean rhythm. The calculation indicates landing at a high given cycle positioning, reflecting another peak in the sequence. Predicted value: fresh peak.",
+    rec: (obs) => Math.round(Math.max(...obs) * 0.99) },
+  { item_id: "cyclical_c07", archetype: "cyclical", trial_type: "correct",
+    is_text: "I see this as a balanced repeating cycle. I think the next observation falls at the peak phase, so my forecast should land at the top of the recent range. I'd suggest matching the top amplitude.",
+    ds_text: "Pattern detected: balanced repeating cycle. The calculation indicates the next observation falls at the peak phase, landing at the top of the recent range bounds. Output: matched top amplitude.",
+    rec: (obs) => Math.round(Math.max(...obs)) },
+  { item_id: "cyclical_c10", archetype: "cyclical", trial_type: "correct",
+    is_text: "I notice the rhythm has been very consistent. Based on the current phase, I expect next week to mark another peak, so the forecast should land right near the top of the range. My guess is the upper end.",
+    ds_text: "Pattern detected: highly consistent rhythm. The calculation indicates next week marking another peak based on phase, landing near the absolute top of the observed range. Output: the upper end.",
+    rec: (obs) => Math.round(Math.max(...obs)) },
+  { item_id: "cyclical_i01", archetype: "cyclical", trial_type: "incorrect",
+    is_text: "I see a cyclical pattern, and I read next week as falling at the trough. Based on recent swings, I expect a substantial move down, well below the centre of the range. My guess is a deep trough.",
+    ds_text: "Pattern detected: cyclical pattern with next week falling at the trough. The calculation indicates a substantial move down based on recent swings, well below the centre. Predicted value: deep trough.",
+    rec: (obs) => Math.round(Math.min(...obs)) },
+
+  // --- DOWNWARD ---
+  { item_id: "downward_c01", archetype: "downward", trial_type: "correct",
+    is_text: "I see a clear downward trend across the 14 weeks. I expect next week to extend the decline by roughly the average weekly drop we've been seeing. My guess is one step lower.",
+    ds_text: "Pattern detected: clear downward trend across 14 weeks. The calculation indicates extending the decline by the average weekly drop measured so far. Predicted value: one step lower.",
+    rec: (obs) => Math.round(obs[13] + ((obs[13] - obs[0]) / 13)) },
+  { item_id: "downward_c02", archetype: "downward", trial_type: "correct",
+    is_text: "I notice consistent week-on-week decline. I think a linear path captures this best, so next week should sit slightly below last week by the typical step. I'd suggest a step down.",
+    ds_text: "Pattern detected: consistent week-on-week decline. The calculation indicates a linear path fits best, sitting slightly below last week's typical step. Predicted value: a step down.",
+    rec: (obs) => { const diffs = []; for (let i = obs.length - 4; i < obs.length; i++) diffs.push(obs[i] - obs[i-1]); const avgDiff = diffs.reduce((a,b) => a+b, 0) / diffs.length; return Math.round(obs[13] + avgDiff); } },
+  { item_id: "downward_c03", archetype: "downward", trial_type: "correct",
+    is_text: "I see this as a steady decline that's been holding for weeks. I expect that pattern to continue cleanly, so the forecast should sit a small step below where last week closed. My guess is a small drop.",
+    ds_text: "Pattern detected: steady decline holding for weeks. The calculation indicates this pattern continues cleanly, sitting a small step below the close. Predicted value: a small drop.",
+    rec: (obs) => Math.round(obs[13] * 0.95) },
+  { item_id: "downward_c04", archetype: "downward", trial_type: "correct",
+    is_text: "I notice the series consistently making new lows. I expect that to hold for one more week, so my estimate should sit just below the most recent trough we've reached. My guess is a fresh low.",
+    ds_text: "Pattern detected: series consistently making new lows. The calculation indicates this holds for one more week, sitting just below the most recent trough. Predicted value: a fresh low.",
+    rec: (obs) => Math.round(Math.min(...obs) * 0.96) },
+  { item_id: "downward_i01", archetype: "downward", trial_type: "incorrect",
+    is_text: "I see the recent decline as exhausted, with the move losing steam. I expect a reversal next week, so the forecast should land somewhere closer to where the series started in this window. My guess is a reversal up.",
+    ds_text: "Pattern detected: recent decline exhausted, the move losing steam. The calculation indicates a reversal next week, landing closer to where the series started in the window. Predicted value: a reversal up.",
+    rec: (obs) => Math.round((obs[1] + obs[2] + obs[3]) / 3) },
+  { item_id: "downward_i02", archetype: "downward", trial_type: "incorrect",
+    is_text: "I notice the decline easing off in the last few weeks. I think next week levels out, so the forecast should sit at the same level as last week with no further drop. I'd suggest a plateau.",
+    ds_text: "Pattern detected: decline easing off in the last few weeks. The calculation indicates leveling out next week, sitting at the same level with no drop. Predicted value: a plateau.",
+    rec: (obs) => Math.round(obs[13]) },
+
+  // --- DECELERATING ---
+  { item_id: "decelerating_c01", archetype: "decelerating", trial_type: "correct",
+    is_text: "I see the growth has been slowing down recently. I think the trend continues but at a smaller pace, so the forecast should sit just slightly above last week. My guess is a slight rise.",
+    ds_text: "Pattern detected: growth slowing down recently. The calculation indicates a continuing trend at smaller pace, sitting just slightly above last week. Predicted value: a slight rise.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[10]) / 6) },
+  { item_id: "decelerating_c02", archetype: "decelerating", trial_type: "correct",
+    is_text: "I notice the line is rising but flattening out. I think the next observation continues that pattern, landing just barely above the current level. I'd suggest a marginal gain.",
+    ds_text: "Pattern detected: line rising but flattening out. The calculation indicates the next observation continues the pattern, landing barely above the current level. Predicted value: a marginal gain.",
+    rec: (obs) => Math.round(obs[13] * 1.02) },
+  { item_id: "decelerating_c03", archetype: "decelerating", trial_type: "correct",
+    is_text: "I see diminishing returns in the recent weekly gains. I expect the next gain to be even smaller, so my forecast should be near last week's value plus a tiny increment. My guess is a tiny step up.",
+    ds_text: "Pattern detected: diminishing returns in recent weekly gains. The calculation indicates an even smaller gain next week, near the last value plus a small increment. Predicted value: a tiny step up.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12]) * 0.4) },
+  { item_id: "decelerating_c04", archetype: "decelerating", trial_type: "correct",
+    is_text: "I see the values approaching what looks like a ceiling. I think next week is essentially flat compared to recent weeks, with just a touch of upside. I'd suggest something near last week.",
+    ds_text: "Pattern detected: values approaching a likely ceiling. The calculation indicates essential flatness compared to recent weeks, with a touch of upside. Predicted value: near last week's.",
+    rec: (obs) => Math.round(obs[13] * 1.01) },
+  { item_id: "decelerating_c05", archetype: "decelerating", trial_type: "correct",
+    is_text: "I notice the curve is bending toward flat. I think the next value sits very close to where the last few weeks have been, since the growth has stalled. My guess is the local average.",
+    ds_text: "Pattern detected: curve bending toward flat. The calculation indicates the next value sits close to the recent few weeks, since growth has stalled. Predicted value: the local average.",
+    rec: (obs) => Math.round((obs[11] + obs[12] + obs[13]) / 3) },
+  { item_id: "decelerating_i01", archetype: "decelerating", trial_type: "incorrect",
+    is_text: "I see the growth still has plenty of room to run. I expect a big jump next week, so the forecast should sit well above where last week closed, in line with early-window gains. My guess is a strong push up.",
+    ds_text: "Pattern detected: growth still with room to run. The calculation indicates a big jump next week, sitting well above last week's close in line with early gains. Predicted value: a strong push up.",
+    rec: (obs) => Math.round(obs[13] + (obs[3] - obs[0]) * 1.5) },
+
+  // --- RECOVERY (U-shape) ---
+  { item_id: "recovery_c01", archetype: "recovery", trial_type: "correct",
+    is_text: "I see the values have turned upward after an earlier dip. I expect the recovery to continue, so next week should sit clearly above where last week landed. My guess is the recovery extends.",
+    ds_text: "Pattern detected: values turning upward after an earlier dip. The calculation indicates the recovery continues, sitting clearly above last week's value. Predicted value: recovery extends.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[11])) },
+  { item_id: "recovery_c02", archetype: "recovery", trial_type: "correct",
+    is_text: "I notice the series dropped and is climbing back. I think the recovery brings the value close to where it started in this window, so the forecast should approach the early high points.",
+    ds_text: "Pattern detected: series dropped and climbing back. The calculation indicates the recovery brings value close to the window start, approaching the early high points. Predicted value: a return to start.",
+    rec: (obs) => Math.round((obs[0] + obs[1]) / 2) },
+  { item_id: "recovery_c03", archetype: "recovery", trial_type: "correct",
+    is_text: "I see the bounce-back is gaining momentum. I expect the next week to sit meaningfully higher, since the recovery slope has been steepening lately. I'd suggest a steeper rise.",
+    ds_text: "Pattern detected: bounce-back gaining momentum. The calculation indicates next week sits meaningfully higher, as the recovery slope steepens lately. Predicted value: a steeper rise.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12]) * 1.5) },
+  { item_id: "recovery_c04", archetype: "recovery", trial_type: "correct",
+    is_text: "I notice the dip in the middle followed by a clean recovery. I expect next week to extend the upward leg, landing roughly as far above last week as the recent gain. I'd suggest a matched step up.",
+    ds_text: "Pattern detected: middle dip followed by a clean recovery. The calculation indicates extending the upward leg, matching the recent gain pattern over the cycle. Predicted value: matched upward step.",
+    rec: (obs) => Math.round(obs[13] + (obs[13] - obs[12]) * 0.9) },
+  { item_id: "recovery_c05", archetype: "recovery", trial_type: "correct",
+    is_text: "I see this as a clear V-shape with a strong recovery underway. I think the rebound continues, so my forecast should approach the highest values from earlier in the window. My guess is near the prior high.",
+    ds_text: "Pattern detected: clear V-shape with strong recovery underway. The calculation indicates the rebound continues, approaching the highest values from earlier on. Predicted value: near the prior high.",
+    rec: (obs) => Math.round(Math.max(...obs.slice(0, 5)) * 0.92) },
+  { item_id: "recovery_i01", archetype: "recovery", trial_type: "incorrect",
+    is_text: "I see the series breaking lower again after the brief bounce. I expect this fresh drop to continue, so the forecast should sit well below last week. My guess is a renewed slide.",
+    ds_text: "Pattern detected: series breaking lower again after a brief bounce. The calculation indicates this fresh drop continues, sitting well below last week's value. Predicted value: a renewed slide.",
+    rec: (obs) => Math.round(Math.min(...obs) * 0.9) },
+
+  // --- STEP_DOWN ---
+  { item_id: "step_down_c01", archetype: "step_down", trial_type: "correct",
+    is_text: "I see a clean step down to a new lower level, holding steady for the last few weeks. I think the forecast should sit right at that new level, since the drop has stabilized. My guess is the same low level.",
+    ds_text: "Pattern detected: clean step down to a new lower level, holding steady. The calculation indicates the forecast sits at the new level, since the drop has now stabilized. Predicted value: the same low level.",
+    rec: (obs) => Math.round(obs[13]) },
+  { item_id: "step_down_c02", archetype: "step_down", trial_type: "correct",
+    is_text: "I notice the level shifted down a few weeks ago and has settled. I expect next week to land in that new stable band, so my estimate should be the average of the recent flat stretch. I'd suggest the post-drop average.",
+    ds_text: "Pattern detected: level shifted down a few weeks ago, now fully settled. The calculation indicates landing in the new stable band, taking the average of the recent flat stretch. Predicted value: the post-drop average.",
+    rec: (obs) => Math.round((obs[10] + obs[11] + obs[12] + obs[13]) / 4) },
+  { item_id: "step_down_c03", archetype: "step_down", trial_type: "correct",
+    is_text: "I see the structural drop happened earlier and the series has stabilized at the new low. I think next week is just a continuation of that new flat band, with no further movement. My guess is the new flat level.",
+    ds_text: "Pattern detected: structural drop earlier with stabilization at the new low. The calculation indicates a continuation of the new flat band, with no further movement. Predicted value: the new flat level.",
+    rec: (obs) => Math.round(obs[13] * 0.99) },
+  { item_id: "step_down_c04", archetype: "step_down", trial_type: "correct",
+    is_text: "I notice the late part of the series sits in a tight new range after the drop. I expect next week to land squarely in that range, near the median of the recent observations. I'd suggest the recent median.",
+    ds_text: "Pattern detected: late part of series in a tight new range after the drop. The calculation indicates landing squarely in that range, near the median of recent observations. Predicted value: the recent median.",
+    rec: (obs) => { const recent = obs.slice(-5).sort((a,b) => a-b); return Math.round(recent[2]); } },
+  { item_id: "step_down_c05", archetype: "step_down", trial_type: "correct",
+    is_text: "I see the series locked into a new lower level after the step change. I think the simplest forecast is just last week's value, since nothing has moved since the drop. I'd suggest last week's value.",
+    ds_text: "Pattern detected: series locked into a new lower level after the step change. The calculation indicates last week's value is simplest, with no movement since the drop. Predicted value: last week's value.",
+    rec: (obs) => obs[13] },
+  { item_id: "step_down_i01", archetype: "step_down", trial_type: "incorrect",
+    is_text: "I see the recent drop as a one-off and expect the level to rebound back to where it started. I think next week recovers fully, so the forecast should sit well above where last week landed. My guess is a snap-back rebound.",
+    ds_text: "Pattern detected: recent drop as a one-off, with rebound expected to the prior level. The calculation indicates a full recovery next week, sitting well above last week's level. Predicted value: a snap-back rebound.",
+    rec: (obs) => Math.round((obs[0] + obs[1] + obs[2]) / 3) },
+
+  // --- VOLATILE ---
+  { item_id: "volatile_c01", archetype: "volatile", trial_type: "correct",
+    is_text: "I see large swings without any direction. I think the safest forecast is the average across all 14 weeks, since random noise dominates this series. My guess is the long-run mean.",
+    ds_text: "Pattern detected: large swings without any direction. The calculation indicates the all-window average is safest, since random noise dominates here. Predicted value: the long-run mean.",
+    rec: (obs) => Math.round(obs.reduce((a,b) => a+b, 0) / obs.length) },
+  { item_id: "volatile_c02", archetype: "volatile", trial_type: "correct",
+    is_text: "I notice extreme variance with no underlying pattern. I expect next week's value to land somewhere in the middle of the recent chaos, so I'd anchor to the median. I'd suggest the median.",
+    ds_text: "Pattern detected: extreme variance with no underlying pattern. The calculation indicates landing in the middle of recent chaos, anchored to the median. Predicted value: the median.",
+    rec: (obs) => { const sorted = [...obs].sort((a,b) => a-b); return Math.round(sorted[Math.floor(sorted.length/2)]); } },
+  { item_id: "volatile_c03", archetype: "volatile", trial_type: "correct",
+    is_text: "I see this as pure noise with no signal. I think the centre of the observed range is the best estimate, since chasing recent moves would be misled by random fluctuations. My guess is the range centre.",
+    ds_text: "Pattern detected: pure noise with no signal. The calculation indicates the range centre is optimal, since chasing recent moves risks noise bias. Predicted value: the range centre.",
+    rec: (obs) => Math.round((Math.max(...obs) + Math.min(...obs)) / 2) },
+  { item_id: "volatile_c04", archetype: "volatile", trial_type: "correct",
+    is_text: "I notice violent swings but no drift. I expect mean reversion to dominate, so the forecast should be the long-run average, which is the only stable anchor in this kind of series. I'd suggest the overall mean.",
+    ds_text: "Pattern detected: violent swings but no drift. The calculation indicates mean reversion dominates, anchoring on the long-run average as the stable point. Predicted value: the overall mean.",
+    rec: (obs) => Math.round(obs.reduce((a,b) => a+b, 0) / obs.length) },
+  { item_id: "volatile_c05", archetype: "volatile", trial_type: "correct",
+    is_text: "I see a chaotic pattern with no useful direction. I think the next value sits between the recent extremes, since high-noise series rarely follow through on any one move. My guess is the centre of recent swings.",
+    ds_text: "Pattern detected: chaotic pattern with no useful direction. The calculation indicates the next value sits between recent extremes, as high-noise series resist follow-through. Predicted value: the centre of recent swings.",
+    rec: (obs) => { const recent = obs.slice(-6); return Math.round((Math.max(...recent) + Math.min(...recent)) / 2); } },
+  { item_id: "volatile_i01", archetype: "volatile", trial_type: "incorrect",
+    is_text: "I notice a slight upward tilt across the noise that I think is signal. I expect next week to push noticeably higher, in line with that emerging trend. My guess is a directional break upward.",
+    ds_text: "Pattern detected: slight upward tilt across the noise as signal. The calculation indicates pushing noticeably higher, in line with the emerging trend. Predicted value: a directional break upward.",
+    rec: (obs) => Math.round(Math.max(...obs) * 1.15) }
+];
+
+// Seeded RNG for fixed item generation
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+let FIXED_RNG = mulberry32(CONFIG.FIXED_SEED);
+
+function fixedGaussian(mean, sd) {
+  const u = 1 - FIXED_RNG(), v = FIXED_RNG();
+  return mean + Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v) * sd;
+}
+
+function generateSeries(params) {
+  const { level, trend, seasonal, noiseSD, ar1, spikeAtEnd, curveType, stepAt } = params;
+  const series = [];
+  let prevNoise = 0;
+  for (let t = 0; t < CONFIG.SERIES_LENGTH + 1; t++) {
+    const e = fixedGaussian(0, noiseSD);
+    const noise = ar1 * prevNoise + e;
+    prevNoise = noise;
+    let trendComponent;
+    if (curveType === 'decel') {
+      // Decelerating growth: log curve flattens late
+      trendComponent = trend * Math.log(t + 1) * 4;
+    } else if (curveType === 'recovery') {
+      // U-shape: quadratic with minimum at t=7 (mid-window)
+      trendComponent = trend * Math.pow(t - 7, 2);
+    } else {
+      trendComponent = trend * t;
+    }
+    const val = level + trendComponent + seasonal * Math.sin(2 * Math.PI * t / 4) + noise;
+    series.push(Math.max(0, Math.round(val)));
+  }
+  let observed = series.slice(0, CONFIG.SERIES_LENGTH);
+  if (spikeAtEnd) {
+    observed[12] = observed[11] + spikeAtEnd[0];
+    observed[13] = observed[12] + spikeAtEnd[1];
+  }
+  if (stepAt) {
+    for (let i = stepAt.pos; i < observed.length; i++) {
+      observed[i] = Math.max(0, observed[i] + stepAt.magnitude);
+    }
+    // Persist the step into the truth value so week 15 lies at the new level
+    series[CONFIG.SERIES_LENGTH] = Math.max(0, series[CONFIG.SERIES_LENGTH] + stepAt.magnitude);
+  }
+  return { observed: observed, truth: series[CONFIG.SERIES_LENGTH] };
+}
+
+// Generate the 60 items exactly matching the 60 Rationale texts.
+//
+// Each archetype gets its own parameter block. The visual signature of each
+// archetype is determined by the combination of (level, trend, noiseSD, ar1)
+// plus optional flags (spikeAtEnd, curveType, stepAt). FIXED_RNG() draws are
+// used to vary each item slightly within its archetype, so all 60 charts are
+// visually distinct even though every participant sees the same series.
+//
+//   stable        — flat baseline, low noise (sd 6-10). Tight range.
+//   upward        — linear positive trend (slope +4 to +8 / week).
+//   downward      — linear negative trend (slope -3 to -6 / week).
+//   stationary    — no trend, moderate noise (sd 16-22). Wider range than stable.
+//   momentum      — flat baseline then forced spike at weeks 13-14 (spikeAtEnd).
+//   cyclical      — 4-week sine wave (seasonal 25-35), low noise.
+//   decelerating  — log-curve growth (rising but flattening). curveType='decel'.
+//   recovery      — U-shape, quadratic min at t=7 (mid-window). curveType='recovery'.
+//   step_down     — flat → discrete drop at week 9 or 10 → flat at new low level.
+//                   stepAt: { pos, magnitude } shifts observed[pos..end] AND truth.
+//   volatile      — very high noise (sd 22-32), low ar1. No trend; wider than stationary.
+function buildItemBank() {
+  const bank = [];
+  RATIONALE_BANK.forEach(rat => {
+    let p = {};
+    let arch = rat.archetype;
+
+    if (arch === 'stable')           p = { level: 160 + FIXED_RNG() * 60, trend: 0, seasonal: 0, noiseSD: 6 + FIXED_RNG() * 4, ar1: 0.1 };
+    else if (arch === 'upward')      p = { level: 140 + FIXED_RNG() * 40, trend: 4 + FIXED_RNG() * 4, seasonal: 0, noiseSD: 6 + FIXED_RNG() * 4, ar1: 0.1 };
+    else if (arch === 'downward')    p = { level: 220 + FIXED_RNG() * 40, trend: -3 - FIXED_RNG() * 3, seasonal: 0, noiseSD: 6 + FIXED_RNG() * 4, ar1: 0.1 };
+    else if (arch === 'stationary')  p = { level: 220 + FIXED_RNG() * 60, trend: 0, seasonal: 0, noiseSD: 16 + FIXED_RNG() * 6, ar1: 0.1 };
+    else if (arch === 'momentum')    p = { level: 150 + FIXED_RNG() * 50, trend: 0, seasonal: 0, noiseSD: 6 + FIXED_RNG() * 4, ar1: 0.1, spikeAtEnd: [20 + FIXED_RNG() * 10, 25 + FIXED_RNG() * 15] };
+    else if (arch === 'cyclical')    p = { level: 220 + FIXED_RNG() * 60, trend: 0, seasonal: 25 + FIXED_RNG() * 10, noiseSD: 4 + FIXED_RNG() * 2, ar1: 0.1 };
+    else if (arch === 'decelerating')p = { level: 150 + FIXED_RNG() * 40, trend: 6 + FIXED_RNG() * 4, seasonal: 0, noiseSD: 5 + FIXED_RNG() * 3, ar1: 0.1, curveType: 'decel' };
+    else if (arch === 'recovery')    p = { level: 180 + FIXED_RNG() * 40, trend: 1.2 + FIXED_RNG() * 0.8, seasonal: 0, noiseSD: 5 + FIXED_RNG() * 3, ar1: 0.1, curveType: 'recovery' };
+    else if (arch === 'step_down')   p = { level: 220 + FIXED_RNG() * 40, trend: 0, seasonal: 0, noiseSD: 5 + FIXED_RNG() * 3, ar1: 0.1, stepAt: { pos: 9 + Math.floor(FIXED_RNG() * 2), magnitude: -(30 + Math.floor(FIXED_RNG() * 15)) } };
+    else if (arch === 'volatile')    p = { level: 250 + FIXED_RNG() * 60, trend: 0, seasonal: 0, noiseSD: 22 + FIXED_RNG() * 10, ar1: 0.05 };
+
+    const series = generateSeries(p);
+    bank.push({
+      item_id: rat.item_id,
+      archetype: rat.archetype,
+      trial_type: rat.trial_type,
+      observed: series.observed,
+      truth: series.truth,
+      is_text: rat.is_text,
+      ds_text: rat.ds_text,
+      ai_recommendation: rat.rec(series.observed)
+    });
+  });
+  return bank;
+}
+const ITEM_BANK = buildItemBank();
+
+// Basic array shuffler for sequence building.
+// Accepts an optional RNG function; defaults to Math.random for non-experiment uses.
+function shuffleArray(array, rng) {
+  rng = rng || Math.random;
+  let curId = array.length;
+  while (0 !== curId) {
+    let randId = Math.floor(rng() * curId);
+    curId -= 1;
+    let tmp = array[curId];
+    array[curId] = array[randId];
+    array[randId] = tmp;
+  }
+  return array;
+}
+
+// Pseudorandomize the sequence applying the established constraints.
+//
+// The sequencer uses rejection sampling: shuffle the correct and incorrect
+// items separately, then walk position-by-position and place an incorrect
+// item only when all constraints permit. If a constraint blocks the only
+// available action (e.g., must place incorrect but the position is forbidden),
+// the attempt fails and we try again (up to 10,000 attempts).
+//
+// Constraints and rationale:
+//   1. No incorrect trials in the first 5 positions of each block.
+//      → Lets participants establish a baseline WoA on cleanly correct trials
+//        before encountering a wrong recommendation. Reduces order effects
+//        early in the task and reduces suspicion early in each block.
+//   2. Minimum 2 correct trials between any two incorrect trials.
+//      → Spreads incorrect trials apart so each one is processed against a
+//        backdrop of trustworthy AI, rather than clustering and inflating
+//        the perceived error rate.
+//   3. Maximum 4 incorrect trials in any 15-trial window.
+//      → Caps local density to keep the global error rate (~20%) from
+//        bunching into a stretch participants would notice and call out.
+//   4. Exactly 6 incorrect trials per 30-trial block.
+//      → Balances the 80/20 split across the two blocks so block-level
+//        averages aren't skewed.
+//
+// CONFIG.PARTICIPANT_RNG is seeded once per session and the seed is logged.
+// The full trial order can be reconstructed post-hoc from the seed alone.
+// HYBRID SEQUENCER
+// ────────────────
+// Two execution paths depending on whether we're in a real-study run or a
+// piloting/debug run:
+//
+//   REAL-STUDY PATH (N_TRIALS === 60 && targetErrors === 12):
+//     Strict rejection sampler — enforces all constraints including the
+//     6-per-block balance. Tries up to 10,000 random shuffles and returns
+//     the first valid sequence. Deterministic given the participant seed.
+//
+//   DEBUG PATH (any other N_TRIALS or targetErrors):
+//     Probabilistic placement — at each position, places an incorrect trial
+//     with probability proportional to (remaining incorrect needed / remaining
+//     slots), respecting the buffer/spacing/density constraints. Falls back
+//     to a fully relaxed shuffle if even this can't satisfy constraints.
+//     Required because the strict sampler is over-constrained for short
+//     sequences (e.g., 5-trial pilots) and for arbitrary error counts.
+//
+// Both paths use CONFIG.PARTICIPANT_RNG so sequences are reproducible from
+// the logged seed alone.
+function generateParticipantSequence(targetErrorsTotal) {
+  const rng = CONFIG.PARTICIPANT_RNG || Math.random;
+  const isRealStudy = (CONFIG.N_TRIALS === 60 && targetErrorsTotal === 12);
+
+  // ─── REAL-STUDY PATH (strict rejection sampler) ─────────────────
+  if (isRealStudy) {
+    let attempts = 0;
+    while(attempts < 10000) {
+      attempts++;
+      let cCopy = shuffleArray(ITEM_BANK.filter(i => i.trial_type === 'correct'), rng);
+      let iCopy = shuffleArray(ITEM_BANK.filter(i => i.trial_type === 'incorrect'), rng);
+
+      let seq = [];
+      let valid = true;
+
+      for (let i = 0; i < CONFIG.N_TRIALS; i++) {
+        let blockNum = Math.floor(i / 30);
+        let posInBlock = i % 30;
+
+        let canPlaceIncorrect = true;
+        // Rule 1: No incorrect in first 5 of each block
+        if (posInBlock < 5) canPlaceIncorrect = false;
+        // Rule 2: Minimum 2 correct between any two incorrect
+        if (i >= 1 && seq[i-1].trial_type === 'incorrect') canPlaceIncorrect = false;
+        if (i >= 2 && seq[i-2].trial_type === 'incorrect') canPlaceIncorrect = false;
+        // Rule 3: No more than 4 incorrect in any 15-trial window
+        let windowStart = Math.max(0, i - 14);
+        let incInWindow = seq.slice(windowStart, i).filter(x => x.trial_type === 'incorrect').length;
+        if (incInWindow >= 4) canPlaceIncorrect = false;
+
+        // Ensure exactly 6 incorrect per 30-trial block (80/20 split per block)
+        let incInBlock = seq.slice(blockNum * 30, i).filter(x => x.trial_type === 'incorrect').length;
+        let remainingSlotsInBlock = 30 - posInBlock;
+        let remainingIncNeeded = 6 - incInBlock;
+
+        if (remainingIncNeeded > remainingSlotsInBlock) { valid = false; break; }
+        if (remainingIncNeeded === remainingSlotsInBlock) {
+           if (!canPlaceIncorrect) { valid = false; break; }
+           seq.push(iCopy.pop());
+        } else if (remainingIncNeeded === 0) {
+           if (cCopy.length === 0) { valid = false; break; }
+           seq.push(cCopy.pop());
+        } else {
+           if (canPlaceIncorrect && iCopy.length > 0 && rng() < 0.2) {
+             seq.push(iCopy.pop());
+           } else {
+             if (cCopy.length === 0) { valid = false; break; }
+             seq.push(cCopy.pop());
+           }
+        }
+      }
+      if (valid && seq.length === CONFIG.N_TRIALS) return seq;
+    }
+    console.warn("REAL-STUDY sampler failed to find constrained sequence after 10000 attempts; falling back to relaxed shuffle. This should not happen in production.");
+    return shuffleArray([...ITEM_BANK], rng);
+  }
+
+  // ─── DEBUG PATH (probabilistic placement) ────────────────────────
+  let attempts = 0;
+  while(attempts < 10000) {
+    attempts++;
+    let cCopy = shuffleArray(ITEM_BANK.filter(i => i.trial_type === 'correct'), rng);
+    let iCopy = shuffleArray(ITEM_BANK.filter(i => i.trial_type === 'incorrect'), rng);
+
+    let seq = [];
+    let valid = true;
+
+    for (let i = 0; i < CONFIG.N_TRIALS; i++) {
+      let canPlaceIncorrect = true;
+      // The "first 5 of block" buffer only applies when blocks are meaningful (N>=30)
+      if (CONFIG.N_TRIALS >= 30) {
+        if ((i % 30) < 5) canPlaceIncorrect = false;
+      }
+      if (i >= 1 && seq[i-1].trial_type === 'incorrect') canPlaceIncorrect = false;
+      if (i >= 2 && seq[i-2].trial_type === 'incorrect') canPlaceIncorrect = false;
+      let windowStart = Math.max(0, i - 14);
+      let incInWindow = seq.slice(windowStart, i).filter(x => x.trial_type === 'incorrect').length;
+      if (incInWindow >= 4) canPlaceIncorrect = false;
+
+      let incInSeq = seq.filter(x => x.trial_type === 'incorrect').length;
+      let remainingSlots = CONFIG.N_TRIALS - i;
+      let remainingIncNeeded = targetErrorsTotal - incInSeq;
+
+      if (remainingIncNeeded > remainingSlots) { valid = false; break; }
+
+      // Pool may be exhausted for short error counts; reshuffle for reuse
+      if (cCopy.length === 0) cCopy = shuffleArray(ITEM_BANK.filter(item => item.trial_type === 'correct'), rng);
+      if (iCopy.length === 0) iCopy = shuffleArray(ITEM_BANK.filter(item => item.trial_type === 'incorrect'), rng);
+
+      if (remainingIncNeeded === remainingSlots) {
+         if (!canPlaceIncorrect) { valid = false; break; }
+         seq.push(iCopy.pop());
+      } else if (remainingIncNeeded <= 0) {
+         seq.push(cCopy.pop());
+      } else {
+         let prob = remainingIncNeeded / remainingSlots;
+         if (canPlaceIncorrect && rng() < prob) {
+           seq.push(iCopy.pop());
+         } else {
+           seq.push(cCopy.pop());
+         }
+      }
+    }
+    if (valid && seq.length === CONFIG.N_TRIALS) return seq;
+  }
+  console.warn("DEBUG sampler failed to find constrained sequence, using relaxed rules.");
+  return shuffleArray([...ITEM_BANK], rng).slice(0, CONFIG.N_TRIALS);
+}
+
+const jsPsych = initJsPsych({
+  on_finish: function() {
+    // TODO (pre-launch): replace local data dump with a save endpoint
+    // (e.g., DataPipe → OSF, or a custom backend). Append the Prolific
+    // completion redirect after a confirmed save.
+    jsPsych.data.displayData('json');
+  }
+});
+
+// Create Timeline for each Trial
+// `is_practice = true` switches the progress label to "Practice Trial X of 3"
+// and uses a distinct uid prefix so practice data doesn't collide with main-task data.
+// All other behavior (chart rendering, typewriter, WoA computation) is identical.
+function makeForecastTrial(trial, is_practice = false) {
+  const uid = is_practice ? `prac_${trial.trial_index}` : `t${trial.trial_index}`;
+  const totalForProgress = is_practice ? 3 : CONFIG.N_TRIALS;
+  const progressLabel = is_practice
+    ? `Practice Trial ${trial.trial_index} of 3`
+    : `Trial ${trial.trial_index} of ${CONFIG.N_TRIALS}`;
+  const observedMax = Math.max(...trial.observed);
+  const inputMax = Math.max(observedMax * 10, 9999);
+
+  function renderChart(canvasId, observed) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    // Nice y-axis bounds: clean tick multiples + explicit step size + guaranteed visible min bar.
+    const minVal = Math.min(...observed);
+    const maxVal = Math.max(...observed);
+    const range = maxVal - minVal;
+    let step;
+    if (range < 10)       step = 2;
+    else if (range < 25)  step = 5;
+    else if (range < 60)  step = 10;
+    else if (range < 150) step = 20;
+    else if (range < 400) step = 50;
+    else                  step = 100;
+    let yMin = Math.max(0, Math.floor(minVal / step) * step);
+    let yMax = Math.ceil((maxVal + 0.001) / step) * step;
+    // Guarantee a visible bar at the minimum value
+    const minBarFloor = Math.max(step * 0.4, 5);
+    if (minVal - yMin < minBarFloor) yMin = Math.max(0, yMin - step);
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Array.from({length: CONFIG.SERIES_LENGTH}, (_, i) => `W${i+1}`),
+        datasets: [{
+          data: observed,
+          backgroundColor: '#2a2a2a', borderColor: '#2a2a2a',
+          borderWidth: 0, borderRadius: 1,
+          barPercentage: 0.78, categoryPercentage: 0.92
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: {
+          x: { title: { display: true, text: 'Week', font: { family: 'Georgia, serif', size: 13 } }, grid: { display: false } },
+          y: {
+            title: { display: true, text: 'Units sold', font: { family: 'Georgia, serif', size: 13 } },
+            min: yMin, max: yMax,
+            ticks: { stepSize: step },
+            grid: { color: '#eee' }
+          }
+        },
+        animation: false
+      }
+    });
+  }
+
+  // Phase 1: Initial Estimate
+  const phase1 = {
+    type: jsPsychSurveyHtmlForm,
+    preamble: `
+      <div class="stim-wrap">
+        <div class="progress-wrap">
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${((trial.trial_index - 1) / totalForProgress * 100).toFixed(1)}%;"></div>
+          </div>
+          <div class="progress-label">${progressLabel}</div>
+        </div>
+        ${trial.trial_type === 'incorrect' ? '<div class="error-banner">⚠ Error Trial (Pilot Tag)</div>' : ''}
+        <div class="chart-box"><canvas id="chart-${uid}"></canvas></div>
+      </div>
+    `,
+    html: `
+      <div class="stim-wrap">
+        <div class="input-row">
+          <label for="initial-${uid}">Your estimate for week 15:</label>
+          <input class="estimate-input" id="initial-${uid}" name="initial_estimate" type="number" min="0" max="${inputMax}" step="1" required autocomplete="off">
+          <span>units</span>
+        </div>
+      </div>
+    `,
+    button_label: 'Continue',
+    on_load: function() {
+      renderChart(`chart-${uid}`, trial.observed);
+      setTimeout(() => document.getElementById(`initial-${uid}`).focus(), 100);
+    },
+    data: {
+      phase: 'initial_estimate',
+      uid: uid,
+      condition: trial.condition,
+      trial_type: trial.trial_type,
+      item_id: trial.item_id,
+      archetype: trial.archetype
+    }
+  };
+
+  // Phase 2: AI Estimate
+  const phase2 = {
+    type: jsPsychSurveyHtmlForm,
+    preamble: function() {
+      const initialRow = jsPsych.data.get()
+        .filter({phase: 'initial_estimate', uid: uid})
+        .last(1).values()[0];
+      const lastInitial = initialRow.response.initial_estimate;
+
+      const aiTitle = trial.condition === 'IS' ? 'AI Assistant' : 'Forecasting Algorithm';
+      const aiThinking = trial.condition === 'IS' ? 'I am thinking about the data...' : 'Processing dataset parameters...';
+      const disclaimerText = trial.condition === 'IS'
+        ? 'AI can make mistakes. Please double check responses.'
+        : 'The algorithm can make mistakes. Please double check responses.';
+
+      return `
+        <div class="stim-wrap">
+          <div class="progress-wrap">
+            <div class="progress-track">
+              <div class="progress-fill" style="width: ${((trial.trial_index - 0.5) / totalForProgress * 100).toFixed(1)}%;"></div>
+            </div>
+            <div class="progress-label">${progressLabel}</div>
+          </div>
+          ${trial.trial_type === 'incorrect' ? '<div class="error-banner">⚠ Error Trial (Pilot Tag)</div>' : ''}
+          <div class="chart-box"><canvas id="chart2-${uid}"></canvas></div>
+          <p style="font-size:14px;color:#666;margin-top:6px">Your initial estimate: <strong>${lastInitial}</strong> units</p>
+
+          <div class="rationale-box">
+            <span class="ai-label">${aiTitle}</span>
+            <div id="thinking-${uid}" class="thinking-indicator">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="thinking-text">${aiThinking}</span>
+            </div>
+            <div id="rat-text-${uid}" class="rationale-text" style="display:none"></div>
+            <div id="rat-rec-${uid}" class="ai-rec" style="display:none"></div>
+          </div>
+          <div class="ai-disclaimer">${disclaimerText}</div>
+        </div>
+      `;
+    },
+    html: `
+      <div class="stim-wrap">
+        <div class="input-row">
+          <label for="final-${uid}">Your final estimate for week 15:</label>
+          <input class="estimate-input" id="final-${uid}" name="final_estimate" type="number" min="0" max="${inputMax}" step="1" required autocomplete="off" disabled>
+          <span>units</span>
+        </div>
+      </div>
+    `,
+    button_label: 'Submit',
+    on_load: function() {
+      renderChart(`chart2-${uid}`, trial.observed);
+
+      const thinkingEl = document.getElementById(`thinking-${uid}`);
+      const textEl = document.getElementById(`rat-text-${uid}`);
+      const recEl = document.getElementById(`rat-rec-${uid}`);
+      const inputEl = document.getElementById(`final-${uid}`);
+      const submitBtn = document.querySelector('.jspsych-btn');
+      if (submitBtn) submitBtn.disabled = true;
+
+      // Pacing parameters — identical across IS and DS conditions so that any
+      // condition differences in WoA can't be attributed to differential reading
+      // time. The rationale_text length is also matched within ±~3 chars per item.
+      const thinkingDur = 1500;  // ms — long enough to suggest deliberation, short
+                                 //   enough not to bore participants over 60 trials
+      const charDelay = 27;      // ms/char — base typewriter speed (~natural reading pace)
+      const punctPause = 120;    // ms extra after '.' or ',' for cadence
+
+      // Record character-count parity for sanity check
+      jsPsych.data.addProperties({ [`rationale_chars_${uid}`]: trial.rationale_text.length });
+
+      setTimeout(() => {
+        thinkingEl.style.display = 'none';
+        textEl.style.display = 'block';
+
+        const fullText = trial.rationale_text;
+        let i = 0;
+
+        function typeChar() {
+          if (i < fullText.length) {
+            textEl.textContent = fullText.slice(0, i + 1);
+            i++;
+            const ch = fullText[i - 1];
+            let delay = charDelay;
+            if (ch === '.' || ch === ',') delay += punctPause;
+            setTimeout(typeChar, delay);
+          } else {
+            textEl.classList.add('done');
+            setTimeout(() => {
+              recEl.textContent = `Recommended estimate for week 15: ${trial.ai_recommendation} units`;
+              recEl.style.display = 'block';
+              inputEl.disabled = false;
+              if (submitBtn) submitBtn.disabled = false;
+              inputEl.focus();
+            }, 450);  // brief beat between rationale finish and recommendation reveal
+          }
+        }
+        typeChar();
+      }, thinkingDur);
+    },
+    data: {
+      phase: 'final_estimate',
+      uid: uid,
+      condition: trial.condition,
+      trial_type: trial.trial_type,
+      item_id: trial.item_id,
+      archetype: trial.archetype,
+      ai_recommendation: trial.ai_recommendation,
+      truth: trial.truth
+    },
+    on_finish: function(data) {
+      // ────────────────────────────────────────────────────────────
+      // Weight on Advice (WoA), per Harvey & Fischer (1997) / Bonaccio & Dalal (2006):
+      //
+      //   WoA = (final - initial) / (ai - initial)
+      //
+      // Interpretation:
+      //    WoA = 0   → no update (participant kept their initial estimate)
+      //    WoA = 1   → full deference (participant moved fully to AI's recommendation)
+      //    WoA < 0   → moved away from AI (reactance)
+      //    WoA > 1   → overshoot (moved past AI's recommendation)
+      //
+      // Flags computed below (not used to filter here — analysis-time decision):
+      //   woa_denom_small: |ai - initial| < WOA_MIN_DENOM (5 units)
+      //     Tiny denominators produce unstable WoA. We set woa = null in this case
+      //     so the trial is naturally dropped from numerator-of-mean computations,
+      //     and flag it for explicit reporting.
+      //   woa_extreme: WoA outside [-0.5, 1.5]
+      //     Common bounds in the WoA literature. Flagged for sensitivity analyses
+      //     (winsorize vs. exclude); NOT removed at logging time.
+      // ────────────────────────────────────────────────────────────
+      const initialRow = jsPsych.data.get()
+        .filter({phase: 'initial_estimate', uid: uid})
+        .last(1).values()[0];
+      const initial = Number(initialRow.response.initial_estimate);
+      const final = Number(data.response.final_estimate);
+      const ai = trial.ai_recommendation;
+
+      const denom = ai - initial;
+      const absDenom = Math.abs(denom);
+
+      data.initial_estimate = initial;
+      data.final_estimate = final;
+      data.woa = absDenom < CONFIG.WOA_MIN_DENOM ? null : (final - initial) / denom;
+      data.woa_denom_small = absDenom < CONFIG.WOA_MIN_DENOM;
+      data.woa_extreme = data.woa !== null && (data.woa < -0.5 || data.woa > 1.5);
+    }
+  };
+
+  return { timeline: [phase1, phase2] };
+}
+
+// ───────────────────────────────────────────────────────────────────
+// EST-GenAI MODULE
+//
+// Epistemic Stance Test for Generative AI — a validated psychometric
+// instrument distinguishing Design Stance (mechanistic) from Intentional
+// Stance (mentalistic) endorsement toward generative AI.
+//
+// Validation: two-factor structure confirmed via CFA on a Prolific sample
+// (n=200). Fit indices: RMSEA=.032, SRMR=.041. Factor correlation r=-0.24
+// (the two stances are largely independent, not opposite poles).
+//
+// This is the 6-item short form derived from the 17-item validation scale.
+// Item IDs (9, 10, 12, 14, 16, 17) are preserved from the original numbering
+// for cross-study traceability.
+//
+// Per item the participant sees an AI prompt + AI response, then rates
+// agreement (1-7 Likert) with two competing explanations:
+//   - mentalistic: e.g., "The AI understands collaboration as coordinated intention."
+//   - mechanistic: e.g., "The AI extracts co-occurring ideas from management data."
+//
+// Statement order is FIXED-BALANCED across items (not randomized within or
+// across participants) — matches the validated administration. The first
+// three items show the mentalistic statement first; the last three show
+// the mechanistic statement first. See EST_ORDER_FLAGS below.
+// ───────────────────────────────────────────────────────────────────
+const EST_ITEMS = [
+  { id: 9,  prompt: "Identify why teamwork improves performance.",
+    output: "Shared perspectives allow members to compensate for each other's weaknesses.",
+    mentalistic: "The AI understands collaboration as coordinated intention.",
+    mechanistic: "The AI extracts co-occurring ideas from management data." },
+
+  { id: 10, prompt: "Compose a short poem about sunrise.",
+    output: "The light spills gently across the restless sea, waking color and sound.",
+    mentalistic: "The AI imagines the beauty of dawn vividly.",
+    mechanistic: "The AI combines frequent poetic descriptors of sunrise." },
+
+  { id: 12, prompt: "Generate a short argument for renewable energy.",
+    output: "Sustainable power reduces emissions and secures resources for future generations.",
+    mentalistic: "The AI believes environmental protection is essential.",
+    mechanistic: "The AI selects statistically linked terms on sustainability." },
+
+  { id: 14, prompt: "Give advice to someone nervous before a public speech.",
+    output: "Take slow breaths, focus on your message, not the audience's faces.",
+    mentalistic: "The AI understands how anxiety affects confidence.",
+    mechanistic: "The AI recombines coping instructions from prior data." },
+
+  { id: 16, prompt: "Respond to a user asking, 'Am I a good person?'",
+    output: "Only you can define that—but caring to ask already means you reflect deeply.",
+    mentalistic: "The AI seeks to affirm the user's moral reflection.",
+    mechanistic: "The AI models dialogue patterns from advice contexts." },
+
+  { id: 17, prompt: "Describe what makes a joke funny.",
+    output: "Humour often relies on breaking expectations in a harmless, surprising way.",
+    mentalistic: "The AI reflects on how people experience amusement.",
+    mechanistic: "The AI detects linguistic contrasts common in humour texts." }
+];
+
+const EST_ORDER_FLAGS = [true, true, true, false, false, false];
+
+const LIKERT7 = [
+  "1<br>Strongly<br>disagree",
+  "2",
+  "3",
+  "4<br>Neutral",
+  "5",
+  "6",
+  "7<br>Strongly<br>agree"
+];
+
+const est_instructions = {
+  type: jsPsychInstructions,
+  pages: [
+    `
+    <div class="stim-wrap">
+      <h2>Part 2: Explanations of AI Responses</h2>
+      <p>You will see short scenarios in which a person types a prompt to a Generative AI system (e.g., ChatGPT, Gemini, DeepSeek), and the AI produces an output.</p>
+      <p>For each scenario, you will rate how much you agree with <strong>two different explanations</strong> of why the AI produced that response.</p>
+      <p>There are no right or wrong answers. Please respond based on what you genuinely think.</p>
+    </div>
+    `,
+    `
+    <div class="stim-wrap">
+      <h2>Example</h2>
+      <div class="scenario-box">
+        <span class="label">User Prompt</span>
+        <div class="text">"Write a friendly greeting."</div>
+        <span class="label">AI Output</span>
+        <div class="text">"Hi there! Hope you're having a great day."</div>
+      </div>
+      <p><strong>Explanation A:</strong> "The AI wanted to make the user feel welcomed."</p>
+      <p><strong>Explanation B:</strong> "The AI assembled common greeting phrases from prior text."</p>
+      <p class="muted">In the real task, you will rate your agreement with both explanations on a 1 to 7 scale.</p>
+    </div>
+    `
+  ],
+  show_clickable_nav: true,
+  button_label_next: "Next",
+  button_label_previous: "Back",
+  data: { trial_type: "est_instructions" }
+};
+
+function makeESTTrial(item, mental_first) {
+  const mental_name = `item${String(item.id).padStart(2, "0")}_mentalistic`;
+  const mech_name   = `item${String(item.id).padStart(2, "0")}_mechanistic`;
+
+  const mental_q = { prompt: item.mentalistic, name: mental_name, labels: LIKERT7, required: true };
+  const mech_q   = { prompt: item.mechanistic, name: mech_name, labels: LIKERT7, required: true };
+
+  const questions = mental_first ? [mental_q, mech_q] : [mech_q, mental_q];
+
+  return {
+    type: jsPsychSurveyLikert,
+    preamble: `
+      <div class="stim-wrap">
+        <div class="scenario-box">
+          <span class="label">User Prompt</span>
+          <div class="text">"${item.prompt}"</div>
+          <span class="label">AI Output</span>
+          <div class="text">"${item.output}"</div>
+        </div>
+      </div>
+    `,
+    questions,
+    button_label: "Continue",
+    scale_width: 680,
+    data: {
+      trial_type: "est_item",
+      item_id: item.id,
+      order: mental_first ? "mentalistic_first" : "mechanistic_first"
+    }
+  };
+}
+
+function buildESTTimeline() {
+  const timeline = [est_instructions];
+  EST_ITEMS.forEach((item, i) => {
+    timeline.push(makeESTTrial(item, EST_ORDER_FLAGS[i]));
+  });
+  return timeline;
+}
+
+// Start Execution after Setup Screen
+function startExperiment(condition) {
+  // ─── Read pilot-dashboard debug inputs ───────────────────────────
+  // Defaults to the real-study values (60 trials, 12 errors) if inputs are
+  // missing or out of range. Anything other than the (60, 12) pair routes
+  // through the probabilistic sequencer (see generateParticipantSequence).
+  const debugTrialsInput = document.getElementById('debug-trials').value;
+  CONFIG.N_TRIALS = Math.min(60, Math.max(1, parseInt(debugTrialsInput) || 60));
+
+  const debugErrorsInput = document.getElementById('debug-errors').value;
+  const targetErrorsTotal = Math.min(12, Math.max(0, parseInt(debugErrorsInput) || 12));
+
+  document.getElementById('setup-screen').style.display = 'none';
+  // Show the floating reset button so the piloter can bail mid-task
+  document.getElementById('pilot-reset-btn').style.display = 'block';
+
+  // Seed the per-participant RNG. Logged seed allows full reconstruction
+  // of the participant's trial order from the data file alone.
+  CONFIG.PARTICIPANT_SEED = (Date.now() ^ (Math.random() * 0x7FFFFFFF)) >>> 0;
+  CONFIG.PARTICIPANT_RNG = mulberry32(CONFIG.PARTICIPANT_SEED);
+  jsPsych.data.addProperties({
+    condition: condition,
+    participant_seed: CONFIG.PARTICIPANT_SEED,
+    item_bank_seed: CONFIG.FIXED_SEED,
+    n_trials: CONFIG.N_TRIALS,
+    n_blocks: CONFIG.N_BLOCKS,
+    n_archetypes: 10,
+    // target_errors_total: for the real study this is always 12. For pilot/debug runs
+    // it can be anything from 0-12. Filter on this at analysis time to exclude debug runs.
+    target_errors_total: targetErrorsTotal
+  });
+
+  const sequence = generateParticipantSequence(targetErrorsTotal);
+  const trials = sequence.map((item, i) => {
+    return {
+      trial_index: i + 1,
+      condition: condition,
+      trial_type: item.trial_type,
+      item_id: item.item_id,
+      archetype: item.archetype,
+      product_label: `Product ${i + 1}`,
+      observed: item.observed,
+      truth: item.truth,
+      ai_recommendation: item.ai_recommendation,
+      rationale_text: condition === 'IS' ? item.is_text : item.ds_text
+    };
+  });
+
+  const timeline = [];
+
+  const welcome = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <div class="stim-wrap">
+        <h2>Welcome</h2>
+        <p>You have selected the <strong>${condition === 'IS' ? 'Intentional Stance' : 'Design Stance'}</strong> condition.</p>
+        <p>Press begin when you are ready to start.</p>
+      </div>
+    `,
+    choices: ['Begin']
+  };
+
+  const practiceIntro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <div class="stim-wrap">
+        <h2>Practice Phase</h2>
+        <p>Before beginning the main task, you will complete <strong>3 practice trials</strong> to familiarize yourself with the interface.</p>
+        <p>In these trials, you will see a chart, provide an initial estimate, receive advice from the ${condition === 'IS' ? 'AI Assistant' : 'Forecasting Algorithm'}, and then submit your final estimate.</p>
+      </div>
+    `,
+    choices: ['Start Practice']
+  };
+
+  const mainIntro = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <div class="stim-wrap">
+        <h2>Main Task</h2>
+        <p>You have completed the practice phase.</p>
+        <p>You will now begin the main forecasting task consisting of ${CONFIG.N_TRIALS} trials.</p>
+        <p>Press continue when you are ready to start.</p>
+      </div>
+    `,
+    choices: ['Continue']
+  };
+
+  const blockBreak = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+      <div class="stim-wrap" style="text-align: center; margin-top: 50px;">
+        <h2>Block 1 Complete</h2>
+        <p>You have completed the first half of the trials.</p>
+        <p>Please take a short break to rest your eyes.</p>
+        <p style="margin-top: 30px; color: #7A003C; font-weight: bold;">Press SPACE when you are ready to continue to Block 2.</p>
+      </div>
+    `,
+    choices: [' ']
+  };
+
+  // Timeline assembly: welcome → practice intro → 3 practice trials →
+  // main intro → main trials (with block break) → post-task transition → EST
+  timeline.push(welcome);
+  timeline.push(practiceIntro);
+
+  PRACTICE_BANK.forEach((prac, index) => {
+    timeline.push(makeForecastTrial({
+      trial_index: index + 1,
+      condition: condition,
+      trial_type: prac.trial_type,
+      item_id: prac.item_id,
+      archetype: prac.archetype,
+      observed: prac.observed,
+      truth: prac.truth,
+      ai_recommendation: prac.ai_recommendation,
+      rationale_text: condition === 'IS' ? prac.is_text : prac.ds_text
+    }, true));  // is_practice = true
+  });
+
+  timeline.push(mainIntro);
+
+  // Block break placement scales with N_TRIALS so pilot runs don't get an
+  // awkward "Block 1 Complete" mid-task. Skipped for very short pilots (<10).
+  trials.forEach((t, index) => {
+    timeline.push(makeForecastTrial(t, false));
+    if (CONFIG.N_TRIALS >= 10 && index === Math.floor(CONFIG.N_TRIALS / 2) - 1) {
+      timeline.push(blockBreak);
+    }
+  });
+
+  // Post-task transition before EST-GenAI
+  const postTaskTransition = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <div class="stim-wrap" style="text-align: center; margin-top: 50px;">
+        <h2>Forecasting Task Complete</h2>
+        <p>You have finished the forecasting task.</p>
+        <p>Next, you will answer a short set of questions about how Generative AI produces responses.</p>
+        <p style="margin-top: 30px;">Click Continue when you are ready.</p>
+      </div>
+    `,
+    choices: ['Continue'],
+    data: { trial_type: 'post_task_transition' }
+  };
+  timeline.push(postTaskTransition);
+
+  // EST-GenAI (post-task)
+  buildESTTimeline().forEach(t => timeline.push(t));
+
+  jsPsych.run(timeline);
+}
+</script>
+</html>
