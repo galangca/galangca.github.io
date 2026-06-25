@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI &amp; Thinking</title>
+
+  <script src="https://unpkg.com/jspsych@8.2.1"></script>
+  <link href="https://unpkg.com/jspsych@8.2.1/css/jspsych.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.5.0"></script>
+
+  <style>
+    :root {
+      --bg: #f4f4f2;
+      --card: #ffffff;
+      --ink: #1f2530;
+      --muted: #6b7280;
+      --line: #e6e6e2;
+      --accent: #44607c;
+      --accent-soft: #dfe6ee;
+    }
+    html, body { margin: 0; background: var(--bg); }
+    .jspsych-display-element {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+    .jspsych-content-wrapper { padding: 28px 16px; }
+    .jspsych-content {
+      max-width: 600px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 44px 48px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 10px 30px rgba(0,0,0,0.05);
+    }
+    h2 { font-size: 1.45rem; font-weight: 600; margin: 0 0 1rem; }
+    p { line-height: 1.65; }
+    .lead { text-align: left; color: #3a4150; }
+    .stem {
+      font-size: 1.25rem;
+      line-height: 1.55;
+      margin: 0 0 2.2rem;
+      text-align: center;
+    }
+    .frame {
+      font-size: 1.02rem; line-height: 1.5; color: var(--muted);
+      margin: 0.4rem 0 0.55rem; text-align: center;
+    }
+    .stem .target { font-weight: 600; color: var(--accent); }
+    .stem .ref {
+      background: #fdf1c4;
+      color: #1f2530;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* slider */
+    .jspsych-slider { width: 100%; }
+    input[type=range].jspsych-slider {
+      -webkit-appearance: none; appearance: none;
+      height: 6px; border-radius: 999px;
+      background: var(--accent-soft); outline: none; margin: 8px 0 4px;
+    }
+    input[type=range].jspsych-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    input[type=range].jspsych-slider::-moz-range-thumb {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    input[type=range].jspsych-slider:focus-visible::-webkit-slider-thumb {
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .jspsych-html-slider-response-container { margin: 1.2rem auto 1.8rem; max-width: 92%; }
+    /* center tick to mark the neutral midpoint */
+    .jspsych-html-slider-response-container { position: relative; }
+    .midtick {
+      position: absolute; left: 50%; top: -6px; transform: translateX(-50%);
+      width: 2px; height: 18px; background: #b9bfc8; border-radius: 2px;
+    }
+
+    /* buttons */
+    .jspsych-btn {
+      background: var(--accent); color: #fff; border: none;
+      padding: 12px 30px; font-size: 1rem; border-radius: 10px;
+      cursor: pointer; transition: filter .15s ease;
+    }
+    .jspsych-btn:hover { filter: brightness(1.08); }
+    .jspsych-btn:disabled { background: #c2c8d0; cursor: not-allowed; }
+
+    /* form */
+    input[type=number], select {
+      width: 220px; max-width: 100%; padding: 9px 11px;
+      border: 1px solid var(--line); border-radius: 9px;
+      font-size: 1rem; color: var(--ink); background: #fff;
+    }
+    input[type=number]:focus, select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .form-field { margin-bottom: 1.6rem; text-align: left; }
+    .form-field label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+
+    /* research-team briefing */
+    .banner {
+      background: #fef6e7; border: 1px solid #e7c98a; color: #7a5616;
+      padding: 10px 14px; border-radius: 10px; font-size: 0.85rem;
+      margin-bottom: 1.4rem; text-align: left;
+    }
+    .briefing { text-align: left; }
+    .briefing h2 { margin-bottom: 0.3rem; }
+    .briefing h3 {
+      font-size: 1.02rem; font-weight: 600; margin: 1.5rem 0 0.4rem; color: var(--accent);
+    }
+    .briefing p, .briefing li { line-height: 1.6; color: #3a4150; }
+    .briefing ul { padding-left: 1.15rem; margin: 0.3rem 0; }
+    .briefing li { margin-bottom: 0.35rem; }
+    .briefing .scale-note { color: var(--muted); font-size: 0.9rem; }
+
+    /* progress bar */
+    #jspsych-progressbar-container {
+      background: transparent; color: var(--muted);
+      margin-bottom: 6px; text-align: center; font-size: 0;
+    }
+    #jspsych-progressbar-container span { display: none; }
+    #jspsych-progressbar-outer {
+      background: var(--accent-soft); height: 6px; border-radius: 999px;
+      max-width: 600px; margin: 0 auto; box-shadow: none;
+    }
+    #jspsych-progressbar-inner { background: var(--accent); height: 6px; border-radius: 999px; }
+
+    @media (max-width: 520px) {
+      .jspsych-content { padding: 32px 24px; }
+      .stem { font-size: 1.12rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body></body>
+
+<script>
+/* ============================================================
+   CONFIG
+   EXPERIMENT_ID = ""  -> local CSV download (alpha testing)
+   EXPERIMENT_ID = "..." -> save to DataPipe / OSF
+   ============================================================ */
+const EXPERIMENT_ID = "";
+const SHOW_BRIEFING = true;   // RESEARCH-TEAM PREVIEW. Set false before live data.
+
+/* ============================================================
+   STEP 1 DESIGN (bipolar valence scale)
+   5 abilities x 2 referents = 10 intermixed ratings.
+   Scale: 0 = strongly worsens, 50 = no effect, 100 = strongly improves.
+   Prediction: self rated MORE positively (higher) than the average
+   person, i.e. people see AI as worse for others' minds than their own.
+   Model: Rating ~ Referent + (1 | subject_id) + (1 | item_id)
+   Bonus: one-sample test of self mean vs 50 (does AI net help or hurt me?)
+   ============================================================ */
+const abilities = [
+  { id: "critical_thinking",   label: "critical thinking ability" },
+  { id: "memory",              label: "capacity to remember information" },
+  { id: "independent_problem", label: "ability to work through problems independently" },
+  { id: "writing",             label: "writing skill" },
+  { id: "understanding",       label: "depth of understanding of a topic" },
+];
+const referents = [
+  { id: "self",  possessive: "your",
+    frame: "When you think about using ChatGPT and similar AI tools in your everyday life, work, or study," },
+  { id: "other", possessive: "the average person's",
+    frame: "When you think about how other people use ChatGPT and similar AI tools in everyday life, work, or study," },
+];
+
+const jsPsych = initJsPsych({
+  show_progress_bar: true,
+  auto_update_progress_bar: false,
+  message_progress_bar: "",
+  on_finish: function () {
+    if (!EXPERIMENT_ID) {
+      jsPsych.data.get().localSave("csv", "tpp_step1_" + subjectId + ".csv");
+    }
+  }
+});
+
+const subjectId = jsPsych.randomization.randomID(10);
+jsPsych.data.addProperties({
+  subject_id: subjectId,
+  experiment: "tpp_step1_bipolar",
+  scale: "0_worsens__50_none__100_improves",
+  alpha_build: true
+});
+
+const timeline = [];
+
+/* ---------- 0. RESEARCH-TEAM BRIEFING (not shown to participants) ---------- */
+if (SHOW_BRIEFING) {
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+      <div class="briefing">
+        <div class="banner">Research-team preview, not shown to participants.
+          Set <code>SHOW_BRIEFING = false</code> before live data collection.</div>
+
+        <h2>Testing for Lake Wobegon-like effects in beliefs about AI</h2>
+
+        <h3>Background and motivation</h3>
+        <p>The Lake Wobegon effect is the popular name for the better-than-average effect,
+          also called illusory superiority. It is named after Garrison Keillor's fictional
+          town of Lake Wobegon, "where all the children are above average." The finding is
+          that most people rate themselves above the median on desirable traits and below it
+          on undesirable ones, which cannot be true of everyone at once. A close relative,
+          the third-person effect, is the belief that undesirable outside influences affect
+          other people more than they affect oneself.</p>
+        <p>We are testing for a Lake Wobegon-like pattern in beliefs about generative AI.
+          People worry that tools like ChatGPT erode thinking, memory, and independent
+          problem solving, but they may not apply that worry evenly. If the effect is present
+          here, people will judge AI as worse for the average person's mind than for their
+          own. The pattern is well documented for misinformation and persuasion, and the
+          cognitive-offloading literature has documented the behaviour, but the two have not
+          been crossed, so whether people hold this self-other belief about AI-driven erosion
+          is still open.</p>
+
+        <h3>Design</h3>
+        <p>Within-subjects online survey, single Prolific sample, about three minutes.
+          Each participant rates the effect of regular generative-AI use on five cognitive
+          abilities (critical thinking, memory, independent problem solving, writing, depth
+          of understanding), once for themselves and once for the average person. That is
+          5 abilities by 2 referents, 10 items, fully randomized. Each item is preceded by a
+          short framing line ("when you think about using ChatGPT in everyday life, work, or
+          study") so ratings reflect concrete real-world use rather than an abstraction. The
+          frame flips with the referent (the participant's own use versus other people's use),
+          applied identically to both, so the self-other contrast is preserved.</p>
+        <p class="scale-note">Response scale is bipolar: 0 strongly worsens, 50 no effect,
+          100 strongly improves. This captures both the direction and the strength of the
+          believed effect, so a high score cannot conflate "helps a lot" with "harms a lot."
+          Plus an attention check and two covariates (age, AI-use frequency). Target n about
+          100 after exclusions.</p>
+        <p class="scale-note">Model: <code>Rating ~ Referent + (1 | subject_id) + (1 | item_id)</code></p>
+
+        <h3>Predictions</h3>
+        <ul>
+          <li><strong>Primary.</strong> Self is rated more positively than the average
+            person (a referent effect): AI is seen as worse for other people's minds than
+            for one's own.</li>
+          <li><strong>Secondary, free from the bipolar scale.</strong> The self mean tested
+            against the no-effect midpoint of 50 tells us whether people think AI nets out
+            helpful or harmful for their own thinking.</li>
+          <li><strong>Not addressed here.</strong> Whether the gap is specific to AI or just
+            generic self-enhancement (would need a no-AI baseline), and whether it is better-
+            than-average versus third-person perception (would need positively valenced
+            items). Worth keeping in mind for interpretation, but not the question this design
+            asks.</li>
+        </ul>
+      </div>`,
+    choices: ["Continue to participant view"]
+  });
+}
+
+/* ---------- 1. INTRO ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <h2>About this study</h2>
+    <p class="lead">Generative AI tools such as ChatGPT are now widely used. We are
+      interested in your honest impression of how regular use of these tools affects
+      different mental abilities.</p>
+    <p class="lead">On each screen you will see one ability and a slider. The slider runs
+      from <strong>strongly worsens</strong> on the left, through <strong>no effect</strong>
+      in the middle, to <strong>strongly improves</strong> on the right. Move it to show
+      both the <em>direction</em> and the <em>strength</em> of the effect you have in mind.
+      Some screens ask about <strong>you</strong>, and some ask about
+      <strong>the average person</strong>.</p>
+    <p class="lead">The slider starts in the middle at "no effect." If that is your answer,
+      click it once to confirm. It takes about three minutes.</p>`,
+  choices: ["Begin"]
+});
+
+/* ---------- 2. RATING TRIALS (10, randomized) ---------- */
+let completed = 0;
+const totalRatings = abilities.length * referents.length;
+const addMidtick = function () {
+  const c = document.querySelector(".jspsych-html-slider-response-container");
+  if (c && !c.querySelector(".midtick")) {
+    const t = document.createElement("div");
+    t.className = "midtick";
+    c.appendChild(t);
+  }
+};
+const ratingTrials = [];
+abilities.forEach(function (a) {
+  referents.forEach(function (r) {
+    ratingTrials.push({
+      type: jsPsychHtmlSliderResponse,
+      stimulus:
+        '<div class="frame">' + r.frame + '</div>' +
+        '<div class="stem">what effect does regular use have on ' +
+        '<span class="ref">' + r.possessive + '</span> ' + a.label + '?</div>',
+      labels: ["Strongly<br>worsens", "No effect", "Strongly<br>improves"],
+      min: 0, max: 100, slider_start: 50, step: 1,
+      require_movement: true,
+      on_load: addMidtick,
+      data: {
+        trial_kind: "rating",
+        ability_id: a.id,
+        referent: r.id,
+        item_id: a.id + "_" + r.id
+      },
+      on_finish: function (d) {
+        d.rating = d.response;            // 0 worsens .. 50 none .. 100 improves
+        completed += 1;
+        jsPsych.progressBar.progress = completed / totalRatings;
+      }
+    });
+  });
+});
+timeline.push.apply(timeline, jsPsych.randomization.shuffle(ratingTrials));
+
+/* ---------- 3. ATTENTION CHECK ---------- */
+timeline.push({
+  type: jsPsychHtmlSliderResponse,
+  stimulus:
+    '<div class="stem">For data quality, please move the slider all the way to the ' +
+    '<span class="target">far right</span>.</div>',
+  labels: ["Strongly<br>worsens", "No effect", "Strongly<br>improves"],
+  min: 0, max: 100, slider_start: 50, step: 1,
+  require_movement: true,
+  on_load: addMidtick,
+  data: { trial_kind: "attention_check", expected: 100 },
+  on_finish: function (d) {
+    d.rating = d.response;
+    d.attn_pass = (d.response >= 90);
+  }
+});
+
+/* ---------- 4. COVARIATES ---------- */
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<h2>A few last questions</h2>',
+  html: `
+    <div class="form-field">
+      <label for="age">Your age (in years)</label>
+      <input type="number" id="age" name="age" min="18" max="100" required>
+    </div>
+    <div class="form-field">
+      <label for="ai_use_freq">How often do you use generative AI tools (e.g., ChatGPT)?</label>
+      <select id="ai_use_freq" name="ai_use_freq" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="never">Never</option>
+        <option value="rarely">Rarely (a few times a year)</option>
+        <option value="monthly">Monthly</option>
+        <option value="weekly">Weekly</option>
+        <option value="daily">Daily</option>
+        <option value="multiple_daily">Several times a day</option>
+      </select>
+    </div>`,
+  button_label: "Submit",
+  data: { trial_kind: "demographics" }
+});
+
+/* ---------- 5. SAVE ---------- */
+if (EXPERIMENT_ID) {
+  timeline.push({
+    type: jsPsychPipe,
+    action: "save",
+    experiment_id: EXPERIMENT_ID,
+    filename: "tpp_step1_" + subjectId + ".csv",
+    data_string: function () { return jsPsych.data.get().csv(); }
+  });
+}
+
+/* ---------- 6. THANK YOU ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: '<h2>Thank you</h2><p class="lead">Your responses have been recorded. ' +
+            'You may now close this window.</p>',
+  choices: [],
+  trial_duration: 2500,
+  on_start: function () { jsPsych.progressBar.progress = 1; }
+});
+
+jsPsych.run(timeline);
+</script>
+</html>
