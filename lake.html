@@ -10,6 +10,8 @@
   <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
   <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@2.1.0"></script>
   <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-likert@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@2.1.0"></script>
   <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.5.0"></script>
 
   <style>
@@ -113,6 +115,31 @@
     .form-field { margin-bottom: 1.6rem; text-align: left; }
     .form-field label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
 
+    /* questionnaire batteries */
+    .q-legend { color: var(--muted); font-size: 0.92rem; text-align: left; margin: 0 0 1.1rem; line-height: 1.5; }
+    .jspsych-survey-likert-statement {
+      text-align: left; font-size: 1.0rem; font-weight: 500;
+      margin: 1.1rem 0 0.3rem; line-height: 1.45;
+    }
+    table.jspsych-survey-likert-opts { font-size: 0.78rem; color: var(--muted); width: 100%; }
+    .jspsych-survey-likert-opt-label { line-height: 1.2; }
+    input[type=radio], input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .jspsych-survey-multi-choice-question { text-align: left; margin: 0 0 1.35rem; }
+    .jspsych-survey-multi-choice-text { font-weight: 500; margin-bottom: 0.35rem; }
+    .jspsych-survey-multi-choice-option { font-size: 0.95rem; margin: 0.2rem 0; text-align: left; }
+    .jspsych-survey-multi-choice-option label { font-weight: 400; }
+    .check-grid { text-align: left; }
+    .check-grid label { display: block; margin: 0.32rem 0; font-weight: 400; }
+    input[type=text] {
+      width: 100%; max-width: 340px; padding: 9px 11px;
+      border: 1px solid var(--line); border-radius: 9px;
+      font-size: 1rem; color: var(--ink); background: #fff;
+    }
+    input[type=text]:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
     /* research-team briefing */
     .banner {
       background: #fef6e7; border: 1px solid #e7c98a; color: #7a5616;
@@ -159,6 +186,12 @@
 const EXPERIMENT_ID = "";
 const SHOW_BRIEFING = true;   // RESEARCH-TEAM PREVIEW. Set false before live data.
 
+/* AISES factors to administer. Default is the two theoretically loaded
+   factors: AS (assistance) + TS (technological skills), 11 items.
+   For the full 22-item scale use: ["AS", "AI", "CF", "TS"].
+   Items are verbatim from Wang & Chuang (2024), Table 3, 7-point scale. */
+const AISES_FACTORS = ["AS", "TS"];
+
 /* ============================================================
    STEP 1 DESIGN (bipolar valence scale)
    5 abilities x 2 referents = 10 intermixed ratings.
@@ -182,13 +215,165 @@ const referents = [
     frame: "When you think about how other people use ChatGPT and similar AI tools in everyday life, work, or study," },
 ];
 
+/* ============================================================
+   INDIVIDUAL-DIFFERENCE BATTERY (added after Milena's suggestions)
+   Order in timeline: CIHS -> AISES -> NPI-13 -> BFI-2-XS ->
+   AI use -> demographics. Everything sits AFTER the rating task
+   because the CIHS items are themselves self-other comparisons.
+
+   CODEBOOK / SCORING (do scoring in R; raw values are stored)
+   ------------------------------------------------------------
+   CIHS  Krumrei-Mancuso & Rouse (2016), J Pers Assess, 98, 209-221.
+         doi:10.1080/00223891.2015.1068174 (items from Table 1)
+         22 items, 1-5 (strongly disagree..strongly agree), stored 1-5.
+         Factors: f1 independence of intellect and ego (49,50,53,68,73; ALL reverse)
+                  f2 openness to revising one's viewpoint (25,26,28,29,33)
+                  f3 respect for others' viewpoints (34,39,45,47,61,65)
+                  f4 lack of intellectual overconfidence (1,3,9,21,24,41; ALL reverse)
+         Item order randomized per participant (as in the original paper).
+         One instructed-response check is embedded (name attn_embedded,
+         correct answer = Agree = 4); it is NOT a CIHS item.
+   AISES Wang & Chuang (2024), Educ Inf Technol, 29, 4785-4808.
+         doi:10.1007/s10639-023-12015-w
+         Items verbatim from Table 3 (p. 4795). Factors: AS assistance (7),
+         AI anthropomorphic interaction (5), CF comfort with AI (6),
+         TS technological skills (4). 7-point Likert per the paper
+         (1 strongly disagree .. 7 strongly agree), stored 1-7.
+         No reverse-keyed items. Administered factors set by AISES_FACTORS.
+   NPI13 Gentile et al. (2013), Psychol Assess, 25, 1120-1136.
+         doi:10.1037/a0033192
+         Item text and scoring key taken verbatim from the authors' form:
+         https://psychology.uga.edu/sites/default/files/CVs/NPI-13.pdf
+         Forced choice A/B, published fixed order. Stored per item:
+         npi_XX_choice ("A"/"B") and npi_XX (1 = narcissistic option).
+         Subscales: LA 3,6,9,12 | GE 2,5,8,11,13 | EE 1,4,7,10.
+   BFI2XS Soto & John (2017), J Res Pers, 68, 69-81.
+         Official form: https://www.colby.edu/wp-content/uploads/2013/08/bfi2xs-form.pdf
+         15 items, published fixed order, stem "I am someone who...",
+         1-5 (disagree strongly..agree strongly), stored 1-5.
+         Domains: E 1R,6,11 | A 2,7R,12 | C 3R,8R,13 | N 4,9,14R | O 5,10R,15.
+   ============================================================ */
+
+const LIKERT5_AGREE = ["Strongly<br>disagree", "Disagree", "Neither agree<br>nor disagree", "Agree", "Strongly<br>agree"];
+const LIKERT5_BFI   = ["Disagree<br>strongly", "Disagree<br>a little", "Neutral;<br>no opinion", "Agree<br>a little", "Agree<br>strongly"];
+const LIKERT7_AGREE = ["Strongly<br>disagree", "Disagree", "Somewhat<br>disagree", "Neither agree<br>nor disagree", "Somewhat<br>agree", "Agree", "Strongly<br>agree"];
+
+/* ---- CIHS (Krumrei-Mancuso & Rouse, 2016, Table 1) ---- */
+const cihsItems = [
+  { n: 49, f: "f1", rev: true,  text: "When someone disagrees with ideas that are important to me, it feels as though I'm being attacked." },
+  { n: 50, f: "f1", rev: true,  text: "When someone contradicts my most important beliefs, it feels like a personal attack." },
+  { n: 53, f: "f1", rev: true,  text: "I tend to feel threatened when others disagree with me on topics that are close to my heart." },
+  { n: 68, f: "f1", rev: true,  text: "When someone disagrees with ideas that are important to me, it makes me feel insignificant." },
+  { n: 73, f: "f1", rev: true,  text: "I feel small when others disagree with me on topics that are close to my heart." },
+  { n: 25, f: "f2", rev: false, text: "I have at times changed opinions that were important to me, when someone showed me I was wrong." },
+  { n: 26, f: "f2", rev: false, text: "I am willing to change my position on an important issue in the face of good reasons." },
+  { n: 28, f: "f2", rev: false, text: "I am open to revising my important beliefs in the face of new information." },
+  { n: 29, f: "f2", rev: false, text: "I am willing to change my opinions on the basis of compelling reason." },
+  { n: 33, f: "f2", rev: false, text: "I'm willing to change my mind once it's made up about an important topic." },
+  { n: 34, f: "f3", rev: false, text: "I respect that there are ways of making important decisions that are different from the way I make decisions." },
+  { n: 39, f: "f3", rev: false, text: "Even when I disagree with others, I can recognize that they have sound points." },
+  { n: 45, f: "f3", rev: false, text: "I welcome different ways of thinking about important topics." },
+  { n: 47, f: "f3", rev: false, text: "I can have great respect for someone, even when we don't see eye-to-eye on important topics." },
+  { n: 61, f: "f3", rev: false, text: "I can respect others, even if I disagree with them in important ways." },
+  { n: 65, f: "f3", rev: false, text: "I am willing to hear others out, even if I disagree with them." },
+  { n: 1,  f: "f4", rev: true,  text: "My ideas are usually better than other people's ideas." },
+  { n: 3,  f: "f4", rev: true,  text: "For the most part, others have more to learn from me than I have to learn from them." },
+  { n: 9,  f: "f4", rev: true,  text: "When I am really confident in a belief, there is very little chance that belief is wrong." },
+  { n: 21, f: "f4", rev: true,  text: "I'd rather rely on my own knowledge about most topics than turn to others for expertise." },
+  { n: 24, f: "f4", rev: true,  text: "On important topics, I am not likely to be swayed by the viewpoints of others." },
+  { n: 41, f: "f4", rev: true,  text: "Listening to perspectives of others seldom changes my important opinions." },
+];
+
+/* ---- AISES (Wang & Chuang, 2024) ----
+   Item text verbatim from Table 3 (p. 4795) of the paper.
+   Ligature artifacts from the PDF restored (fnd -> find, bafe -> baffle).
+   Original questionnaire codes: AS1=Q14, AS2=Q13, AS3=Q12, AS4=Q15,
+   AS5=Q10, AS6=Q16, AS7=Q17; AI1=Q33, AI2=Q32, AI3=Q34, AI4=Q31,
+   AI5=Q30; CF1=Q25, CF2=Q26, CF3=Q24, CF4=Q23, CF5=Q22, CF6=Q29;
+   TS1=Q4, TS2=Q5, TS3=Q6, TS4=Q3. */
+const aisesItems = [
+  { code: "AS1", f: "AS", text: "Some AI technologies/products make learning easier." },
+  { code: "AS2", f: "AS", text: "I find that AI technologies/products are helpful for learning." },
+  { code: "AS3", f: "AS", text: "AI technologies/products are good aids to learning." },
+  { code: "AS4", f: "AS", text: "Using AI technologies/products makes learning more interesting." },
+  { code: "AS5", f: "AS", text: "I'm confident in my ability to learn simple programming of AI technologies/products if I were provided the necessary training." },
+  { code: "AS6", f: "AS", text: "AI technologies/products help me to save a lot of time." },
+  { code: "AS7", f: "AS", text: "I find it easy to get AI technologies/products to do what I want it to do." },
+  { code: "AI1", f: "AI", text: "I think the interactive process of AI technologies/products is very vivid, just like chatting with a real person." },
+  { code: "AI2", f: "AI", text: "I think the way that AI technologies/products express content when interacting is unique, just like a real person." },
+  { code: "AI3", f: "AI", text: "I think there is no difference between the dialogue method of AI technologies/products compared with the dialogue with real people." },
+  { code: "AI4", f: "AI", text: "I think the tone of AI technologies/products when interacting is the same as that of real people." },
+  { code: "AI5", f: "AI", text: "I feel that the way of expression of AI technologies/products in the interactive text is the same as that of real people." },
+  { code: "CF1", f: "CF", text: "When interacting with AI technologies/products, I feel very calm." },
+  { code: "CF2", f: "CF", text: "When interacting with AI technologies/products, I find it easy." },
+  { code: "CF3", f: "CF", text: "When interacting with AI technologies/products, I feel comfortable in my heart." },
+  { code: "CF4", f: "CF", text: "When interacting with AI technologies/products, I feel very peaceful." },
+  { code: "CF5", f: "CF", text: "When interacting with AI technologies/products, I feel very relaxed." },
+  { code: "CF6", f: "CF", text: "I can happily interact with AI technologies/products smoothly." },
+  { code: "TS1", f: "TS", text: "When using AI technologies/products, I am not worried that I might press the wrong button and cause risks." },
+  { code: "TS2", f: "TS", text: "When using AI technologies/products I am not worried that I might press the wrong button and damage it." },
+  { code: "TS3", f: "TS", text: "When using an AI technology/product, there is nothing that I do not know why." },
+  { code: "TS4", f: "TS", text: "AI technologies/products jargon does not baffle me." },
+];
+const aisesSelected = aisesItems.filter(it => AISES_FACTORS.includes(it.f));
+const aisesReady = aisesSelected.length > 0 &&
+  aisesSelected.every(it => !it.text.includes("[PASTE"));
+
+/* ---- NPI-13 (Gentile et al., 2013; authors' form, UGA) ----
+   key = the narcissistic option (scores 1). */
+const npiItems = [
+  { n: 1,  sub: "EE", key: "A", A: "I find it easy to manipulate people.",                          B: "I don't like it when I find myself manipulating people." },
+  { n: 2,  sub: "GE", key: "B", A: "When people compliment me I get embarrassed.",                  B: "I know that I am a good person because everybody keeps telling me so." },
+  { n: 3,  sub: "LA", key: "A", A: "I like having authority over other people.",                    B: "I don't mind following orders." },
+  { n: 4,  sub: "EE", key: "A", A: "I insist upon getting the respect that is due me.",             B: "I usually get the respect I deserve." },
+  { n: 5,  sub: "GE", key: "B", A: "I don't particularly like to show off my body.",                B: "I like to show off my body." },
+  { n: 6,  sub: "LA", key: "A", A: "I have a strong will to power.",                                B: "Power for its own sake doesn't interest me." },
+  { n: 7,  sub: "EE", key: "A", A: "I expect a great deal from other people.",                      B: "I like to do things for other people." },
+  { n: 8,  sub: "GE", key: "B", A: "My body is nothing special.",                                   B: "I like to look at my body." },
+  { n: 9,  sub: "LA", key: "B", A: "Being in authority doesn't mean much to me.",                   B: "People always seem to recognize my authority." },
+  { n: 10, sub: "EE", key: "A", A: "I will never be satisfied until I get all that I deserve.",     B: "I will take my satisfactions as they come." },
+  { n: 11, sub: "GE", key: "B", A: "I try not to be a show off.",                                   B: "I will usually show off if I get the chance." },
+  { n: 12, sub: "LA", key: "A", A: "I am a born leader.",                                           B: "Leadership is a quality that takes a long time to develop." },
+  { n: 13, sub: "GE", key: "A", A: "I like to look at myself in the mirror.",                       B: "I am not particularly interested in looking at myself in the mirror." },
+];
+
+/* ---- BFI-2-XS (Soto & John, 2017; official Colby form) ---- */
+const bfiItems = [
+  { n: 1,  d: "E", rev: true,  text: "Tends to be quiet." },
+  { n: 2,  d: "A", rev: false, text: "Is compassionate, has a soft heart." },
+  { n: 3,  d: "C", rev: true,  text: "Tends to be disorganized." },
+  { n: 4,  d: "N", rev: false, text: "Worries a lot." },
+  { n: 5,  d: "O", rev: false, text: "Is fascinated by art, music, or literature." },
+  { n: 6,  d: "E", rev: false, text: "Is dominant, acts as a leader." },
+  { n: 7,  d: "A", rev: true,  text: "Is sometimes rude to others." },
+  { n: 8,  d: "C", rev: true,  text: "Has difficulty getting started on tasks." },
+  { n: 9,  d: "N", rev: false, text: "Tends to feel depressed, blue." },
+  { n: 10, d: "O", rev: true,  text: "Has little interest in abstract ideas." },
+  { n: 11, d: "E", rev: false, text: "Is full of energy." },
+  { n: 12, d: "A", rev: false, text: "Assumes the best about people." },
+  { n: 13, d: "C", rev: false, text: "Is reliable, can always be counted on." },
+  { n: 14, d: "N", rev: true,  text: "Is emotionally stable, not easily upset." },
+  { n: 15, d: "O", rev: false, text: "Is original, comes up with new ideas." },
+];
+
+/* ---- helpers ---- */
+function chunk(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+/* Unpack survey-likert responses into flat columns, 1-indexed. */
+function unpackLikert(d) {
+  Object.entries(d.response).forEach(function (kv) { d[kv[0]] = kv[1] + 1; });
+}
+
 const jsPsych = initJsPsych({
   show_progress_bar: true,
-  auto_update_progress_bar: false,
+  auto_update_progress_bar: true,
   message_progress_bar: "",
   on_finish: function () {
     if (!EXPERIMENT_ID) {
-      jsPsych.data.get().localSave("csv", "tpp_step1_" + subjectId + ".csv");
+      jsPsych.data.get().localSave("csv", "tpp_step1b_" + subjectId + ".csv");
     }
   }
 });
@@ -198,6 +383,7 @@ jsPsych.data.addProperties({
   subject_id: subjectId,
   experiment: "tpp_step1_bipolar",
   scale: "0_worsens__50_none__100_improves",
+  battery: "cihs22_aises-" + AISES_FACTORS.join("") + (aisesReady ? "" : "-SKIPPED") + "_npi13_bfi2xs",
   alpha_build: true
 });
 
@@ -232,7 +418,7 @@ if (SHOW_BRIEFING) {
           is still open.</p>
 
         <h3>Design</h3>
-        <p>Within-subjects online survey, single Prolific sample, about three minutes.
+        <p>Within-subjects online survey, single Prolific sample, about ten minutes.
           Each participant rates the effect of regular generative-AI use on five cognitive
           abilities (critical thinking, memory, independent problem solving, writing, depth
           of understanding), once for themselves and once for the average person. That is
@@ -244,9 +430,48 @@ if (SHOW_BRIEFING) {
         <p class="scale-note">Response scale is bipolar: 0 strongly worsens, 50 no effect,
           100 strongly improves. This captures both the direction and the strength of the
           believed effect, so a high score cannot conflate "helps a lot" with "harms a lot."
-          Plus an attention check and two covariates (age, AI-use frequency). Target n about
-          100 after exclusions.</p>
-        <p class="scale-note">Model: <code>Rating ~ Referent + (1 | subject_id) + (1 | item_id)</code></p>
+          Two attention checks: a slider check after the ratings and an instructed-response
+          item embedded in the CIHS.</p>
+        <p class="scale-note">Primary model: <code>Rating ~ Referent + (1 | subject_id) + (1 | item_id)</code></p>
+
+        <h3>Individual-difference battery</h3>
+        <p>Added following Milena's suggestions. All questionnaires come <em>after</em> the
+          rating task and the slider check, because the CIHS items are themselves self-other
+          comparisons and would contaminate the ratings if shown first. Order: CIHS, AI
+          self-efficacy, NPI-13, BFI-2-XS, AI use, demographics.</p>
+        <ul>
+          <li><strong>Intellectual humility.</strong> CIHS, 22 items
+            (Krumrei-Mancuso &amp; Rouse, 2016), item order randomized. Prediction: negative
+            association with the self-other gap. Caution for interpretation: Factor 4 (lack
+            of intellectual overconfidence) contains near better-than-average items, so its
+            correlation with the gap is close to built in; treat it as convergent validity
+            and lean on the full scale and the other factors for the moderator test.</li>
+          <li><strong>AI self-efficacy.</strong> AISES (Wang &amp; Chuang, 2024),
+            ${AISES_FACTORS.length === 4
+              ? "full 22-item scale"
+              : "factors " + AISES_FACTORS.join(" + ") + " (" + aisesSelected.length + " items)"},
+            7-point scale. Prediction: positive association with the gap (skilled users
+            believe they are insulated from erosion) and with the self mean against 50.
+            ${aisesReady
+              ? ""
+              : '<span style="color:#a15c00; font-weight:600;">Item text is currently placeholder (paywalled source); the block is skipped until the wording is pasted in from the paper.</span>'}</li>
+          <li><strong>Narcissism.</strong> NPI-13 (Gentile et al., 2013), forced choice,
+            published order. Prediction: positive association with the gap; brackets the
+            self-enhancement account from the opposite end of intellectual humility.</li>
+          <li><strong>Big Five.</strong> BFI-2-XS, 15 items (Soto &amp; John, 2017). Serves
+            as controls and exploratory correlates: openness is the known confound for the
+            CIHS (r near .40 in the validation paper), agreeableness speaks to whether the
+            gap comes from inflating self or deflating the average person. Three-item
+            domains have modest reliability; do not headline Big Five findings.</li>
+          <li><strong>AI use and demographics.</strong> Frequency, years of use, use
+            contexts; age, gender, education, employment, occupation.</li>
+        </ul>
+        <p class="scale-note">Moderation model:
+          <code>Rating ~ Referent * z(moderator) + (Referent | subject_id) + (1 | item_id)</code>,
+          or equivalently the person-level gap (mean self minus mean other) regressed on the
+          moderator. Individual-difference correlations stabilize around n = 250
+          (Sch&ouml;nbrodt &amp; Perugini, 2013): target n = 250-300 if the moderators are
+          confirmatory, or keep n near 150 and preregister the battery as exploratory.</p>
 
         <h3>Predictions</h3>
         <ul>
@@ -282,13 +507,12 @@ timeline.push({
       Some screens ask about <strong>you</strong>, and some ask about
       <strong>the average person</strong>.</p>
     <p class="lead">The slider starts in the middle at "no effect." If that is your answer,
-      click it once to confirm. It takes about three minutes.</p>`,
+      click it once to confirm. After the sliders there are a few short questionnaires
+      about you. The whole study takes about ten minutes.</p>`,
   choices: ["Begin"]
 });
 
 /* ---------- 2. RATING TRIALS (10, randomized) ---------- */
-let completed = 0;
-const totalRatings = abilities.length * referents.length;
 const addMidtick = function () {
   const c = document.querySelector(".jspsych-html-slider-response-container");
   if (c && !c.querySelector(".midtick")) {
@@ -318,8 +542,6 @@ abilities.forEach(function (a) {
       },
       on_finish: function (d) {
         d.rating = d.response;            // 0 worsens .. 50 none .. 100 improves
-        completed += 1;
-        jsPsych.progressBar.progress = completed / totalRatings;
       }
     });
   });
@@ -343,15 +565,134 @@ timeline.push({
   }
 });
 
-/* ---------- 4. COVARIATES ---------- */
+/* ---------- 4. TRANSITION TO QUESTIONNAIRES ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <h2>Main task complete</h2>
+    <p class="lead">The sliders are done. What follows are a few short questionnaires:
+      how you think about your own views, your experience with AI, and some general
+      descriptions of personality. There are no right or wrong answers; please respond
+      honestly.</p>`,
+  choices: ["Continue"]
+});
+
+/* ---------- 5. CIHS (order randomized; one embedded attention item) ---------- */
+const cihsQuestions = jsPsych.randomization.shuffle(cihsItems).map(function (it) {
+  return {
+    prompt: it.text,
+    name: "cihs_" + String(it.n).padStart(2, "0"),
+    labels: LIKERT5_AGREE,
+    required: true
+  };
+});
+cihsQuestions.splice(11, 0, {
+  prompt: "To show you are paying attention, please select \u201CAgree\u201D for this statement.",
+  name: "attn_embedded",
+  labels: LIKERT5_AGREE,
+  required: true
+});
+chunk(cihsQuestions, 8).forEach(function (page, i, pages) {
+  timeline.push({
+    type: jsPsychSurveyLikert,
+    preamble: '<div class="q-legend">Please indicate how much you agree or disagree with each ' +
+              'statement. Part 1 of 4 &middot; page ' + (i + 1) + ' of ' + pages.length + '.</div>',
+    questions: page,
+    randomize_question_order: false,
+    button_label: "Continue",
+    data: { trial_kind: "battery", scale: "cihs", page: i + 1 },
+    on_finish: function (d) {
+      unpackLikert(d);
+      if (d.attn_embedded !== undefined) d.attn2_pass = (d.attn_embedded === 4);
+    }
+  });
+});
+
+/* ---------- 6. AISES (skipped while item text is placeholder) ---------- */
+if (aisesReady) {
+  const aisesQuestions = jsPsych.randomization.shuffle(aisesSelected).map(function (it) {
+    return {
+      prompt: it.text,
+      name: "aises_" + it.code,
+      labels: LIKERT7_AGREE,
+      required: true
+    };
+  });
+  chunk(aisesQuestions, 6).forEach(function (page, i, pages) {
+    timeline.push({
+      type: jsPsychSurveyLikert,
+      preamble: '<div class="q-legend">The following statements are about AI technologies ' +
+                'and products in general (for example, ChatGPT and other AI tools). Please ' +
+                'indicate how much you agree or disagree. Part 2 of 4 &middot; page ' +
+                (i + 1) + ' of ' + pages.length + '.</div>',
+      questions: page,
+      randomize_question_order: false,
+      button_label: "Continue",
+      data: { trial_kind: "battery", scale: "aises", page: i + 1 },
+      on_finish: unpackLikert
+    });
+  });
+}
+
+/* ---------- 7. NPI-13 (published fixed order, forced choice) ---------- */
+chunk(npiItems, 5).forEach(function (page, i, pages) {
+  timeline.push({
+    type: jsPsychSurveyMultiChoice,
+    preamble: '<div class="q-legend">In each pair below, choose the statement you MOST ' +
+              'agree with, even if neither fits you perfectly. Part 3 of 4 &middot; page ' +
+              (i + 1) + ' of ' + pages.length + '.</div>',
+    questions: page.map(function (it) {
+      return {
+        prompt: "Pair " + it.n + " of 13",
+        name: "npi_" + String(it.n).padStart(2, "0"),
+        options: [it.A, it.B],
+        required: true,
+        horizontal: false
+      };
+    }),
+    randomize_question_order: false,
+    button_label: "Continue",
+    data: { trial_kind: "battery", scale: "npi13", page: i + 1 },
+    on_finish: function (d) {
+      page.forEach(function (it) {
+        const name = "npi_" + String(it.n).padStart(2, "0");
+        const choice = (d.response[name] === it.A) ? "A" : "B";
+        d[name + "_choice"] = choice;
+        d[name] = (choice === it.key) ? 1 : 0;   // 1 = narcissistic option
+      });
+    }
+  });
+});
+
+/* ---------- 8. BFI-2-XS (published fixed order) ---------- */
+const bfiQuestions = bfiItems.map(function (it) {
+  return {
+    prompt: it.text,
+    name: "bfi_" + String(it.n).padStart(2, "0"),
+    labels: LIKERT5_BFI,
+    required: true
+  };
+});
+chunk(bfiQuestions, 8).forEach(function (page, i, pages) {
+  timeline.push({
+    type: jsPsychSurveyLikert,
+    preamble: '<div class="q-legend">Here are a number of characteristics that may or may ' +
+              'not apply to you. For each statement, indicate how much you agree or ' +
+              'disagree that you are someone who... Part 4 of 4 &middot; page ' +
+              (i + 1) + ' of ' + pages.length + '.</div>',
+    questions: page,
+    randomize_question_order: false,
+    button_label: "Continue",
+    data: { trial_kind: "battery", scale: "bfi2xs", page: i + 1 },
+    on_finish: unpackLikert
+  });
+});
+
+/* ---------- 9. AI USE ---------- */
 timeline.push({
   type: jsPsychSurveyHtmlForm,
-  preamble: '<h2>A few last questions</h2>',
+  preamble: '<h2>About your AI use</h2>',
   html: `
-    <div class="form-field">
-      <label for="age">Your age (in years)</label>
-      <input type="number" id="age" name="age" min="18" max="100" required>
-    </div>
     <div class="form-field">
       <label for="ai_use_freq">How often do you use generative AI tools (e.g., ChatGPT)?</label>
       <select id="ai_use_freq" name="ai_use_freq" required>
@@ -363,30 +704,115 @@ timeline.push({
         <option value="daily">Daily</option>
         <option value="multiple_daily">Several times a day</option>
       </select>
+    </div>
+    <div class="form-field">
+      <label for="ai_years">How long have you been using generative AI tools?</label>
+      <select id="ai_years" name="ai_years" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="never">I have never used them</option>
+        <option value="lt_6mo">Less than 6 months</option>
+        <option value="6_12mo">6 to 12 months</option>
+        <option value="1_2y">1 to 2 years</option>
+        <option value="2_3y">2 to 3 years</option>
+        <option value="gt_3y">More than 3 years</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>In which contexts do you use generative AI? Select all that apply.</label>
+      <div class="check-grid">
+        <label><input type="checkbox" name="ctx_work" value="1"> Work tasks</label>
+        <label><input type="checkbox" name="ctx_study" value="1"> School or study</label>
+        <label><input type="checkbox" name="ctx_writing" value="1"> Writing or editing</label>
+        <label><input type="checkbox" name="ctx_coding" value="1"> Programming</label>
+        <label><input type="checkbox" name="ctx_info" value="1"> Looking up information</label>
+        <label><input type="checkbox" name="ctx_personal" value="1"> Personal tasks (emails, planning)</label>
+        <label><input type="checkbox" name="ctx_creative" value="1"> Creative projects</label>
+        <label><input type="checkbox" name="ctx_social" value="1"> Conversation or companionship</label>
+        <label><input type="checkbox" name="ctx_none" value="1"> I do not use generative AI</label>
+      </div>
+    </div>`,
+  button_label: "Continue",
+  data: { trial_kind: "ai_use" }
+});
+
+/* ---------- 10. DEMOGRAPHICS ---------- */
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<h2>A few last questions</h2>',
+  html: `
+    <div class="form-field">
+      <label for="age">Your age (in years)</label>
+      <input type="number" id="age" name="age" min="18" max="100" required>
+    </div>
+    <div class="form-field">
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="woman">Woman</option>
+        <option value="man">Man</option>
+        <option value="nonbinary">Non-binary</option>
+        <option value="self_describe">Prefer to self-describe</option>
+        <option value="prefer_not">Prefer not to say</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="gender_self">If you prefer to self-describe (optional)</label>
+      <input type="text" id="gender_self" name="gender_self" maxlength="60">
+    </div>
+    <div class="form-field">
+      <label for="education">Highest level of education completed</label>
+      <select id="education" name="education" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="lt_highschool">Less than high school</option>
+        <option value="highschool">High school diploma or equivalent</option>
+        <option value="some_college">Some college, no degree</option>
+        <option value="associate">Associate degree or college diploma</option>
+        <option value="bachelor">Bachelor's degree</option>
+        <option value="master">Master's degree</option>
+        <option value="doctoral">Doctoral or professional degree</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="employment">Current employment status</label>
+      <select id="employment" name="employment" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="full_time">Employed full-time</option>
+        <option value="part_time">Employed part-time</option>
+        <option value="self_employed">Self-employed</option>
+        <option value="student">Student</option>
+        <option value="unemployed">Not currently employed</option>
+        <option value="homemaker">Homemaker or caregiver</option>
+        <option value="retired">Retired</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="occupation">Your current or most recent occupation</label>
+      <input type="text" id="occupation" name="occupation" maxlength="80"
+        placeholder="e.g., teacher, software developer, retail manager" required>
     </div>`,
   button_label: "Submit",
   data: { trial_kind: "demographics" }
 });
 
-/* ---------- 5. SAVE ---------- */
+/* ---------- 11. SAVE ---------- */
 if (EXPERIMENT_ID) {
   timeline.push({
     type: jsPsychPipe,
     action: "save",
     experiment_id: EXPERIMENT_ID,
-    filename: "tpp_step1_" + subjectId + ".csv",
+    filename: "tpp_step1b_" + subjectId + ".csv",
     data_string: function () { return jsPsych.data.get().csv(); }
   });
 }
 
-/* ---------- 6. THANK YOU ---------- */
+/* ---------- 12. THANK YOU ---------- */
 timeline.push({
   type: jsPsychHtmlButtonResponse,
   stimulus: '<h2>Thank you</h2><p class="lead">Your responses have been recorded. ' +
             'You may now close this window.</p>',
   choices: [],
-  trial_duration: 2500,
-  on_start: function () { jsPsych.progressBar.progress = 1; }
+  trial_duration: 2500
 });
 
 jsPsych.run(timeline);
