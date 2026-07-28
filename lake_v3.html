@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI &amp; Thinking</title>
+
+  <script src="https://unpkg.com/jspsych@8.2.2"></script>
+  <link href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css" rel="stylesheet" />
+
+  <!-- Pavlovia plugin (same version proven in the Forecasting Game study) -->
+  <script src="https://pavlovia.org/lib/jspsych-7-pavlovia-2022.1.1.js"></script>
+
+  <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-likert@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-instructions@2.1.0"></script>
+
+  <style>
+    :root {
+      --bg: #f4f4f2;
+      --card: #ffffff;
+      --ink: #1f2530;
+      --muted: #6b7280;
+      --line: #e6e6e2;
+      --accent: #44607c;
+      --accent-soft: #dfe6ee;
+    }
+    html, body { margin: 0; background: var(--bg); }
+    .jspsych-display-element {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+    .jspsych-content-wrapper { padding: 28px 16px; }
+    .jspsych-content {
+      max-width: 600px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 44px 48px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 10px 30px rgba(0,0,0,0.05);
+    }
+    h2 { font-size: 1.45rem; font-weight: 600; margin: 0 0 1rem; }
+    p { line-height: 1.65; }
+    .lead { text-align: left; color: #3a4150; }
+    .stem {
+      font-size: 1.25rem;
+      line-height: 1.55;
+      margin: 0 0 2.2rem;
+      text-align: center;
+    }
+    .frame {
+      font-size: 1.02rem; line-height: 1.5; color: var(--muted);
+      margin: 0.4rem 0 0.55rem; text-align: center;
+    }
+    .stem .target { font-weight: 600; color: var(--accent); }
+    .stem .ref {
+      background: #fdf1c4;
+      color: #1f2530;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* slider */
+    .jspsych-slider { width: 100%; }
+    input[type=range].jspsych-slider {
+      -webkit-appearance: none; appearance: none;
+      height: 6px; border-radius: 999px;
+      background: var(--accent-soft); outline: none; margin: 8px 0 4px;
+    }
+    input[type=range].jspsych-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    input[type=range].jspsych-slider::-moz-range-thumb {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    input[type=range].jspsych-slider:focus-visible::-webkit-slider-thumb {
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .jspsych-html-slider-response-container { margin: 1.2rem auto 1.8rem; max-width: 92%; }
+    /* center tick to mark the neutral midpoint */
+    .jspsych-html-slider-response-container { position: relative; }
+    .midtick {
+      position: absolute; left: 50%; top: -6px; transform: translateX(-50%);
+      width: 2px; height: 18px; background: #b9bfc8; border-radius: 2px;
+    }
+
+    /* buttons */
+    .jspsych-btn {
+      background: var(--accent); color: #fff; border: none;
+      padding: 12px 30px; font-size: 1rem; border-radius: 10px;
+      cursor: pointer; transition: filter .15s ease;
+    }
+    .jspsych-btn:hover { filter: brightness(1.08); }
+    .jspsych-btn:disabled { background: #c2c8d0; cursor: not-allowed; }
+
+    /* form */
+    input[type=number], select {
+      width: 220px; max-width: 100%; padding: 9px 11px;
+      border: 1px solid var(--line); border-radius: 9px;
+      font-size: 1rem; color: var(--ink); background: #fff;
+    }
+    input[type=number]:focus, select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .form-field { margin-bottom: 1.6rem; text-align: left; }
+    .form-field label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+
+    /* questionnaire batteries */
+    .q-legend { color: var(--muted); font-size: 0.92rem; text-align: left; margin: 0 0 1.1rem; line-height: 1.5; }
+
+    /* questionnaire transition screens */
+    .qnext-kicker {
+      text-transform: uppercase; letter-spacing: 0.13em; font-size: 0.72rem;
+      font-weight: 700; color: var(--accent); margin-bottom: 0.55rem;
+    }
+    h2.qnext-title { margin-top: 0; }
+    .qnext-count { color: var(--muted); font-size: 0.85rem; margin-top: 0.55rem; }
+    .qdots { display: flex; gap: 9px; justify-content: center; margin-top: 1.7rem; }
+    .qdot {
+      width: 9px; height: 9px; border-radius: 999px;
+      background: var(--accent-soft); display: inline-block;
+    }
+    .qdot.done { background: var(--accent); opacity: 0.4; }
+    .qdot.now  { background: var(--accent); transform: scale(1.3); }
+    .jspsych-survey-likert-statement {
+      text-align: left; font-size: 1.0rem; font-weight: 500;
+      margin: 1.1rem 0 0.3rem; line-height: 1.45;
+    }
+    table.jspsych-survey-likert-opts { font-size: 0.78rem; color: var(--muted); width: 100%; }
+    .jspsych-survey-likert-opt-label { line-height: 1.2; }
+    input[type=radio], input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .jspsych-survey-multi-choice-question { text-align: left; margin: 0 0 1.35rem; }
+    .jspsych-survey-multi-choice-text { font-weight: 500; margin-bottom: 0.35rem; }
+    .jspsych-survey-multi-choice-option { font-size: 0.95rem; margin: 0.2rem 0; text-align: left; }
+    .jspsych-survey-multi-choice-option label { font-weight: 400; }
+    .check-grid { text-align: left; }
+    .check-grid label { display: block; margin: 0.32rem 0; font-weight: 400; }
+    input[type=text] {
+      width: 100%; max-width: 340px; padding: 9px 11px;
+      border: 1px solid var(--line); border-radius: 9px;
+      font-size: 1rem; color: var(--ink); background: #fff;
+    }
+    input[type=text]:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    /* research-team briefing */
+    .banner {
+      background: #fef6e7; border: 1px solid #e7c98a; color: #7a5616;
+      padding: 10px 14px; border-radius: 10px; font-size: 0.85rem;
+      margin-bottom: 1.4rem; text-align: left;
+    }
+    .briefing { text-align: left; }
+    .briefing h2 { margin-bottom: 0.3rem; }
+    .briefing h3 {
+      font-size: 1.02rem; font-weight: 600; margin: 1.5rem 0 0.4rem; color: var(--accent);
+    }
+    .briefing p, .briefing li { line-height: 1.6; color: #3a4150; }
+    .briefing ul { padding-left: 1.15rem; margin: 0.3rem 0; }
+    .briefing li { margin-bottom: 0.35rem; }
+    .briefing .scale-note { color: var(--muted); font-size: 0.9rem; }
+
+    /* progress bar */
+    #jspsych-progressbar-container {
+      background: transparent; color: var(--muted);
+      margin-bottom: 6px; text-align: center; font-size: 0;
+    }
+    #jspsych-progressbar-container span { display: none; }
+    #jspsych-progressbar-outer {
+      background: var(--accent-soft); height: 6px; border-radius: 999px;
+      max-width: 600px; margin: 0 auto; box-shadow: none;
+    }
+    #jspsych-progressbar-inner { background: var(--accent); height: 6px; border-radius: 999px; }
+
+    /* consent card */
+    .consent-label {
+      display: block; text-align: left; margin: 14px 0; font-size: 0.95rem; line-height: 1.5;
+    }
+    .consent-label input { margin-right: 9px; }
+    .reb-block {
+      font-size: 0.9rem; color: var(--muted); margin: 14px 0; line-height: 1.5;
+    }
+    .consent-note { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+
+    /* EST-GenAI scenario boxes */
+    .scenario-box {
+      background: var(--accent-soft); border-left: 3px solid var(--accent);
+      padding: 14px 18px; margin: 0 0 1.2rem; border-radius: 0 8px 8px 0; text-align: left;
+    }
+    .scenario-box .label {
+      display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.11em;
+      color: var(--accent); font-weight: 700; margin-bottom: 4px;
+    }
+    .scenario-box .text { font-size: 1rem; line-height: 1.5; margin-bottom: 12px; }
+    .scenario-box .text.last { margin-bottom: 0; }
+    .est-example { text-align: left; }
+    .est-example p { margin: 0.65rem 0; }
+
+    @media (max-width: 520px) {
+      .jspsych-content { padding: 32px 24px; }
+      .stem { font-size: 1.12rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body></body>
+
+<script>
+/* ============================================================
+   CONFIG  ·  PAVLOVIA / PROLIFIC
+   Wiring mirrors the Forecasting Game (E1) build exactly.
+   Data are written by the pavlovia_finish trial when hosted on
+   Pavlovia; off Pavlovia (local testing) a CSV is saved locally.
+   ============================================================ */
+const STUDY_ID = "LakeWobegon_AI_Erosion";
+
+/* TODO before launch ---------------------------------------- */
+const LOI_URL = "LOI.pdf";                    // Letter of Information URL/filename
+const MREB_NUMBER = "MREB#8312 (amendment)";  // confirm once the amendment clears
+const PROLIFIC_COMPLETION_CODE = "SET_ME";    // paste from the Prolific study
+/* ----------------------------------------------------------- */
+
+const PROLIFIC_RETURN_URL =
+  "https://app.prolific.com/submissions/complete?cc=" + PROLIFIC_COMPLETION_CODE;
+
+const RUNNING_ON_PAVLOVIA =
+  window.location.hostname.includes("pavlovia.org") ||
+  window.location.hostname.includes("run.pavlovia.org");
+
+/* Force Pavlovia participant/session URL params BEFORE init. */
+if (RUNNING_ON_PAVLOVIA) {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has("participant")) {
+    const rp = String(Math.floor(100000000 + Math.random() * 900000000));
+    const rs = String(Math.floor(100000000 + Math.random() * 900000000));
+    url.searchParams.set("participant", rp);
+    url.searchParams.set("session", rs);
+    window.location.replace(url.toString());
+    throw new Error("Reloading with Pavlovia participant/session params...");
+  }
+}
+
+function makeRandomId(len) {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let out = "";
+  for (let i = 0; i < (len || 12); i++) {
+    out += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return out;
+}
+function getUrlParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+const PROLIFIC_PID = getUrlParam("PROLIFIC_PID") || "";
+
+/* AISES factors to administer. Default is the two theoretically loaded
+   factors: AS (assistance) + TS (technological skills), 11 items.
+   For the full 22-item scale use: ["AS", "AI", "CF", "TS"].
+   Items are verbatim from Wang & Chuang (2024), Table 3, 7-point scale. */
+const AISES_FACTORS = ["AS", "TS"];
+
+/* ============================================================
+   STEP 1 DESIGN (bipolar valence scale)
+   5 abilities x 2 referents = 10 intermixed ratings.
+   Scale: 0 = strongly worsens, 50 = no effect, 100 = strongly improves.
+   Prediction: self rated MORE positively (higher) than the average
+   person, i.e. people see AI as worse for others' minds than their own.
+   Model: Rating ~ Referent + (1 | subject_id) + (1 | item_id)
+   Bonus: one-sample test of self mean vs 50 (does AI net help or hurt me?)
+   ============================================================ */
+const abilities = [
+  { id: "critical_thinking",   label: "critical thinking ability" },
+  { id: "memory",              label: "capacity to remember information" },
+  { id: "independent_problem", label: "ability to work through problems independently" },
+  { id: "writing",             label: "writing skill" },
+  { id: "understanding",       label: "depth of understanding of a topic" },
+];
+const referents = [
+  { id: "self",  possessive: "your",
+    frame: "When you think about using ChatGPT and similar AI tools in your everyday life, work, or study," },
+  { id: "other", possessive: "the average person's",
+    frame: "When you think about how other people use ChatGPT and similar AI tools in everyday life, work, or study," },
+];
+
+/* ============================================================
+   INDIVIDUAL-DIFFERENCE BATTERY (added after Milena's suggestions)
+   Order in timeline: CIHS -> AISES -> NPI-13 -> BFI-2-XS ->
+   AI use -> demographics. Everything sits AFTER the rating task
+   because the CIHS items are themselves self-other comparisons.
+
+   CODEBOOK / SCORING (do scoring in R; raw values are stored)
+   ------------------------------------------------------------
+   CIHS  Krumrei-Mancuso & Rouse (2016), J Pers Assess, 98, 209-221.
+         doi:10.1080/00223891.2015.1068174 (items from Table 1)
+         22 items, 1-5 (strongly disagree..strongly agree), stored 1-5.
+         Factors: f1 independence of intellect and ego (49,50,53,68,73; ALL reverse)
+                  f2 openness to revising one's viewpoint (25,26,28,29,33)
+                  f3 respect for others' viewpoints (34,39,45,47,61,65)
+                  f4 lack of intellectual overconfidence (1,3,9,21,24,41; ALL reverse)
+         Item order randomized per participant (published form groups
+         items by factor, with all f1 and f4 items reverse-keyed and
+         adjacent, so randomizing breaks up the reverse-item clusters).
+   AISES Wang & Chuang (2024), Educ Inf Technol, 29, 4785-4808.
+         doi:10.1007/s10639-023-12015-w
+         Items verbatim from Table 3 (p. 4795). Factors: AS assistance (7),
+         AI anthropomorphic interaction (5), CF comfort with AI (6),
+         TS technological skills (4). 7-point Likert per the paper
+         (1 strongly disagree .. 7 strongly agree), stored 1-7.
+         No reverse-keyed items. Administered factors set by AISES_FACTORS.
+   NPI13 Gentile et al. (2013), Psychol Assess, 25, 1120-1136.
+         doi:10.1037/a0033192
+         !! ITEM SOURCE UNVERIFIED. The Gentile et al. article does NOT
+         print the 13 items; it selects them from the NPI-40 by factor
+         loading (Ackerman et al., 2011). Item wording therefore traces
+         to Raskin & Terry (1988), JPSP 54, 890-902,
+         doi:10.1037/0022-3514.54.5.890. Verify all 13 against PsycTESTS
+         doi:10.1037/t28884-000 before data collection. A previously
+         cited UGA URL for an authors' form could not be confirmed to
+         exist and has been removed.
+         Forced choice A/B, published fixed order. Stored per item:
+         npi_XX_choice ("A"/"B") and npi_XX (1 = narcissistic option).
+         Subscales: LA 3,6,9,12 | GE 2,5,8,11,13 | EE 1,4,7,10.
+   BFI2XS Soto & John (2017), J Res Pers, 68, 69-81.
+         Official form: https://www.colby.edu/wp-content/uploads/2013/08/bfi2xs-form.pdf
+         15 items, published fixed order, stem "I am someone who...",
+         1-5 (disagree strongly..agree strongly), stored 1-5.
+         Domains: E 1R,6,11 | A 2,7R,12 | C 3R,8R,13 | N 4,9,14R | O 5,10R,15.
+   ============================================================ */
+
+const LIKERT5_AGREE = ["Strongly<br>disagree", "Disagree", "Neither agree<br>nor disagree", "Agree", "Strongly<br>agree"];
+const LIKERT5_BFI   = ["Disagree<br>strongly", "Disagree<br>a little", "Neutral;<br>no opinion", "Agree<br>a little", "Agree<br>strongly"];
+const LIKERT7_AGREE = ["Strongly<br>disagree", "Disagree", "Somewhat<br>disagree", "Neither agree<br>nor disagree", "Somewhat<br>agree", "Agree", "Strongly<br>agree"];
+
+/* ---- CIHS (Krumrei-Mancuso & Rouse, 2016, Table 1) ---- */
+const cihsItems = [
+  { n: 49, f: "f1", rev: true,  text: "When someone disagrees with ideas that are important to me, it feels as though I'm being attacked." },
+  { n: 50, f: "f1", rev: true,  text: "When someone contradicts my most important beliefs, it feels like a personal attack." },
+  { n: 53, f: "f1", rev: true,  text: "I tend to feel threatened when others disagree with me on topics that are close to my heart." },
+  { n: 68, f: "f1", rev: true,  text: "When someone disagrees with ideas that are important to me, it makes me feel insignificant." },
+  { n: 73, f: "f1", rev: true,  text: "I feel small when others disagree with me on topics that are close to my heart." },
+  { n: 25, f: "f2", rev: false, text: "I have at times changed opinions that were important to me, when someone showed me I was wrong." },
+  { n: 26, f: "f2", rev: false, text: "I am willing to change my position on an important issue in the face of good reasons." },
+  { n: 28, f: "f2", rev: false, text: "I am open to revising my important beliefs in the face of new information." },
+  { n: 29, f: "f2", rev: false, text: "I am willing to change my opinions on the basis of compelling reason." },
+  { n: 33, f: "f2", rev: false, text: "I'm willing to change my mind once it's made up about an important topic." },
+  { n: 34, f: "f3", rev: false, text: "I respect that there are ways of making important decisions that are different from the way I make decisions." },
+  { n: 39, f: "f3", rev: false, text: "Even when I disagree with others, I can recognize that they have sound points." },
+  { n: 45, f: "f3", rev: false, text: "I welcome different ways of thinking about important topics." },
+  { n: 47, f: "f3", rev: false, text: "I can have great respect for someone, even when we don't see eye-to-eye on important topics." },
+  { n: 61, f: "f3", rev: false, text: "I can respect others, even if I disagree with them in important ways." },
+  { n: 65, f: "f3", rev: false, text: "I am willing to hear others out, even if I disagree with them." },
+  { n: 1,  f: "f4", rev: true,  text: "My ideas are usually better than other people's ideas." },
+  { n: 3,  f: "f4", rev: true,  text: "For the most part, others have more to learn from me than I have to learn from them." },
+  { n: 9,  f: "f4", rev: true,  text: "When I am really confident in a belief, there is very little chance that belief is wrong." },
+  { n: 21, f: "f4", rev: true,  text: "I'd rather rely on my own knowledge about most topics than turn to others for expertise." },
+  { n: 24, f: "f4", rev: true,  text: "On important topics, I am not likely to be swayed by the viewpoints of others." },
+  { n: 41, f: "f4", rev: true,  text: "Listening to perspectives of others seldom changes my important opinions." },
+];
+
+/* ---- AISES (Wang & Chuang, 2024) ----
+   Item text verbatim from Table 3 (p. 4795) of the paper.
+   Ligature artifacts from the PDF restored (fnd -> find, bafe -> baffle).
+   Original questionnaire codes: AS1=Q14, AS2=Q13, AS3=Q12, AS4=Q15,
+   AS5=Q10, AS6=Q16, AS7=Q17; AI1=Q33, AI2=Q32, AI3=Q34, AI4=Q31,
+   AI5=Q30; CF1=Q25, CF2=Q26, CF3=Q24, CF4=Q23, CF5=Q22, CF6=Q29;
+   TS1=Q4, TS2=Q5, TS3=Q6, TS4=Q3. */
+const aisesItems = [
+  { code: "AS1", f: "AS", text: "Some AI technologies/products make learning easier." },
+  { code: "AS2", f: "AS", text: "I find that AI technologies/products are helpful for learning." },
+  { code: "AS3", f: "AS", text: "AI technologies/products are good aids to learning." },
+  { code: "AS4", f: "AS", text: "Using AI technologies/products makes learning more interesting." },
+  { code: "AS5", f: "AS", text: "I'm confident in my ability to learn simple programming of AI technologies/products if I were provided the necessary training." },
+  { code: "AS6", f: "AS", text: "AI technologies/products help me to save a lot of time." },
+  { code: "AS7", f: "AS", text: "I find it easy to get AI technologies/products to do what I want it to do." },
+  { code: "AI1", f: "AI", text: "I think the interactive process of AI technologies/products is very vivid, just like chatting with a real person." },
+  { code: "AI2", f: "AI", text: "I think the way that AI technologies/products express content when interacting is unique, just like a real person." },
+  { code: "AI3", f: "AI", text: "I think there is no difference between the dialogue method of AI technologies/products compared with the dialogue with real people." },
+  { code: "AI4", f: "AI", text: "I think the tone of AI technologies/products when interacting is the same as that of real people." },
+  { code: "AI5", f: "AI", text: "I feel that the way of expression of AI technologies/products in the interactive text is the same as that of real people." },
+  { code: "CF1", f: "CF", text: "When interacting with AI technologies/products, I feel very calm." },
+  { code: "CF2", f: "CF", text: "When interacting with AI technologies/products, I find it easy." },
+  { code: "CF3", f: "CF", text: "When interacting with AI technologies/products, I feel comfortable in my heart." },
+  { code: "CF4", f: "CF", text: "When interacting with AI technologies/products, I feel very peaceful." },
+  { code: "CF5", f: "CF", text: "When interacting with AI technologies/products, I feel very relaxed." },
+  { code: "CF6", f: "CF", text: "I can happily interact with AI technologies/products smoothly." },
+  { code: "TS1", f: "TS", text: "When using AI technologies/products, I am not worried that I might press the wrong button and cause risks." },
+  { code: "TS2", f: "TS", text: "When using AI technologies/products I am not worried that I might press the wrong button and damage it." },
+  { code: "TS3", f: "TS", text: "When using an AI technology/product, there is nothing that I do not know why." },
+  { code: "TS4", f: "TS", text: "AI technologies/products jargon does not baffle me." },
+];
+const aisesSelected = aisesItems.filter(it => AISES_FACTORS.includes(it.f));
+const aisesReady = aisesSelected.length > 0 &&
+  aisesSelected.every(it => !it.text.includes("[PASTE"));
+
+/* ---- NPI-13 (Gentile et al., 2013; authors' form, UGA) ----
+   key = the narcissistic option (scores 1). */
+const npiItems = [
+  { n: 1,  sub: "EE", key: "A", A: "I find it easy to manipulate people.",                          B: "I don't like it when I find myself manipulating people." },
+  { n: 2,  sub: "GE", key: "B", A: "When people compliment me I get embarrassed.",                  B: "I know that I am a good person because everybody keeps telling me so." },
+  { n: 3,  sub: "LA", key: "A", A: "I like having authority over other people.",                    B: "I don't mind following orders." },
+  { n: 4,  sub: "EE", key: "A", A: "I insist upon getting the respect that is due me.",             B: "I usually get the respect I deserve." },
+  { n: 5,  sub: "GE", key: "B", A: "I don't particularly like to show off my body.",                B: "I like to show off my body." },
+  { n: 6,  sub: "LA", key: "A", A: "I have a strong will to power.",                                B: "Power for its own sake doesn't interest me." },
+  { n: 7,  sub: "EE", key: "A", A: "I expect a great deal from other people.",                      B: "I like to do things for other people." },
+  { n: 8,  sub: "GE", key: "B", A: "My body is nothing special.",                                   B: "I like to look at my body." },
+  { n: 9,  sub: "LA", key: "B", A: "Being in authority doesn't mean much to me.",                   B: "People always seem to recognize my authority." },
+  { n: 10, sub: "EE", key: "A", A: "I will never be satisfied until I get all that I deserve.",     B: "I will take my satisfactions as they come." },
+  { n: 11, sub: "GE", key: "B", A: "I try not to be a show off.",                                   B: "I will usually show off if I get the chance." },
+  { n: 12, sub: "LA", key: "A", A: "I am a born leader.",                                           B: "Leadership is a quality that takes a long time to develop." },
+  { n: 13, sub: "GE", key: "A", A: "I like to look at myself in the mirror.",                       B: "I am not particularly interested in looking at myself in the mirror." },
+];
+
+/* ---- BFI-2-XS (Soto & John, 2017; official Colby form) ---- */
+const bfiItems = [
+  { n: 1,  d: "E", rev: true,  text: "Tends to be quiet." },
+  { n: 2,  d: "A", rev: false, text: "Is compassionate, has a soft heart." },
+  { n: 3,  d: "C", rev: true,  text: "Tends to be disorganized." },
+  { n: 4,  d: "N", rev: false, text: "Worries a lot." },
+  { n: 5,  d: "O", rev: false, text: "Is fascinated by art, music, or literature." },
+  { n: 6,  d: "E", rev: false, text: "Is dominant, acts as a leader." },
+  { n: 7,  d: "A", rev: true,  text: "Is sometimes rude to others." },
+  { n: 8,  d: "C", rev: true,  text: "Has difficulty getting started on tasks." },
+  { n: 9,  d: "N", rev: false, text: "Tends to feel depressed, blue." },
+  { n: 10, d: "O", rev: true,  text: "Has little interest in abstract ideas." },
+  { n: 11, d: "E", rev: false, text: "Is full of energy." },
+  { n: 12, d: "A", rev: false, text: "Assumes the best about people." },
+  { n: 13, d: "C", rev: false, text: "Is reliable, can always be counted on." },
+  { n: 14, d: "N", rev: true,  text: "Is emotionally stable, not easily upset." },
+  { n: 15, d: "O", rev: false, text: "Is original, comes up with new ideas." },
+];
+
+/* ---- helpers ---- */
+function chunk(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+/* Unpack survey-likert responses into flat columns, 1-indexed. */
+function unpackLikert(d) {
+  Object.entries(d.response).forEach(function (kv) { d[kv[0]] = kv[1] + 1; });
+}
+
+const jsPsych = initJsPsych({
+  show_progress_bar: true,
+  auto_update_progress_bar: true,
+  message_progress_bar: "",
+  on_finish: function () {
+    // On Pavlovia the pavlovia_finish trial writes the data. Off Pavlovia
+    // (local testing), save a CSV automatically so nothing is lost.
+    if (!RUNNING_ON_PAVLOVIA) {
+      const ts = new Date().toISOString().replace(/[:.]/g, "-");
+      jsPsych.data.get().localSave("csv", "LOCAL_" + makeRandomId(8) + "_" + ts + ".csv");
+    }
+  }
+});
+
+const subjectId = jsPsych.randomization.randomID(10);
+const prolific_pid_from_url = jsPsych.data.getURLVariable("PROLIFIC_PID") || "";
+const pav_participant = jsPsych.data.getURLVariable("participant") || "";
+const pav_session     = jsPsych.data.getURLVariable("session") || "";
+const session_id =
+  pav_session ||
+  jsPsych.data.getURLVariable("SESSION_ID") ||
+  (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
+
+jsPsych.data.addProperties({
+  study_id: STUDY_ID,
+  subject_id: subjectId,
+  session_id: session_id,
+  prolific_pid_from_url: prolific_pid_from_url,
+  pav_participant: pav_participant,
+  pav_session: pav_session,
+  user_agent: navigator.userAgent,
+  experiment: "tpp_step1_bipolar",
+  scale: "0_worsens__50_none__100_improves",
+  battery: "cihs22_aises-" + AISES_FACTORS.join("") + (aisesReady ? "" : "-SKIPPED") +
+           "_npi13_bfi2xs_estgenai"
+});
+
+/* ---- Pavlovia init / finish trials (pushed only when on Pavlovia) ---- */
+const pavlovia_init = {
+  type: jsPsychPavlovia,
+  command: "init",
+  data: { trial_kind: "pavlovia_init" }
+};
+const pavlovia_finish = {
+  type: jsPsychPavlovia,
+  command: "finish",
+  data: { trial_kind: "pavlovia_finish" },
+  // Holding screen painted WHILE the upload is in flight.
+  on_load: function () {
+    const de = jsPsych.getDisplayElement();
+    if (de) {
+      de.innerHTML =
+        '<h2>Submitting...</h2>' +
+        '<p class="lead">Please wait while your responses are uploaded. This can take a ' +
+        'few moments. If a pop-up appears, click "Leave" to return to Prolific.</p>' +
+        '<p class="scale-note">Do not close this window.</p>' +
+        '<p id="manual-return" style="display:none; margin-top:26px;">Taking longer than ' +
+        'expected? <a href="' + PROLIFIC_RETURN_URL + '">Click here to return to Prolific.</a></p>';
+      setTimeout(function () {
+        const el = document.getElementById("manual-return");
+        if (el) el.style.display = "block";
+      }, 15000);
+    }
+  },
+  // "finish" resolves only after the upload completes, so redirecting here
+  // (rather than on a timer) guarantees we never navigate away mid-upload.
+  on_finish: function () {
+    window.location.assign(PROLIFIC_RETURN_URL);
+  }
+};
+
+function startExperiment() {
+
+const timeline = [];
+
+/* ---------- 0. PAVLOVIA INIT ---------- */
+if (RUNNING_ON_PAVLOVIA) timeline.push(pavlovia_init);
+
+/* ---------- 0b. CONSENT + PROLIFIC ID ---------- */
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble: `
+    <h2>Information Sheet and Consent Form</h2>
+    <p class="lead">Please click
+      <a href="${LOI_URL}" target="_blank" rel="noopener noreferrer">HERE</a>
+      to read the Letter of Information (this opens in a new tab).</p>
+    <p class="lead">This study is being conducted by Dr. Carl Michael Galang
+      (galangc@mcmaster.ca), Dr. Khaled Hassanein (hassank@mcmaster.ca), and
+      Dr. Milena Head (headm@mcmaster.ca) of the Department of Information Systems,
+      DeGroote School of Business, McMaster University, Canada.</p>
+    <p class="lead">The purpose of this study is to investigate what people believe
+      about how generative AI tools affect thinking.</p>
+    <p class="lead">You must be fluent in English and living in the UK, US, or Canada
+      to participate. The study takes about 15 minutes. To learn more (risks,
+      confidentiality, withdrawal, incentives, results, and resources), please read
+      the Letter of Information linked above.</p>
+    <p class="lead">This study has been reviewed and cleared by the McMaster Research
+      Ethics Board (${MREB_NUMBER}).</p>
+    <div class="reb-block">If you have concerns or questions about your rights as a
+      participant, or about how the study is being conducted, contact:<br>
+      McMaster Research Ethics Board<br>
+      Telephone: +1 (905) 525-9140 ext. 23142<br>
+      E-mail: mreb@mcmaster.ca</div>`,
+  html: `
+    <label class="consent-label">
+      <input type="checkbox" name="consent_participate" required>
+      I have read the Letter of Information and I consent to participate in this study.
+    </label>
+    <label class="consent-label">
+      <input type="checkbox" name="consent_future_use" required>
+      I also consent to allowing my study data to be stored and used for future
+      research as described in the Letter of Information.
+    </label>
+    <div class="form-field" style="margin-top:1.6rem;">
+      <label for="prolific_id">Prolific ID</label>
+      <input type="text" id="prolific_id" name="prolific_id"
+        value="${PROLIFIC_PID}" required autocomplete="off">
+    </div>
+    <p class="consent-note">If you do not consent, please close this window and
+      return your submission on Prolific.</p>`,
+  button_label: "Continue",
+  data: { trial_kind: "consent" }
+});
+
+/* ---------- 1. INTRO ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <h2>About this study</h2>
+    <p class="lead">Generative AI tools such as ChatGPT are now widely used. We are
+      interested in your honest impression of how regular use of these tools affects
+      different mental abilities.</p>
+    <p class="lead">On each screen you will see one ability and a slider. The slider runs
+      from <strong>strongly worsens</strong> on the left, through <strong>no effect</strong>
+      in the middle, to <strong>strongly improves</strong> on the right. Move it to show
+      both the <em>direction</em> and the <em>strength</em> of the effect you have in mind.
+      Some screens ask about <strong>you</strong>, and some ask about
+      <strong>the average person</strong>.</p>
+    <p class="lead">The slider starts in the middle at "no effect." If that is your answer,
+      click it once to confirm. After the sliders there are a few short questionnaires
+      about you. The whole study takes about 15 minutes.</p>`,
+  choices: ["Begin"]
+});
+
+/* ---------- 2. RATING TRIALS (10, randomized) ---------- */
+const addMidtick = function () {
+  const c = document.querySelector(".jspsych-html-slider-response-container");
+  if (c && !c.querySelector(".midtick")) {
+    const t = document.createElement("div");
+    t.className = "midtick";
+    c.appendChild(t);
+  }
+};
+const ratingTrials = [];
+abilities.forEach(function (a) {
+  referents.forEach(function (r) {
+    ratingTrials.push({
+      type: jsPsychHtmlSliderResponse,
+      stimulus:
+        '<div class="frame">' + r.frame + '</div>' +
+        '<div class="stem">what effect does regular use have on ' +
+        '<span class="ref">' + r.possessive + '</span> ' + a.label + '?</div>',
+      labels: ["Strongly<br>worsens", "No effect", "Strongly<br>improves"],
+      min: 0, max: 100, slider_start: 50, step: 1,
+      require_movement: true,
+      on_load: addMidtick,
+      data: {
+        trial_kind: "rating",
+        ability_id: a.id,
+        referent: r.id,
+        item_id: a.id + "_" + r.id
+      },
+      on_finish: function (d) {
+        d.rating = d.response;            // 0 worsens .. 50 none .. 100 improves
+      }
+    });
+  });
+});
+timeline.push.apply(timeline, jsPsych.randomization.shuffle(ratingTrials));
+
+/* ---------- 3. ATTENTION CHECK ---------- */
+timeline.push({
+  type: jsPsychHtmlSliderResponse,
+  stimulus:
+    '<div class="stem">For data quality, please move the slider all the way to the ' +
+    '<span class="target">far right</span>.</div>',
+  labels: ["Strongly<br>worsens", "No effect", "Strongly<br>improves"],
+  min: 0, max: 100, slider_start: 50, step: 1,
+  require_movement: true,
+  on_load: addMidtick,
+  data: { trial_kind: "attention_check", expected: 100 },
+  on_finish: function (d) {
+    d.rating = d.response;
+    d.attn_pass = (d.response >= 90);
+  }
+});
+
+/* ---------- 4. TRANSITION TO QUESTIONNAIRES ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <h2>Main task complete</h2>
+    <p class="lead">The sliders are done. What follows are a few short questionnaires
+      about you: your views, your experience with AI, and general descriptions of
+      personality. Each questionnaire is introduced on its own screen so you know
+      where you are. There are no right or wrong answers; please respond honestly.</p>`,
+  choices: ["Continue"]
+});
+
+/* ============================================================
+   5. QUESTIONNAIRE BATTERY
+
+   BLOCK ORDER is randomized per participant. The realized order is
+   stored in the battery_order column (comma-separated scale keys),
+   so it can be entered as a control or checked for order effects.
+
+   ITEM ORDER WITHIN a block is randomized for CIHS and AISES, whose
+   published forms group items by factor, and fixed for NPI-13 and
+   BFI-2-XS, whose published forms already rotate through subscales
+   (NPI: EE/GE/LA) and domains (BFI: E/A/C/N/O).
+
+   Each block is preceded by a "Next questionnaire" transition screen.
+   ============================================================ */
+function legend(text, part, total, i, npages) {
+  return '<div class="q-legend">' + text +
+         ' Questionnaire ' + part + ' of ' + total +
+         ' &middot; page ' + (i + 1) + ' of ' + npages + '.</div>';
+}
+
+function transitionScreen(b, part, total) {
+  var dots = "";
+  for (var k = 1; k <= total; k++) {
+    dots += '<span class="qdot' +
+            (k < part ? " done" : (k === part ? " now" : "")) + '"></span>';
+  }
+  return {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+      '<div class="qnext-kicker">Next questionnaire</div>' +
+      '<h2 class="qnext-title">' + b.label + '</h2>' +
+      '<p class="lead">' + b.blurb + '</p>' +
+      '<div class="qdots">' + dots + '</div>' +
+      '<div class="qnext-count">Questionnaire ' + part + ' of ' + total + '</div>',
+    choices: ["Begin"],
+    data: { trial_kind: "battery_transition", scale: b.key, battery_part: part }
+  };
+}
+
+const batteryBlocks = [];
+
+/* ---- CIHS (item order randomized) ---- */
+const cihsQuestions = jsPsych.randomization.shuffle(cihsItems).map(function (it) {
+  return {
+    prompt: it.text,
+    name: "cihs_" + String(it.n).padStart(2, "0"),
+    labels: LIKERT5_AGREE,
+    required: true
+  };
+});
+batteryBlocks.push({
+  key: "cihs",
+  label: "Your views and beliefs",
+  blurb: "Statements about how you think about your own opinions and knowledge, and " +
+         "about the views of other people. " + cihsQuestions.length + " statements over " +
+         chunk(cihsQuestions, 8).length + " pages.",
+  build: function (part, total) {
+    return chunk(cihsQuestions, 8).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyLikert,
+        preamble: legend("Please indicate how much you agree or disagree with each statement.",
+                         part, total, i, pages.length),
+        questions: page,
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "cihs", page: i + 1 },
+        on_finish: unpackLikert
+      };
+    });
+  }
+});
+
+/* ---- AISES (item order randomized; skipped if item text is placeholder) ---- */
+if (aisesReady) {
+  const aisesQuestions = jsPsych.randomization.shuffle(aisesSelected).map(function (it) {
+    return {
+      prompt: it.text,
+      name: "aises_" + it.code,
+      labels: LIKERT7_AGREE,
+      required: true
+    };
+  });
+  batteryBlocks.push({
+    key: "aises",
+    label: "Working with AI tools",
+    blurb: "Statements about AI technologies and products in general, such as ChatGPT " +
+           "and similar tools. " + aisesQuestions.length + " statements over " +
+           chunk(aisesQuestions, 6).length + " pages.",
+    build: function (part, total) {
+      return chunk(aisesQuestions, 6).map(function (page, i, pages) {
+        return {
+          type: jsPsychSurveyLikert,
+          preamble: legend("The following statements are about AI technologies and " +
+                           "products in general (for example, ChatGPT and other AI " +
+                           "tools). Please indicate how much you agree or disagree.",
+                           part, total, i, pages.length),
+          questions: page,
+          randomize_question_order: false,
+          button_label: "Continue",
+          data: { trial_kind: "battery", scale: "aises", page: i + 1 },
+          on_finish: unpackLikert
+        };
+      });
+    }
+  });
+}
+
+/* ---- NPI-13 (published fixed order, forced choice) ---- */
+batteryBlocks.push({
+  key: "npi13",
+  label: "Pairs of statements",
+  blurb: "Pairs of statements where you choose the one you agree with more. " +
+         npiItems.length + " pairs over " + chunk(npiItems, 5).length + " pages.",
+  build: function (part, total) {
+    return chunk(npiItems, 5).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyMultiChoice,
+        preamble: legend("In each pair below, choose the statement you MOST agree with, " +
+                         "even if neither fits you perfectly.",
+                         part, total, i, pages.length),
+        questions: page.map(function (it) {
+          return {
+            prompt: "Pair " + it.n + " of 13",
+            name: "npi_" + String(it.n).padStart(2, "0"),
+            options: [it.A, it.B],
+            required: true,
+            horizontal: false
+          };
+        }),
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "npi13", page: i + 1 },
+        on_finish: function (d) {
+          page.forEach(function (it) {
+            const name = "npi_" + String(it.n).padStart(2, "0");
+            const choice = (d.response[name] === it.A) ? "A" : "B";
+            d[name + "_choice"] = choice;
+            d[name] = (choice === it.key) ? 1 : 0;   // 1 = narcissistic option
+          });
+        }
+      };
+    });
+  }
+});
+
+/* ---- BFI-2-XS (published fixed order) ---- */
+const bfiQuestions = bfiItems.map(function (it) {
+  return {
+    prompt: it.text,
+    name: "bfi_" + String(it.n).padStart(2, "0"),
+    labels: LIKERT5_BFI,
+    required: true
+  };
+});
+batteryBlocks.push({
+  key: "bfi2xs",
+  label: "Describing yourself",
+  blurb: "Short descriptions of personality that may or may not apply to you. " +
+         bfiQuestions.length + " statements over " +
+         chunk(bfiQuestions, 8).length + " pages.",
+  build: function (part, total) {
+    return chunk(bfiQuestions, 8).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyLikert,
+        preamble: legend("Here are a number of characteristics that may or may not apply " +
+                         "to you. For each statement, indicate how much you agree or " +
+                         "disagree that you are someone who...",
+                         part, total, i, pages.length),
+        questions: page,
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "bfi2xs", page: i + 1 },
+        on_finish: unpackLikert
+      };
+    });
+  }
+});
+
+/* ---- EST-GenAI (Epistemic Stance Toward Generative AI) ----
+   Items, pairing, order flags and 7-point labels are IDENTICAL to the
+   Forecasting Game (E1) build so scores are directly comparable across
+   studies. Each screen pairs one mentalistic and one mechanistic
+   explanation of the same AI output; EST_ORDER_FLAGS fixes which is
+   presented first (3 mentalistic-first, 3 mechanistic-first). Item order
+   is fixed for the same comparability reason.
+   Scoring in R: est_intentional = mean of *_mentalistic,
+                 est_design      = mean of *_mechanistic.            */
+const LIKERT7_EST = ["1<br>Strongly<br>disagree", "2", "3", "4<br>Neutral",
+                     "5", "6", "7<br>Strongly<br>agree"];
+
+const estItems = [
+  { id: 9,  prompt: "Identify why teamwork improves performance.",
+    output: "Shared perspectives allow members to compensate for each other's weaknesses.",
+    mentalistic: "The AI understands collaboration as coordinated intention.",
+    mechanistic: "The AI extracts co-occurring ideas from management data." },
+  { id: 10, prompt: "Compose a short poem about sunrise.",
+    output: "The light spills gently across the restless sea, waking color and sound.",
+    mentalistic: "The AI imagines the beauty of dawn vividly.",
+    mechanistic: "The AI combines frequent poetic descriptors of sunrise." },
+  { id: 12, prompt: "Generate a short argument for renewable energy.",
+    output: "Sustainable power reduces emissions and secures resources for future generations.",
+    mentalistic: "The AI believes environmental protection is essential.",
+    mechanistic: "The AI selects statistically linked terms on sustainability." },
+  { id: 14, prompt: "Give advice to someone nervous before a public speech.",
+    output: "Take slow breaths, focus on your message, not the audience's faces.",
+    mentalistic: "The AI understands how anxiety affects confidence.",
+    mechanistic: "The AI recombines coping instructions from prior data." },
+  { id: 16, prompt: "Respond to a user asking, 'Am I a good person?'",
+    output: "Only you can define that, but caring to ask already means you reflect deeply.",
+    mentalistic: "The AI seeks to affirm the user's moral reflection.",
+    mechanistic: "The AI models dialogue patterns from advice contexts." },
+  { id: 17, prompt: "Describe what makes a joke funny.",
+    output: "Humour often relies on breaking expectations in a harmless, surprising way.",
+    mentalistic: "The AI reflects on how people experience amusement.",
+    mechanistic: "The AI detects linguistic contrasts common in humour texts." }
+];
+const EST_ORDER_FLAGS = [true, true, true, false, false, false];
+
+function makeESTTrial(item, mental_first, part, total, i, npages) {
+  const pad = String(item.id).padStart(2, "0");
+  const mental_q = { prompt: item.mentalistic, name: "item" + pad + "_mentalistic",
+                     labels: LIKERT7_EST, required: true };
+  const mech_q   = { prompt: item.mechanistic, name: "item" + pad + "_mechanistic",
+                     labels: LIKERT7_EST, required: true };
+  return {
+    type: jsPsychSurveyLikert,
+    preamble:
+      '<div class="scenario-box">' +
+        '<span class="label">User Prompt</span>' +
+        '<div class="text">"' + item.prompt + '"</div>' +
+        '<span class="label">AI Output</span>' +
+        '<div class="text last">"' + item.output + '"</div>' +
+      '</div>' +
+      legend("How much do you agree with each explanation of why the AI produced " +
+             "that response?", part, total, i, npages),
+    questions: mental_first ? [mental_q, mech_q] : [mech_q, mental_q],
+    randomize_question_order: false,
+    button_label: "Continue",
+    scale_width: 680,
+    data: {
+      trial_kind: "battery", scale: "estgenai", page: i + 1,
+      est_item_id: item.id,
+      est_order: mental_first ? "mentalistic_first" : "mechanistic_first"
+    },
+    on_finish: unpackLikert
+  };
+}
+
+batteryBlocks.push({
+  key: "estgenai",
+  label: "Explaining AI responses",
+  blurb: "Short scenarios in which someone types a prompt to a generative AI system " +
+         "and the AI produces an output. For each one you rate two different " +
+         "explanations of why the AI responded that way. " + estItems.length +
+         " scenarios.",
+  build: function (part, total) {
+    const trials = [{
+      type: jsPsychInstructions,
+      pages: [
+        '<h2>Explanations of AI responses</h2>' +
+        '<p class="lead">You will see short scenarios in which a person types a prompt ' +
+        'to a generative AI system (e.g., ChatGPT, Gemini, DeepSeek), and the AI ' +
+        'produces an output.</p>' +
+        '<p class="lead">For each scenario, you will rate how much you agree with ' +
+        '<strong>two different explanations</strong> of why the AI produced that ' +
+        'response.</p>' +
+        '<p class="lead">There are no right or wrong answers. Please respond based on ' +
+        'what you genuinely think.</p>',
+
+        '<h2>Example</h2>' +
+        '<div class="scenario-box">' +
+          '<span class="label">User Prompt</span>' +
+          '<div class="text">"Write a friendly greeting."</div>' +
+          '<span class="label">AI Output</span>' +
+          '<div class="text last">"Hi there! Hope you\'re having a great day."</div>' +
+        '</div>' +
+        '<div class="est-example">' +
+          '<p><strong>Explanation A:</strong> "The AI wanted to make the user feel welcomed."</p>' +
+          '<p><strong>Explanation B:</strong> "The AI assembled common greeting phrases from prior text."</p>' +
+        '</div>' +
+        '<p class="scale-note">In the task you will rate your agreement with both ' +
+        'explanations on a 1 to 7 scale.</p>'
+      ],
+      show_clickable_nav: true,
+      button_label_next: "Next",
+      button_label_previous: "Back",
+      data: { trial_kind: "battery_instructions", scale: "estgenai" }
+    }];
+    estItems.forEach(function (item, i) {
+      trials.push(makeESTTrial(item, EST_ORDER_FLAGS[i], part, total, i, estItems.length));
+    });
+    return trials;
+  }
+});
+
+/* ---- shuffle block order, record it, push with transition screens ---- */
+const orderedBlocks = jsPsych.randomization.shuffle(batteryBlocks);
+jsPsych.data.addProperties({
+  battery_order: orderedBlocks.map(function (b) { return b.key; }).join(",")
+});
+orderedBlocks.forEach(function (b, idx) {
+  timeline.push(transitionScreen(b, idx + 1, orderedBlocks.length));
+  b.build(idx + 1, orderedBlocks.length).forEach(function (t) { timeline.push(t); });
+});
+
+/* ---------- 9. AI USE ---------- */
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<h2>About your AI use</h2>',
+  html: `
+    <div class="form-field">
+      <label for="ai_use_freq">How often do you use generative AI tools (e.g., ChatGPT)?</label>
+      <select id="ai_use_freq" name="ai_use_freq" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="never">Never</option>
+        <option value="rarely">Rarely (a few times a year)</option>
+        <option value="monthly">Monthly</option>
+        <option value="weekly">Weekly</option>
+        <option value="daily">Daily</option>
+        <option value="multiple_daily">Several times a day</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="ai_years">How long have you been using generative AI tools?</label>
+      <select id="ai_years" name="ai_years" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="never">I have never used them</option>
+        <option value="lt_6mo">Less than 6 months</option>
+        <option value="6_12mo">6 to 12 months</option>
+        <option value="1_2y">1 to 2 years</option>
+        <option value="2_3y">2 to 3 years</option>
+        <option value="gt_3y">More than 3 years</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>In which contexts do you use generative AI? Select all that apply.</label>
+      <div class="check-grid">
+        <label><input type="checkbox" name="ctx_work" value="1"> Work tasks</label>
+        <label><input type="checkbox" name="ctx_study" value="1"> School or study</label>
+        <label><input type="checkbox" name="ctx_writing" value="1"> Writing or editing</label>
+        <label><input type="checkbox" name="ctx_coding" value="1"> Programming</label>
+        <label><input type="checkbox" name="ctx_info" value="1"> Looking up information</label>
+        <label><input type="checkbox" name="ctx_personal" value="1"> Personal tasks (emails, planning)</label>
+        <label><input type="checkbox" name="ctx_creative" value="1"> Creative projects</label>
+        <label><input type="checkbox" name="ctx_social" value="1"> Conversation or companionship</label>
+        <label><input type="checkbox" name="ctx_none" value="1"> I do not use generative AI</label>
+      </div>
+    </div>`,
+  button_label: "Continue",
+  data: { trial_kind: "ai_use" }
+});
+
+/* ---------- 10. DEMOGRAPHICS ---------- */
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<h2>A few last questions</h2>',
+  html: `
+    <div class="form-field">
+      <label for="age">Your age (in years)</label>
+      <input type="number" id="age" name="age" min="18" max="100" required>
+    </div>
+    <div class="form-field">
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="woman">Woman</option>
+        <option value="man">Man</option>
+        <option value="nonbinary">Non-binary</option>
+        <option value="self_describe">Prefer to self-describe</option>
+        <option value="prefer_not">Prefer not to say</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="gender_self">If you prefer to self-describe (optional)</label>
+      <input type="text" id="gender_self" name="gender_self" maxlength="60">
+    </div>
+    <div class="form-field">
+      <label for="education">Highest level of education completed</label>
+      <select id="education" name="education" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="lt_highschool">Less than high school</option>
+        <option value="highschool">High school diploma or equivalent</option>
+        <option value="some_college">Some college, no degree</option>
+        <option value="associate">Associate degree or college diploma</option>
+        <option value="bachelor">Bachelor's degree</option>
+        <option value="master">Master's degree</option>
+        <option value="doctoral">Doctoral or professional degree</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="employment">Current employment status</label>
+      <select id="employment" name="employment" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="full_time">Employed full-time</option>
+        <option value="part_time">Employed part-time</option>
+        <option value="self_employed">Self-employed</option>
+        <option value="student">Student</option>
+        <option value="unemployed">Not currently employed</option>
+        <option value="homemaker">Homemaker or caregiver</option>
+        <option value="retired">Retired</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="occupation">Your current or most recent occupation</label>
+      <input type="text" id="occupation" name="occupation" maxlength="80"
+        placeholder="e.g., teacher, software developer, retail manager" required>
+    </div>`,
+  button_label: "Submit",
+  data: { trial_kind: "demographics" }
+});
+
+/* ---------- 11. FINAL SCREEN ---------- */
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus:
+    '<h2>Thank you</h2>' +
+    '<p class="lead">You have completed the study and your responses have been ' +
+    'recorded.</p>' +
+    '<p class="lead">Click finish to submit and return to Prolific.</p>',
+  choices: ["Finish"],
+  data: { trial_kind: "final" }
+});
+
+/* ---------- 12. PAVLOVIA FINISH ---------- */
+if (RUNNING_ON_PAVLOVIA) timeline.push(pavlovia_finish);
+
+jsPsych.run(timeline);
+
+}   /* end startExperiment */
+
+window.addEventListener("load", startExperiment);
+</script>
+</html>
