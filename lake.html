@@ -117,6 +117,21 @@
 
     /* questionnaire batteries */
     .q-legend { color: var(--muted); font-size: 0.92rem; text-align: left; margin: 0 0 1.1rem; line-height: 1.5; }
+
+    /* questionnaire transition screens */
+    .qnext-kicker {
+      text-transform: uppercase; letter-spacing: 0.13em; font-size: 0.72rem;
+      font-weight: 700; color: var(--accent); margin-bottom: 0.55rem;
+    }
+    h2.qnext-title { margin-top: 0; }
+    .qnext-count { color: var(--muted); font-size: 0.85rem; margin-top: 0.55rem; }
+    .qdots { display: flex; gap: 9px; justify-content: center; margin-top: 1.7rem; }
+    .qdot {
+      width: 9px; height: 9px; border-radius: 999px;
+      background: var(--accent-soft); display: inline-block;
+    }
+    .qdot.done { background: var(--accent); opacity: 0.4; }
+    .qdot.now  { background: var(--accent); transform: scale(1.3); }
     .jspsych-survey-likert-statement {
       text-align: left; font-size: 1.0rem; font-weight: 500;
       margin: 1.1rem 0 0.3rem; line-height: 1.45;
@@ -230,9 +245,9 @@ const referents = [
                   f2 openness to revising one's viewpoint (25,26,28,29,33)
                   f3 respect for others' viewpoints (34,39,45,47,61,65)
                   f4 lack of intellectual overconfidence (1,3,9,21,24,41; ALL reverse)
-         Item order randomized per participant (as in the original paper).
-         One instructed-response check is embedded (name attn_embedded,
-         correct answer = Agree = 4); it is NOT a CIHS item.
+         Item order randomized per participant (published form groups
+         items by factor, with all f1 and f4 items reverse-keyed and
+         adjacent, so randomizing breaks up the reverse-item clusters).
    AISES Wang & Chuang (2024), Educ Inf Technol, 29, 4785-4808.
          doi:10.1007/s10639-023-12015-w
          Items verbatim from Table 3 (p. 4795). Factors: AS assistance (7),
@@ -242,8 +257,14 @@ const referents = [
          No reverse-keyed items. Administered factors set by AISES_FACTORS.
    NPI13 Gentile et al. (2013), Psychol Assess, 25, 1120-1136.
          doi:10.1037/a0033192
-         Item text and scoring key taken verbatim from the authors' form:
-         https://psychology.uga.edu/sites/default/files/CVs/NPI-13.pdf
+         !! ITEM SOURCE UNVERIFIED. The Gentile et al. article does NOT
+         print the 13 items; it selects them from the NPI-40 by factor
+         loading (Ackerman et al., 2011). Item wording therefore traces
+         to Raskin & Terry (1988), JPSP 54, 890-902,
+         doi:10.1037/0022-3514.54.5.890. Verify all 13 against PsycTESTS
+         doi:10.1037/t28884-000 before data collection. A previously
+         cited UGA URL for an authors' form could not be confirmed to
+         exist and has been removed.
          Forced choice A/B, published fixed order. Stored per item:
          npi_XX_choice ("A"/"B") and npi_XX (1 = narcissistic option).
          Subscales: LA 3,6,9,12 | GE 2,5,8,11,13 | EE 1,4,7,10.
@@ -430,15 +451,22 @@ if (SHOW_BRIEFING) {
         <p class="scale-note">Response scale is bipolar: 0 strongly worsens, 50 no effect,
           100 strongly improves. This captures both the direction and the strength of the
           believed effect, so a high score cannot conflate "helps a lot" with "harms a lot."
-          Two attention checks: a slider check after the ratings and an instructed-response
-          item embedded in the CIHS.</p>
+          One attention check: a slider check immediately after the ratings.</p>
         <p class="scale-note">Primary model: <code>Rating ~ Referent + (1 | subject_id) + (1 | item_id)</code></p>
 
         <h3>Individual-difference battery</h3>
         <p>Added following Milena's suggestions. All questionnaires come <em>after</em> the
           rating task and the slider check, because the CIHS items are themselves self-other
-          comparisons and would contaminate the ratings if shown first. Order: CIHS, AI
-          self-efficacy, NPI-13, BFI-2-XS, AI use, demographics.</p>
+          comparisons and would contaminate the ratings if shown first.</p>
+        <p>The four questionnaires (CIHS, AI self-efficacy, NPI-13, BFI-2-XS) are presented
+          in a <strong>randomized order</strong> per participant, each introduced by a
+          "Next questionnaire" screen naming it and showing progress through the set. The
+          realized order is stored in the <code>battery_order</code> column so it can be
+          checked for order effects or entered as a control. AI use and demographics always
+          come last. Item order <em>within</em> a questionnaire is randomized for the CIHS
+          and AISES, whose published forms group items by factor, and left in published
+          order for the NPI-13 and BFI-2-XS, whose published forms already rotate through
+          subscales and domains.</p>
         <ul>
           <li><strong>Intellectual humility.</strong> CIHS, 22 items
             (Krumrei-Mancuso &amp; Rouse, 2016), item order randomized. Prediction: negative
@@ -570,14 +598,55 @@ timeline.push({
   type: jsPsychHtmlButtonResponse,
   stimulus: `
     <h2>Main task complete</h2>
-    <p class="lead">The sliders are done. What follows are a few short questionnaires:
-      how you think about your own views, your experience with AI, and some general
-      descriptions of personality. There are no right or wrong answers; please respond
-      honestly.</p>`,
+    <p class="lead">The sliders are done. What follows are a few short questionnaires
+      about you: your views, your experience with AI, and general descriptions of
+      personality. Each questionnaire is introduced on its own screen so you know
+      where you are. There are no right or wrong answers; please respond honestly.</p>`,
   choices: ["Continue"]
 });
 
-/* ---------- 5. CIHS (order randomized; one embedded attention item) ---------- */
+/* ============================================================
+   5. QUESTIONNAIRE BATTERY
+
+   BLOCK ORDER is randomized per participant. The realized order is
+   stored in the battery_order column (comma-separated scale keys),
+   so it can be entered as a control or checked for order effects.
+
+   ITEM ORDER WITHIN a block is randomized for CIHS and AISES, whose
+   published forms group items by factor, and fixed for NPI-13 and
+   BFI-2-XS, whose published forms already rotate through subscales
+   (NPI: EE/GE/LA) and domains (BFI: E/A/C/N/O).
+
+   Each block is preceded by a "Next questionnaire" transition screen.
+   ============================================================ */
+function legend(text, part, total, i, npages) {
+  return '<div class="q-legend">' + text +
+         ' Questionnaire ' + part + ' of ' + total +
+         ' &middot; page ' + (i + 1) + ' of ' + npages + '.</div>';
+}
+
+function transitionScreen(b, part, total) {
+  var dots = "";
+  for (var k = 1; k <= total; k++) {
+    dots += '<span class="qdot' +
+            (k < part ? " done" : (k === part ? " now" : "")) + '"></span>';
+  }
+  return {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+      '<div class="qnext-kicker">Next questionnaire</div>' +
+      '<h2 class="qnext-title">' + b.label + '</h2>' +
+      '<p class="lead">' + b.blurb + '</p>' +
+      '<div class="qdots">' + dots + '</div>' +
+      '<div class="qnext-count">Questionnaire ' + part + ' of ' + total + '</div>',
+    choices: ["Begin"],
+    data: { trial_kind: "battery_transition", scale: b.key, battery_part: part }
+  };
+}
+
+const batteryBlocks = [];
+
+/* ---- CIHS (item order randomized) ---- */
 const cihsQuestions = jsPsych.randomization.shuffle(cihsItems).map(function (it) {
   return {
     prompt: it.text,
@@ -586,29 +655,29 @@ const cihsQuestions = jsPsych.randomization.shuffle(cihsItems).map(function (it)
     required: true
   };
 });
-cihsQuestions.splice(11, 0, {
-  prompt: "To show you are paying attention, please select \u201CAgree\u201D for this statement.",
-  name: "attn_embedded",
-  labels: LIKERT5_AGREE,
-  required: true
-});
-chunk(cihsQuestions, 8).forEach(function (page, i, pages) {
-  timeline.push({
-    type: jsPsychSurveyLikert,
-    preamble: '<div class="q-legend">Please indicate how much you agree or disagree with each ' +
-              'statement. Part 1 of 4 &middot; page ' + (i + 1) + ' of ' + pages.length + '.</div>',
-    questions: page,
-    randomize_question_order: false,
-    button_label: "Continue",
-    data: { trial_kind: "battery", scale: "cihs", page: i + 1 },
-    on_finish: function (d) {
-      unpackLikert(d);
-      if (d.attn_embedded !== undefined) d.attn2_pass = (d.attn_embedded === 4);
-    }
-  });
+batteryBlocks.push({
+  key: "cihs",
+  label: "Your views and beliefs",
+  blurb: "Statements about how you think about your own opinions and knowledge, and " +
+         "about the views of other people. " + cihsQuestions.length + " statements over " +
+         chunk(cihsQuestions, 8).length + " pages.",
+  build: function (part, total) {
+    return chunk(cihsQuestions, 8).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyLikert,
+        preamble: legend("Please indicate how much you agree or disagree with each statement.",
+                         part, total, i, pages.length),
+        questions: page,
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "cihs", page: i + 1 },
+        on_finish: unpackLikert
+      };
+    });
+  }
 });
 
-/* ---------- 6. AISES (skipped while item text is placeholder) ---------- */
+/* ---- AISES (item order randomized; skipped if item text is placeholder) ---- */
 if (aisesReady) {
   const aisesQuestions = jsPsych.randomization.shuffle(aisesSelected).map(function (it) {
     return {
@@ -618,53 +687,70 @@ if (aisesReady) {
       required: true
     };
   });
-  chunk(aisesQuestions, 6).forEach(function (page, i, pages) {
-    timeline.push({
-      type: jsPsychSurveyLikert,
-      preamble: '<div class="q-legend">The following statements are about AI technologies ' +
-                'and products in general (for example, ChatGPT and other AI tools). Please ' +
-                'indicate how much you agree or disagree. Part 2 of 4 &middot; page ' +
-                (i + 1) + ' of ' + pages.length + '.</div>',
-      questions: page,
-      randomize_question_order: false,
-      button_label: "Continue",
-      data: { trial_kind: "battery", scale: "aises", page: i + 1 },
-      on_finish: unpackLikert
-    });
-  });
-}
-
-/* ---------- 7. NPI-13 (published fixed order, forced choice) ---------- */
-chunk(npiItems, 5).forEach(function (page, i, pages) {
-  timeline.push({
-    type: jsPsychSurveyMultiChoice,
-    preamble: '<div class="q-legend">In each pair below, choose the statement you MOST ' +
-              'agree with, even if neither fits you perfectly. Part 3 of 4 &middot; page ' +
-              (i + 1) + ' of ' + pages.length + '.</div>',
-    questions: page.map(function (it) {
-      return {
-        prompt: "Pair " + it.n + " of 13",
-        name: "npi_" + String(it.n).padStart(2, "0"),
-        options: [it.A, it.B],
-        required: true,
-        horizontal: false
-      };
-    }),
-    randomize_question_order: false,
-    button_label: "Continue",
-    data: { trial_kind: "battery", scale: "npi13", page: i + 1 },
-    on_finish: function (d) {
-      page.forEach(function (it) {
-        const name = "npi_" + String(it.n).padStart(2, "0");
-        const choice = (d.response[name] === it.A) ? "A" : "B";
-        d[name + "_choice"] = choice;
-        d[name] = (choice === it.key) ? 1 : 0;   // 1 = narcissistic option
+  batteryBlocks.push({
+    key: "aises",
+    label: "Working with AI tools",
+    blurb: "Statements about AI technologies and products in general, such as ChatGPT " +
+           "and similar tools. " + aisesQuestions.length + " statements over " +
+           chunk(aisesQuestions, 6).length + " pages.",
+    build: function (part, total) {
+      return chunk(aisesQuestions, 6).map(function (page, i, pages) {
+        return {
+          type: jsPsychSurveyLikert,
+          preamble: legend("The following statements are about AI technologies and " +
+                           "products in general (for example, ChatGPT and other AI " +
+                           "tools). Please indicate how much you agree or disagree.",
+                           part, total, i, pages.length),
+          questions: page,
+          randomize_question_order: false,
+          button_label: "Continue",
+          data: { trial_kind: "battery", scale: "aises", page: i + 1 },
+          on_finish: unpackLikert
+        };
       });
     }
   });
+}
+
+/* ---- NPI-13 (published fixed order, forced choice) ---- */
+batteryBlocks.push({
+  key: "npi13",
+  label: "Pairs of statements",
+  blurb: "Pairs of statements where you choose the one you agree with more. " +
+         npiItems.length + " pairs over " + chunk(npiItems, 5).length + " pages.",
+  build: function (part, total) {
+    return chunk(npiItems, 5).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyMultiChoice,
+        preamble: legend("In each pair below, choose the statement you MOST agree with, " +
+                         "even if neither fits you perfectly.",
+                         part, total, i, pages.length),
+        questions: page.map(function (it) {
+          return {
+            prompt: "Pair " + it.n + " of 13",
+            name: "npi_" + String(it.n).padStart(2, "0"),
+            options: [it.A, it.B],
+            required: true,
+            horizontal: false
+          };
+        }),
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "npi13", page: i + 1 },
+        on_finish: function (d) {
+          page.forEach(function (it) {
+            const name = "npi_" + String(it.n).padStart(2, "0");
+            const choice = (d.response[name] === it.A) ? "A" : "B";
+            d[name + "_choice"] = choice;
+            d[name] = (choice === it.key) ? 1 : 0;   // 1 = narcissistic option
+          });
+        }
+      };
+    });
+  }
 });
 
-/* ---------- 8. BFI-2-XS (published fixed order) ---------- */
+/* ---- BFI-2-XS (published fixed order) ---- */
 const bfiQuestions = bfiItems.map(function (it) {
   return {
     prompt: it.text,
@@ -673,19 +759,38 @@ const bfiQuestions = bfiItems.map(function (it) {
     required: true
   };
 });
-chunk(bfiQuestions, 8).forEach(function (page, i, pages) {
-  timeline.push({
-    type: jsPsychSurveyLikert,
-    preamble: '<div class="q-legend">Here are a number of characteristics that may or may ' +
-              'not apply to you. For each statement, indicate how much you agree or ' +
-              'disagree that you are someone who... Part 4 of 4 &middot; page ' +
-              (i + 1) + ' of ' + pages.length + '.</div>',
-    questions: page,
-    randomize_question_order: false,
-    button_label: "Continue",
-    data: { trial_kind: "battery", scale: "bfi2xs", page: i + 1 },
-    on_finish: unpackLikert
-  });
+batteryBlocks.push({
+  key: "bfi2xs",
+  label: "Describing yourself",
+  blurb: "Short descriptions of personality that may or may not apply to you. " +
+         bfiQuestions.length + " statements over " +
+         chunk(bfiQuestions, 8).length + " pages.",
+  build: function (part, total) {
+    return chunk(bfiQuestions, 8).map(function (page, i, pages) {
+      return {
+        type: jsPsychSurveyLikert,
+        preamble: legend("Here are a number of characteristics that may or may not apply " +
+                         "to you. For each statement, indicate how much you agree or " +
+                         "disagree that you are someone who...",
+                         part, total, i, pages.length),
+        questions: page,
+        randomize_question_order: false,
+        button_label: "Continue",
+        data: { trial_kind: "battery", scale: "bfi2xs", page: i + 1 },
+        on_finish: unpackLikert
+      };
+    });
+  }
+});
+
+/* ---- shuffle block order, record it, push with transition screens ---- */
+const orderedBlocks = jsPsych.randomization.shuffle(batteryBlocks);
+jsPsych.data.addProperties({
+  battery_order: orderedBlocks.map(function (b) { return b.key; }).join(",")
+});
+orderedBlocks.forEach(function (b, idx) {
+  timeline.push(transitionScreen(b, idx + 1, orderedBlocks.length));
+  b.build(idx + 1, orderedBlocks.length).forEach(function (t) { timeline.push(t); });
 });
 
 /* ---------- 9. AI USE ---------- */
