@@ -140,8 +140,29 @@
       text-align: left; font-size: 1.0rem; font-weight: 500;
       margin: 1.1rem 0 0.3rem; line-height: 1.45;
     }
-    table.jspsych-survey-likert-opts { font-size: 0.78rem; color: var(--muted); width: 100%; }
-    .jspsych-survey-likert-opt-label { line-height: 1.2; }
+    /* Likert scales. jsPsych 8 renders a <ul>, not a <table>, and gives the
+       <li> options no width, so they size to their content and overrun the
+       container. Flex with `flex: 1 1 0` forces equal columns that always fit,
+       regardless of option count (5 for CIHS/BFI-2-XS, 7 for AISES/EST). */
+    .jspsych-survey-likert-opts {
+      display: flex !important;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      width: 100% !important;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto !important;
+      padding: 0 0 22px !important;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .jspsych-survey-likert-opts::before { flex: 0 0 100%; top: 11px; height: 4px; }
+    .jspsych-survey-likert-opts li {
+      flex: 1 1 0; min-width: 0; padding: 0 3px;
+      box-sizing: border-box; text-align: center;
+    }
+    .jspsych-survey-likert-opt-label { line-height: 1.25; overflow-wrap: break-word; }
+    .jspsych-survey-likert-statement { padding-top: 0 !important; }
     input[type=radio], input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
     .jspsych-survey-multi-choice-question { text-align: left; margin: 0 0 1.35rem; }
     .jspsych-survey-multi-choice-text { font-weight: 500; margin-bottom: 0.35rem; }
@@ -902,7 +923,6 @@ function makeESTTrial(item, mental_first, part, total, i, npages) {
     questions: mental_first ? [mental_q, mech_q] : [mech_q, mental_q],
     randomize_question_order: false,
     button_label: "Continue",
-    scale_width: 680,
     data: {
       trial_kind: "battery", scale: "estgenai", page: i + 1,
       est_item_id: item.id,
