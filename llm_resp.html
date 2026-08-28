@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Less Credit, Same Blame? — jsPsych Demo</title>
+
+  <script src="https://unpkg.com/jspsych@8.3.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@2.2.1"></script>
+  <link href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+
+  <style>
+    :root {
+      --ink:#172554;
+      --muted:#64748b;
+      --line:#dbe4f0;
+      --panel:#ffffff;
+      --soft:#f8fafc;
+      --solo:#eef2ff;
+      --human:#ecfdf5;
+      --llm:#f5f3ff;
+      --success:#ecfdf5;
+      --failure:#fef2f2;
+      --accent:#3157c8;
+    }
+    body { background:#f6f8fc; color:#172033; }
+    .jspsych-display-element { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #jspsych-content { max-width: 940px; }
+    .study-shell { text-align:left; }
+    .demo-banner { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; padding:10px 14px; border-radius:12px; font-size:13px; margin-bottom:18px; }
+    .hero { background:linear-gradient(135deg,#ffffff,#f7f8ff); border:1px solid var(--line); border-radius:22px; padding:30px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-weight:750; font-size:12px; color:var(--accent); }
+    h1 { color:var(--ink); font-size:34px; line-height:1.1; margin:8px 0 10px; }
+    h2 { color:var(--ink); font-size:23px; margin:0 0 12px; }
+    h3 { color:var(--ink); font-size:17px; margin:0 0 8px; }
+    p { line-height:1.6; }
+    .muted { color:var(--muted); }
+    .small { font-size:13px; }
+    .grid3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:18px 0; }
+    .mini-card { border:1px solid var(--line); border-radius:15px; padding:15px; background:white; }
+    .mini-card strong { color:var(--ink); }
+    .tag { display:inline-block; border-radius:999px; padding:5px 9px; font-size:12px; font-weight:700; margin-right:6px; }
+    .tag-solo { background:var(--solo); color:#3730a3; }
+    .tag-human { background:var(--human); color:#047857; }
+    .tag-llm { background:var(--llm); color:#6d28d9; }
+    .tag-success { background:var(--success); color:#047857; }
+    .tag-failure { background:var(--failure); color:#b91c1c; }
+    .progress-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .progress-track { height:8px; background:#e8edf5; border-radius:999px; overflow:hidden; flex:1; }
+    .progress-fill { height:100%; background:#536fd8; }
+    .vignette-card { border:1px solid var(--line); background:white; border-radius:20px; padding:26px; box-shadow:0 1px 2px rgba(15,23,42,.03); }
+    .vignette-text { font-size:17px; line-height:1.72; }
+    .outcome-box { margin-top:18px; border-radius:14px; padding:14px 16px; font-weight:650; }
+    .outcome-success { background:var(--success); border:1px solid #bbf7d0; color:#166534; }
+    .outcome-failure { background:var(--failure); border:1px solid #fecaca; color:#991b1b; }
+    .question-card { background:white; border:1px solid var(--line); border-radius:18px; padding:18px 20px; margin:12px 0; }
+    .question-title { font-size:15px; font-weight:700; color:#1e293b; margin-bottom:10px; }
+    .slider-row { display:grid; grid-template-columns:72px 1fr 72px; gap:10px; align-items:center; }
+    .slider-row input[type=range] { width:100%; accent-color:#4f67ce; }
+    .anchor { color:var(--muted); font-size:11px; line-height:1.2; }
+    .anchor.right { text-align:right; }
+    .live-value { text-align:center; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; margin-top:6px; }
+    .section-label { margin:22px 0 8px; color:var(--ink); font-weight:800; font-size:16px; }
+    .divider { height:1px; background:var(--line); margin:22px 0; }
+    .jspsych-btn { background:#2447b8 !important; color:white !important; border:none !important; border-radius:12px !important; padding:12px 20px !important; font-size:15px !important; }
+    .jspsych-btn:hover { background:#1d3b99 !important; }
+    .consent-box { max-height:230px; overflow:auto; border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--soft); font-size:14px; }
+    .finish-box { border:1px solid var(--line); border-radius:18px; background:white; padding:26px; }
+    .condition-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:14px; }
+    .condition-table th,.condition-table td { border-bottom:1px solid var(--line); padding:9px 7px; text-align:left; }
+    .condition-table th { color:var(--ink); }
+    .download-note { background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px 14px; font-size:13px; }
+    @media (max-width:700px){
+      .grid3{grid-template-columns:1fr;}
+      h1{font-size:28px;}
+      .hero,.vignette-card{padding:20px;}
+      .slider-row{grid-template-columns:62px 1fr 62px;}
+    }
+  </style>
+</head>
+<body></body>
+<script>
+const jsPsych = initJsPsych({
+  show_progress_bar: false,
+  on_finish: () => {
+    // Data stay local in this demo. Use the Download button on the final screen.
+  }
+});
+
+// -------------------------------
+// STUDY CONSTANTS
+// -------------------------------
+const TASKS = [
+  {id:'report', label:'Organizational report', object:'report', intro:'preparing a report summarizing the progress of several projects within the organization', action:'gathers the relevant information, analyzes it, and prepares the report', success:'The final report is accurate and complete and receives a very positive evaluation from the manager.', failure:'The final report contains several important inaccuracies and receives a negative evaluation from the manager.'},
+  {id:'presentation', label:'Survey presentation', object:'presentation', intro:'preparing a presentation summarizing the results of a recent customer survey', action:'reviews the survey results, decides which findings to include, and prepares the presentation', success:'The final presentation accurately represents the survey results and receives a very positive evaluation.', failure:'The final presentation misrepresents several important survey results and receives a negative evaluation.'},
+  {id:'employee_feedback', label:'Employee feedback summary', object:'summary', intro:'preparing a summary of feedback collected from employees about their workplace experiences', action:'reads the feedback, identifies the major themes, and prepares the summary', success:'The final summary accurately reflects the employee feedback and receives a positive evaluation.', failure:'The final summary incorrectly represents several important themes in the employee feedback and receives a negative evaluation.'},
+  {id:'training_guide', label:'Training guide', object:'training guide', intro:'preparing a training guide for new employees joining the organization', action:'gathers the necessary information, organizes the material, and prepares the training guide', success:'The final training guide is clear, accurate, and receives a positive evaluation.', failure:'The final training guide contains several important pieces of incorrect information and receives a negative evaluation.'},
+  {id:'project_brief', label:'Project brief', object:'briefing document', intro:'preparing a briefing document about an upcoming organizational project', action:'reviews the available information, identifies the key issues, and prepares the briefing document', success:'The briefing document accurately identifies the important issues and receives a positive evaluation.', failure:'The briefing document contains several important inaccuracies and receives a negative evaluation.'},
+  {id:'customer_feedback', label:'Customer feedback report', object:'report', intro:'preparing a report summarizing customer comments about a recently introduced service', action:'reviews the comments, identifies recurring themes, and prepares the report', success:'The final report accurately summarizes the customer feedback and receives a positive evaluation.', failure:'The final report incorrectly summarizes several important aspects of the customer feedback and receives a negative evaluation.'},
+  {id:'meeting_brief', label:'Meeting brief', object:'briefing document', intro:'preparing a briefing document for an important upcoming meeting', action:'reviews the relevant materials, identifies the most important information, and prepares the briefing document', success:'The briefing accurately communicates the relevant information and receives a positive evaluation.', failure:'The briefing contains several important inaccuracies and receives a negative evaluation.'},
+  {id:'faq', label:'FAQ document', object:'FAQ document', intro:'preparing a document answering frequently asked questions about a new organizational procedure', action:'researches the procedure, identifies the relevant information, and prepares the document', success:'The final document provides accurate answers and receives a positive evaluation.', failure:'The final document provides incorrect information in several important answers and receives a negative evaluation.'},
+  {id:'project_plan', label:'Project plan', object:'project plan', intro:'preparing a written project plan describing the tasks and deadlines for an upcoming project', action:'reviews the project requirements, identifies the necessary tasks and deadlines, and prepares the plan', success:'The final project plan accurately identifies the necessary tasks and deadlines and receives a positive evaluation.', failure:'The final project plan contains several important errors in the tasks or deadlines and receives a negative evaluation.'},
+  {id:'policy_summary', label:'Policy summary', object:'summary', intro:'preparing a short summary explaining a new organizational policy to other employees', action:'reads the policy, identifies the important information, and prepares the summary', success:'The final summary accurately explains the policy and receives a positive evaluation.', failure:'The final summary incorrectly explains several important parts of the policy and receives a negative evaluation.'},
+  {id:'stakeholder_update', label:'Stakeholder update', object:'written update', intro:'preparing a written update explaining the progress of a project to people involved in the project', action:'gathers the relevant information, decides what should be included, and prepares the update', success:'The final update accurately communicates the project progress and receives a positive evaluation.', failure:'The final update contains several important inaccuracies about the project progress and receives a negative evaluation.'},
+  {id:'info_summary', label:'Information summary', object:'summary document', intro:'preparing a short document summarizing information from several sources for the organization', action:'reads the sources, identifies the important information, and prepares the summary', success:'The final document accurately summarizes the relevant information and receives a positive evaluation.', failure:'The final document contains several important inaccuracies and receives a negative evaluation.'}
+];
+
+const NAMES = {
+  man: ['Daniel','Michael','Matthew','Andrew','Thomas','James'],
+  woman: ['Danielle','Michelle','Emma','Sarah','Hannah','Jessica']
+};
+
+const CONDITIONS = [];
+['solo','human','llm'].forEach(delegation => {
+  ['man','woman'].forEach(actor_gender => {
+    ['success','failure'].forEach(outcome => {
+      CONDITIONS.push({delegation, actor_gender, outcome});
+    });
+  });
+});
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// Randomly pair the 12 cells with the 12 tasks for this demo participant.
+const conditionOrder = shuffle(CONDITIONS);
+const taskOrder = shuffle(TASKS);
+const trials = conditionOrder.map((c,i)=>({...c, task:taskOrder[i]}));
+
+const maleNames = shuffle(NAMES.man);
+const femaleNames = shuffle(NAMES.woman);
+let maleIndex=0, femaleIndex=0;
+trials.forEach(t => {
+  if(t.actor_gender==='man') t.name = maleNames[(maleIndex++) % maleNames.length];
+  else t.name = femaleNames[(femaleIndex++) % femaleNames.length];
+});
+
+const timeline = [];
+
+// -------------------------------
+// LANDING PAGE
+// -------------------------------
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <div class="study-shell">
+      <div class="demo-banner"><strong>Collaborator demo:</strong> This is a draft prototype, not a finalized ethics-approved study.</div>
+      <div class="hero">
+        <div class="eyebrow">Vignette experiment prototype</div>
+        <h1>Less Credit, Same Blame?</h1>
+        <p style="font-size:18px;margin-top:0"><em>Gender, AI Delegation, and the Attribution of Credit and Responsibility</em></p>
+        <p class="muted">You will read a series of short workplace scenarios and evaluate the person described in each scenario.</p>
+        <div class="grid3">
+          <div class="mini-card"><strong>Delegation</strong><br><span class="muted small">Solo · Human · LLM</span></div>
+          <div class="mini-card"><strong>Actor gender</strong><br><span class="muted small">Man · Woman</span></div>
+          <div class="mini-card"><strong>Outcome</strong><br><span class="muted small">Success · Failure</span></div>
+        </div>
+        <p class="small muted">All factors are within-subjects. In the full design, every participant evaluates all 12 combinations.</p>
+      </div>
+    </div>`,
+  choices:['Begin demo'],
+  data:{trial_type_label:'landing'}
+});
+
+// -------------------------------
+// CONSENT PLACEHOLDER
+// -------------------------------
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble:`<div class="study-shell"><h2>Study information & consent</h2><p class="muted">Placeholder text for collaborator review.</p></div>`,
+  html:`
+    <div class="consent-box">
+      <p><strong>Purpose.</strong> This study examines how people evaluate work completed under different forms of delegation.</p>
+      <p><strong>What you will do.</strong> You will read 12 short scenarios and make judgments about the person described. The study will also ask a few demographic questions.</p>
+      <p><strong>Voluntary participation.</strong> Participation is voluntary. In a finalized study, ethics-board language, withdrawal information, data handling, compensation, and investigator contact information would appear here.</p>
+    </div>
+    <p style="margin-top:16px"><label><input type="checkbox" name="consent" value="yes" required> I have read the information above and agree to continue with this demonstration.</label></p>`,
+  button_label:'Continue',
+  data:{trial_type_label:'consent'}
+});
+
+// -------------------------------
+// INSTRUCTIONS
+// -------------------------------
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus:`
+    <div class="study-shell hero">
+      <div class="eyebrow">Instructions</div>
+      <h2>How to respond</h2>
+      <p>You will read <strong>12 independent scenarios</strong>. Treat each scenario as a different person and a different workplace task.</p>
+      <p>After each scenario, you will rate the focal person on several 0–100 scales.</p>
+      <ul style="line-height:1.8">
+        <li>If the outcome is <strong>successful</strong>, the main question concerns <strong>credit</strong>.</li>
+        <li>If the outcome is <strong>unsuccessful</strong>, the main question concerns <strong>responsibility</strong>.</li>
+        <li>There are no correct answers; we are interested in your impression.</li>
+      </ul>
+    </div>`,
+  choices:['Start scenarios'],
+  data:{trial_type_label:'instructions'}
+});
+
+function delegationLabel(d){ return d==='solo'?'Solo':d==='human'?'Human delegation':'LLM delegation'; }
+function delegationTag(d){ return d==='solo'?'tag-solo':d==='human'?'tag-human':'tag-llm'; }
+function actorPronouns(g){ return g==='man' ? {sub:'he',obj:'him',poss:'his'} : {sub:'she',obj:'her',poss:'her'}; }
+
+function makeVignette(t){
+  const p = actorPronouns(t.actor_gender);
+  const name=t.name, task=t.task;
+  let delegationText='';
+  if(t.delegation==='solo'){
+    delegationText = `${name} ${task.action}. ${name} completes all parts of the task personally and prepares the final ${task.object} ${p.obj}self.`;
+  } else if(t.delegation==='human'){
+    delegationText = `${name} completes most of the task but asks a colleague to complete approximately one-third of the work. ${name} reviews the colleague's work, makes any edits ${p.sub} thinks are necessary, and incorporates it into the final ${task.object}.`;
+  } else {
+    delegationText = `${name} completes most of the task but asks a large language model such as ChatGPT to complete approximately one-third of the work. ${name} reviews the LLM's output, makes any edits ${p.sub} thinks are necessary, and incorporates it into the final ${task.object}.`;
+  }
+  const outcomeText = t.outcome==='success' ? task.success : task.failure;
+  return `
+    <div class="study-shell">
+      <div class="progress-row">
+        <span class="small muted">Scenario ${t.index+1} of 12</span>
+        <div class="progress-track"><div class="progress-fill" style="width:${((t.index+1)/12)*100}%"></div></div>
+      </div>
+      <div class="vignette-card">
+        <div style="margin-bottom:14px">
+          <span class="tag ${delegationTag(t.delegation)}">${delegationLabel(t.delegation)}</span>
+          <span class="tag">${t.actor_gender==='man'?'Man':'Woman'}</span>
+          <span class="tag ${t.outcome==='success'?'tag-success':'tag-failure'}">${t.outcome==='success'?'Successful outcome':'Unsuccessful outcome'}</span>
+        </div>
+        <h2>${task.label}</h2>
+        <div class="vignette-text">
+          <p>${name} is responsible for ${task.intro}.</p>
+          <p>${delegationText}</p>
+        </div>
+        <div class="outcome-box ${t.outcome==='success'?'outcome-success':'outcome-failure'}">${outcomeText}</div>
+      </div>
+    </div>`;
+}
+
+function sliderHTML(name, prompt, left, right, start=50){
+  return `
+    <div class="question-card">
+      <div class="question-title">${prompt}</div>
+      <div class="slider-row">
+        <div class="anchor">0<br>${left}</div>
+        <div>
+          <input type="range" min="0" max="100" value="${start}" name="${name}" data-slider="${name}" required>
+          <div class="live-value"><span data-value="${name}">${start}</span></div>
+        </div>
+        <div class="anchor right">100<br>${right}</div>
+      </div>
+    </div>`;
+}
+
+function makeRatingHTML(t){
+  const name=t.name;
+  const primary = t.outcome==='success'
+    ? sliderHTML('primary_credit', `How much credit does <strong>${name}</strong> deserve for the quality of the final outcome?`, 'No credit at all', 'All of the credit')
+    : sliderHTML('primary_responsibility', `How responsible is <strong>${name}</strong> for the problems with the final outcome?`, 'Not at all responsible', 'Completely responsible');
+
+  const secondary = [
+    sliderHTML('personal_contribution', `How much did <strong>${name}</strong> personally contribute to the final work?`, 'None', 'All of it'),
+    sliderHTML('effort', `How much effort did <strong>${name}</strong> personally put into completing the task?`, 'No effort', 'A great deal of effort'),
+    sliderHTML('competence', `How competent does <strong>${name}</strong> appear to be at this type of task?`, 'Not at all competent', 'Extremely competent'),
+    sliderHTML('control', `How much control did <strong>${name}</strong> have over the quality of the final outcome?`, 'No control', 'Complete control')
+  ].join('');
+
+  let delegate='';
+  if(t.delegation!=='solo'){
+    const helper = t.delegation==='human' ? 'the colleague' : 'the LLM';
+    const q = t.outcome==='success'
+      ? sliderHTML('delegate_credit', `How much credit does <strong>${helper}</strong> deserve for the final outcome?`, 'No credit at all', 'All of the credit')
+      : sliderHTML('delegate_responsibility', `How responsible is <strong>${helper}</strong> for the problems with the final outcome?`, 'Not at all responsible', 'Completely responsible');
+    delegate = `<div class="section-label">Attribution to the delegate</div>${q}`;
+  }
+
+  return `${primary}<div class="section-label">Additional impressions</div>${secondary}${delegate}`;
+}
+
+function bindSliders(){
+  document.querySelectorAll('input[type="range"][data-slider]').forEach(el => {
+    const target=document.querySelector(`[data-value="${el.dataset.slider}"]`);
+    const update=()=>{ if(target) target.textContent=el.value; };
+    el.addEventListener('input',update);
+    update();
+  });
+}
+
+// Add 12 vignette + rating pairs.
+trials.forEach((trialDef,index)=>{
+  trialDef.index=index;
+
+  timeline.push({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: () => makeVignette(trialDef),
+    choices:['Continue to ratings'],
+    data:{
+      trial_type_label:'vignette',
+      vignette_index:index+1,
+      task_id:trialDef.task.id,
+      task_label:trialDef.task.label,
+      delegation:trialDef.delegation,
+      actor_gender:trialDef.actor_gender,
+      actor_name:trialDef.name,
+      outcome:trialDef.outcome
+    }
+  });
+
+  timeline.push({
+    type: jsPsychSurveyHtmlForm,
+    preamble:()=>`<div class="study-shell"><div class="progress-row"><span class="small muted">Ratings for scenario ${index+1} of 12</span><div class="progress-track"><div class="progress-fill" style="width:${((index+1)/12)*100}%"></div></div></div><h2>Your judgment</h2><p class="muted">Please move each slider to indicate your response.</p></div>`,
+    html:()=>makeRatingHTML(trialDef),
+    button_label:'Continue',
+    on_load: bindSliders,
+    on_finish: data => {
+      data.trial_type_label='ratings';
+      data.vignette_index=index+1;
+      data.task_id=trialDef.task.id;
+      data.task_label=trialDef.task.label;
+      data.delegation=trialDef.delegation;
+      data.actor_gender=trialDef.actor_gender;
+      data.actor_name=trialDef.name;
+      data.outcome=trialDef.outcome;
+    }
+  });
+});
+
+// -------------------------------
+// DEMOGRAPHICS
+// -------------------------------
+timeline.push({
+  type: jsPsychSurveyHtmlForm,
+  preamble:`<div class="study-shell"><h2>About you</h2><p class="muted">Draft demographic items for collaborator review.</p></div>`,
+  html:`
+    <div class="question-card">
+      <label class="question-title" for="age">Age</label><br>
+      <input id="age" name="age" type="number" min="18" max="100" style="margin-top:8px;padding:10px;width:130px" required>
+    </div>
+    <div class="question-card">
+      <div class="question-title">Gender</div>
+      <label><input type="radio" name="participant_gender" value="man" required> Man</label><br><br>
+      <label><input type="radio" name="participant_gender" value="woman"> Woman</label><br><br>
+      <label><input type="radio" name="participant_gender" value="nonbinary"> Non-binary</label><br><br>
+      <label><input type="radio" name="participant_gender" value="other"> Another gender</label><br><br>
+      <label><input type="radio" name="participant_gender" value="prefer_not"> Prefer not to say</label>
+    </div>
+    <div class="question-card">
+      <div class="question-title">How often do you use large language models such as ChatGPT, Claude, or Gemini?</div>
+      <label><input type="radio" name="llm_frequency" value="never" required> Never</label><br><br>
+      <label><input type="radio" name="llm_frequency" value="less_monthly"> Less than monthly</label><br><br>
+      <label><input type="radio" name="llm_frequency" value="monthly"> Monthly</label><br><br>
+      <label><input type="radio" name="llm_frequency" value="weekly"> Weekly</label><br><br>
+      <label><input type="radio" name="llm_frequency" value="daily"> Daily or almost daily</label>
+    </div>`,
+  button_label:'Finish',
+  data:{trial_type_label:'demographics'}
+});
+
+// -------------------------------
+// FINAL / DATA PREVIEW
+// -------------------------------
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  stimulus:()=>{
+    const rows=trials.map((t,i)=>`<tr><td>${i+1}</td><td>${t.task.label}</td><td>${delegationLabel(t.delegation)}</td><td>${t.actor_gender}</td><td>${t.outcome}</td></tr>`).join('');
+    return `
+      <div class="study-shell finish-box">
+        <div class="eyebrow">Demo complete</div>
+        <h2>Thanks for reviewing the prototype.</h2>
+        <p>This draft has shown one randomized assignment of the 12 within-subject cells to 12 matched tasks.</p>
+        <div class="download-note"><strong>Demo feature:</strong> Click below to download the jsPsych data generated in this browser as a CSV file.</div>
+        <div style="margin:16px 0"><button id="download-data" class="jspsych-btn" type="button">Download demo CSV</button></div>
+        <details>
+          <summary><strong>Show this participant's condition schedule</strong></summary>
+          <table class="condition-table"><thead><tr><th>#</th><th>Task</th><th>Delegation</th><th>Actor</th><th>Outcome</th></tr></thead><tbody>${rows}</tbody></table>
+        </details>
+        <div class="divider"></div>
+        <p class="small muted">For a real study, this page would normally be replaced by a debrief and automated server-side data saving.</p>
+      </div>`;
+  },
+  choices:['Restart demo'],
+  on_load:()=>{
+    const btn=document.getElementById('download-data');
+    if(btn){
+      btn.addEventListener('click',()=>jsPsych.data.get().localSave('csv','less_credit_same_blame_demo.csv'));
+    }
+  },
+  on_finish:()=>{ setTimeout(()=>location.reload(),50); },
+  data:{trial_type_label:'finish'}
+});
+
+jsPsych.run(timeline);
+</script>
+</html>
