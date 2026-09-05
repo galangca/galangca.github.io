@@ -1,0 +1,11 @@
+# Local editor and operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+~$*
+
+# Local preview and generated GitHub Pages output
+.browser-qa/
+_site/
+.jekyll-cache/
+.jekyll-metadata

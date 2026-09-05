@@ -1,0 +1,5 @@
+# Keep historical website files and editable document sources out of GitHub Pages.
+exclude:
+  - archive
+  - documents/source
+  - README.md
