@@ -1,4 +1,4 @@
-# Carl Michael Galang — personal website
+# Carl Michael Galang: personal website
 
 This website has been redesigned by Astra.
 
