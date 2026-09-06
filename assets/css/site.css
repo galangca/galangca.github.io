@@ -45,7 +45,7 @@ h1 { font: 400 clamp(3.5rem, 6.5vw, 5.5rem)/1.04 var(--serif); letter-spacing: -
 .affiliation-role { display: block; color: var(--ink); font-weight: 600; margin-bottom: .25rem; }
 .hero-summary { max-width: 30rem; }
 .name-period { color: var(--accent); }
-.degree { display: inline-block; margin-left: 1rem; color: inherit; font: inherit; letter-spacing: inherit; vertical-align: baseline; }
+.degree { display: inline-block; margin-left: .75rem; color: var(--accent); font: inherit; font-size: .6em; letter-spacing: -.035em; vertical-align: .4em; }
 .hero-lead { font-size: clamp(1.375rem, 2.1vw, 1.7rem); line-height: 1.5; letter-spacing: -.02em; }
 .hero-lead em { color: var(--accent); font-family: var(--serif); font-size: 1.12em; }
 .hero-description { max-width: 29rem; margin-top: 1.15rem; color: var(--muted); line-height: 1.8; }
