@@ -35,6 +35,14 @@ p { text-wrap: pretty; }
 .site-nav a { text-decoration: none; padding-block: .5rem; }
 .site-nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; }
 .nav-contact { display: inline-flex; gap: .75rem; align-items: center; }
+.nav-dropdown { position: relative; }
+.nav-dropdown > summary { display: inline-flex; align-items: center; gap: .4rem; padding-block: .5rem; list-style: none; cursor: pointer; }
+.nav-dropdown > summary::-webkit-details-marker { display: none; }
+.nav-dropdown > summary:hover, .nav-dropdown[open] > summary { color: var(--accent); }
+.nav-dropdown .caret { font-size: .65em; line-height: 1; }
+.nav-menu { position: absolute; top: calc(100% + .55rem); left: 0; z-index: 15; min-width: 16rem; padding: .4rem; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 14px 32px rgba(23, 32, 43, .12); }
+.nav-menu a { display: block; padding: .6rem .7rem; border-radius: 3px; line-height: 1.4; }
+.nav-menu a:hover { color: var(--accent); background: var(--surface); }
 .eyebrow { color: var(--accent); font-size: .8125rem; font-weight: 600; line-height: 1.5; letter-spacing: .11em; text-transform: uppercase; }
 .hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); align-items: center; gap: clamp(3rem, 7vw, 6rem); padding-block: 5.5rem 6rem; }
 .hero .eyebrow { display: flex; align-items: center; gap: .7rem; font-size: .75rem; letter-spacing: .09em; }
@@ -74,13 +82,13 @@ h2 { font: 400 clamp(2.4rem, 4vw, 3.5rem)/1.15 var(--serif); letter-spacing: -.0
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
 .section-heading .text-link { flex-shrink: 0; margin-bottom: .25rem; }
 .section-note { margin-top: 1.2rem; color: var(--muted); }
-.journal-list { margin-top: 2.5rem; }
+.journal-heading { margin-top: 4rem; }
 .paper-list { list-style: none; padding: 0; margin-bottom: 0; }
 .paper { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr) 6.7rem; gap: 1.5rem; padding-block: 1.8rem; border-top: 1px solid var(--line); }
 .paper-year { color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; padding-top: .15rem; }
-.paper h4, .pending-paper h4, .prep-list h4 { font-size: 1.0625rem; font-weight: 600; line-height: 1.55; letter-spacing: -.015em; text-wrap: pretty; }
-.paper h4 a, .pending-paper h4 a { text-decoration: none; }
-.paper h4 a:hover, .pending-paper h4 a:hover { text-decoration: underline; }
+.paper h4, .prep-list h4 { font-size: 1.0625rem; font-weight: 600; line-height: 1.55; letter-spacing: -.015em; text-wrap: pretty; }
+.paper h4 a { text-decoration: none; }
+.paper h4 a:hover { text-decoration: underline; }
 .paper-authors { font-size: .875rem; line-height: 1.65; color: var(--muted); margin-top: .5rem; }
 .paper-authors strong { color: #39424f; font-weight: 600; }
 .paper-journal { color: var(--muted); font-size: .875rem; margin-top: .2rem; }
@@ -101,9 +109,7 @@ h2 { font: 400 clamp(2.4rem, 4vw, 3.5rem)/1.15 var(--serif); letter-spacing: -.0
 .subsection-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; margin-bottom: 1.3rem; }
 .subsection-heading h3 { font: 400 1.9rem/1.2 var(--serif); letter-spacing: -.035em; }
 .status-label { color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: .2rem .5rem; font-size: .75rem; }
-.pending-paper { border-top: 1px solid var(--line); padding-block: 1.5rem 2rem; }
-.pending-paper .text-link { color: var(--accent); margin-top: .8rem; font-size: .875rem; }
-.prep-list { margin-top: 1rem; }
+.prep-list { margin-top: 2.5rem; }
 .prep-list ul { margin: 0; list-style: none; padding: 0 0 1.4rem; }
 .prep-list li { padding-block: 1.3rem; border-top: 1px solid var(--line); }
 .contact-section { color: white; background: #17243d; padding-block: 4.5rem; }
@@ -158,6 +164,7 @@ h2 { font: 400 clamp(2.4rem, 4vw, 3.5rem)/1.15 var(--serif); letter-spacing: -.0
   .wordmark { font-size: 1.8rem; }
   .site-nav { gap: 1rem; font-size: .875rem; }
   .nav-contact { gap: .3rem; }
+  .nav-menu { left: auto; right: 0; min-width: 12rem; }
   .hero { grid-template-columns: 1fr; padding-block: 3rem; gap: 2rem; }
   .hero h1 { font-size: clamp(3.65rem, 12vw, 4.8rem); }
   .hero .eyebrow { max-width: 22rem; line-height: 1.8; }
@@ -176,9 +183,9 @@ h2 { font: 400 clamp(2.4rem, 4vw, 3.5rem)/1.15 var(--serif); letter-spacing: -.0
   .publications-section { padding-block: 3.2rem; }
   .section-heading { align-items: start; flex-direction: column; gap: 1.3rem; }
   .section-heading .text-link { margin-bottom: 0; }
-  .journal-list { margin-top: 1.8rem; }
+  .journal-heading { margin-top: 2.8rem; }
   .paper { grid-template-columns: 2.5rem minmax(0, 1fr); gap: .7rem 1rem; padding-block: 1.5rem; }
-  .paper-links, .paper > .paper-link { grid-column: 2; }
+  .paper-links { grid-column: 2; }
   .paper-links { flex-direction: row; align-items: start; flex-wrap: wrap; gap: 1.3rem; padding-top: .25rem; }
   .paper-links .paper-link { align-self: auto; }
   .paper h4 { font-size: 1rem; }
