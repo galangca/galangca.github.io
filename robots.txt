@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://galangca.github.io/sitemap.xml

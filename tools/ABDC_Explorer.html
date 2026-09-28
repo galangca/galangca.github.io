@@ -4,7 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>ABDC Journal Quality Explorer</title>
+<title>ABDC Journal Quality List Explorer: Search &amp; Compare ABDC Ratings (2010–2025)</title>
+<meta name="description" content="Free, searchable ABDC Journal Quality List. Look up A*, A, B and C ratings by journal, ISSN, publisher or field of research, see FT50 journals, and compare every edition from 2010 to 2025, including 2022 → 2025 rating changes.">
+<link rel="canonical" href="https://galangca.github.io/tools/ABDC_Explorer.html">
+<link rel="icon" href="../assets/images/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ABDC Journal Quality List Explorer">
+<meta property="og:description" content="Search, filter and compare ABDC journal ratings across the 2010–2025 editions, with FT50 labels and a 2022 → 2025 change explorer.">
+<meta property="og:url" content="https://galangca.github.io/tools/ABDC_Explorer.html">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ABDC Journal Quality List Explorer",
+  "url": "https://galangca.github.io/tools/ABDC_Explorer.html",
+  "description": "Searchable, filterable explorer for the Australian Business Deans Council (ABDC) Journal Quality List, covering the 2010, 2013, 2016, 2019, 2022 and 2025 editions, with FT50 labels and journal-level rating histories.",
+  "applicationCategory": "ReferenceApplication",
+  "operatingSystem": "Any (web browser)",
+  "isAccessibleForFree": true,
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "author": {"@type": "Person", "name": "Carl Michael Galang", "url": "https://galangca.github.io/"},
+  "about": {"@type": "Thing", "name": "ABDC Journal Quality List", "url": "https://abdc.edu.au/abdc-journal-quality-list/"}
+}
+</script>
 <style>
 :root{--bg:#f4f7fb;--panel:#ffffff;--panel2:#f8fafc;--ink:#14213d;--muted:#64748b;--line:#dfe7f1;--accent:#3157d5;--accent2:#6b4fd3;--good:#138a61;--warn:#c98212;--bad:#c24747;--shadow:0 12px 34px rgba(28,44,78,.10);--radius:18px;--star:#6d4aff;--a:#2f6dd0;--b:#178b78;--c:#7b8798}
 html[data-theme="dark"]{--bg:#0c1220;--panel:#121b2c;--panel2:#0f1726;--ink:#e9eef8;--muted:#9eacc2;--line:#253249;--accent:#7694ff;--accent2:#a28cff;--good:#55c69c;--warn:#e9b15e;--bad:#ef8585;--shadow:0 16px 42px rgba(0,0,0,.28);--star:#a58cff;--a:#72a0ff;--b:#5cc7b2;--c:#9aa7ba}
@@ -28,6 +51,7 @@ html[data-theme="dark"]{--bg:#0c1220;--panel:#121b2c;--panel2:#0f1726;--ink:#e9e
       <p class="backlink"><a href="../index.html">← Carl Michael Galang</a></p>
       <h1>ABDC Journal Quality Explorer</h1>
       <p>Search, filter and compare the ABDC Journal Quality List across six editions, with journal-level rating histories and a focused 2022 → 2025 change explorer.</p>
+      <noscript><p>This explorer needs JavaScript. It lets you search the Australian Business Deans Council (ABDC) Journal Quality List by journal title, ISSN, publisher or field of research; filter by A*, A, B and C rating and FT50 membership; and compare the 2010, 2013, 2016, 2019, 2022 and 2025 editions. The official list is available from the <a href="https://abdc.edu.au/abdc-journal-quality-list/">ABDC website</a>.</p></noscript>
     </div>
     <div class="actions">
       <button class="btn" id="exportBtn" title="Export the currently filtered journal rows as CSV">⇩ Export filtered CSV</button>
@@ -91,6 +115,7 @@ html[data-theme="dark"]{--bg:#0c1220;--panel:#121b2c;--panel2:#0f1726;--ink:#e9e
 
     <section id="about" class="page"><div class="panel about">
       <h2>About</h2>
+      <p><strong>What this is:</strong> A free, searchable version of the Australian Business Deans Council (ABDC) Journal Quality List. You can look up any journal’s ABDC rating (A*, A, B or C) by title, ISSN, publisher or Field of Research (FoR) code; filter by rating, inception year and FT50 membership; export results as CSV; see each journal’s rating history across the 2010, 2013, 2016, 2019, 2022 and 2025 editions; and browse which journals were upgraded, downgraded, added or removed between the 2022 and 2025 lists.</p>
       <p><strong>Made by AI. “Vibecoded” by Carl Michael Galang.</strong></p>
       <p><strong>Motivation:</strong> I got tired of looking at an Excel file.</p>
       <p><strong>FT50 membership:</strong> Labels and filters use the <a href="https://www.ft.com/ft50-journals" target="_blank" rel="noopener noreferrer">Financial Times list revised in April 2026</a>, cross-checked against <a href="https://library.smu.edu.sg/topics-insights/updating-your-ft50-search-strategies-verified-issns-literature-search-scopus-and" target="_blank" rel="noopener noreferrer">SMU Libraries’ journal and ISSN list</a> on 10 September 2026. The same list applies to every ABDC edition; historical FT membership is not tracked. Journals are matched by print or online ISSN, with an exact normalized title fallback. CSV exports include <code>ft50</code> (Yes/No) and <code>ft50_list_version</code> (2026-04).</p>
