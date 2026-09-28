@@ -19,5 +19,5 @@ The previous design is preserved in `archive/legacy-site/`.
 ## Adding a paper
 
 Copy an existing `<li>` in the right list in `index.html` (`preprints`, `under-review`, `published` or `in-prep`) and edit it.
-Set `data-tags` to one or more of `empathy`, `agency`, `human-ai` or `other`, and update the matching `#tag` chips.
+Set `data-tags` to one or more of `empathy`, `agency`, `human-ai`, `metascience` or `other`, and update the matching `#tag` chips.
 The stat boxes and thread counts update themselves from the lists.
