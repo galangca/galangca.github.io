@@ -40,6 +40,25 @@ html[data-theme="dark"]{--bg:#0c1220;--panel:#121b2c;--panel2:#0f1726;--ink:#e9e
 @media(max-width:1050px){.rating-field{grid-column:auto}}
 @media(max-width:680px){#forChart .barrow{grid-template-columns:minmax(150px,1fr) 1.4fr 42px}.wrap{padding:16px}.topbar{flex-direction:column}.actions{justify-content:flex-start}.controls{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px}.stat .v{font-size:24px}.grid2{gap:10px}.nav{width:100%;overflow:auto}.tablehead{align-items:flex-start;flex-direction:column}.details{grid-template-columns:1fr}.barrow{grid-template-columns:62px 1fr 42px}.hide-sm{display:none}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+/* Lab-notebook skin, matching the rest of galangca.github.io. Overrides the tokens and shapes above only. */
+:root{--bg:#f4f1e8;--panel:#faf8f1;--panel2:#efebdf;--ink:#23231f;--muted:#6f6c61;--line:#d6d0bd;--accent:#2f6b3a;--accent2:#5f8a3a;--shadow:none;--radius:3px;--star:#8a3b1f;--a:#2f6b3a;--b:#8c6a14;--c:#77746a}
+html[data-theme="dark"]{--bg:#1b1c18;--panel:#212219;--panel2:#262720;--ink:#e3e1d6;--muted:#9a978a;--line:#34352d;--accent:#8fcf8a;--accent2:#c7d98a;--shadow:none;--star:#b8603c;--a:#3f8a4a;--b:#9c7a24;--c:#66645a}
+body{background:var(--bg);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.brand h1,.backlink,.nav button,.btn,.chip,.typechip,.badge,.field label,.stat .k,.stat .v,.chart h3,.about h2,#drawerTitle{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace}
+.brand h1{font-size:clamp(22px,3vw,32px);letter-spacing:-.02em;font-weight:600}
+.brand h1::before{content:"~/tools/";color:var(--muted);font-weight:400}
+.btn,.select,.input,.nav,.nav button,.chip,.typechip,.badge,.detail,.track,.about code{border-radius:2px}
+.nav{border-style:dashed}
+.btn:hover{transform:none}
+.stat .v{letter-spacing:-.02em;font-weight:600}
+.drawerback{background:rgba(20,20,15,.35)}
+.drawer{box-shadow:-12px 0 30px rgba(0,0,0,.18)}
+.panel{box-shadow:none}
+</style>
   <!-- GoatCounter: privacy-friendly, cookieless visitor counts -->
   <script data-goatcounter="https://galangca.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
@@ -48,7 +67,7 @@ html[data-theme="dark"]{--bg:#0c1220;--panel:#121b2c;--panel2:#0f1726;--ink:#e9e
 <div class="wrap">
   <header class="topbar">
     <div class="brand">
-      <p class="backlink"><a href="../index.html">← Carl Michael Galang</a></p>
+      <p class="backlink"><a href="../index.html">← ~/carl-michael-galang</a></p>
       <h1>ABDC Journal Quality Explorer</h1>
       <p>Search, filter and compare the ABDC Journal Quality List across six editions, with journal-level rating histories and a focused 2022 → 2025 change explorer.</p>
       <noscript><p>This explorer needs JavaScript. It lets you search the Australian Business Deans Council (ABDC) Journal Quality List by journal title, ISSN, publisher or field of research; filter by A*, A, B and C rating and FT50 membership; and compare the 2010, 2013, 2016, 2019, 2022 and 2025 editions. The official list is available from the <a href="https://abdc.edu.au/abdc-journal-quality-list/">ABDC website</a>.</p></noscript>
@@ -265,7 +284,7 @@ function bind(){
   $$('th[data-sort]').forEach(th=>th.addEventListener('click',()=>{const s=th.dataset.sort;if(state.sort===s)state.dir*=-1;else{state.sort=s;state.dir=1}state.page=1;renderTable()}));
   $('#journalBody').addEventListener('click',e=>{const tr=e.target.closest('tr[data-idx]');if(tr)openDrawer(state.filtered[+tr.dataset.idx])});
   $('#drawerBack').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDrawer()});$('#closeDrawer').addEventListener('click',closeDrawer);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
-  $('#themeBtn').addEventListener('click',()=>{const root=document.documentElement;root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('abdc-theme',root.dataset.theme)}catch(e){}});try{const saved=localStorage.getItem('abdc-theme');if(saved)document.documentElement.dataset.theme=saved}catch(e){}
+  $('#themeBtn').addEventListener('click',()=>{const root=document.documentElement;root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('abdc-theme',root.dataset.theme)}catch(e){}});try{const saved=localStorage.getItem('abdc-theme');if(saved)document.documentElement.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}
   $('#exportBtn').addEventListener('click',exportCSV);
   $$('.nav button').forEach(b=>b.addEventListener('click',()=>{$$('.nav button').forEach(x=>x.classList.toggle('active',x===b));$$('.page').forEach(p=>p.classList.toggle('active',p.id===b.dataset.page))}));
   $('#changeSearch').addEventListener('input',()=>{cstate.page=1;renderChanges()});$$('.typechip').forEach(b=>b.addEventListener('click',()=>{$$('.typechip').forEach(x=>x.classList.remove('active'));b.classList.add('active');cstate.page=1;renderChanges()}));$('#changePrev').addEventListener('click',()=>{if(cstate.page>1){cstate.page--;renderChanges()}});$('#changeNext').addEventListener('click',()=>{const pages=Math.max(1,Math.ceil(cstate.filtered.length/cstate.pageSize));if(cstate.page<pages){cstate.page++;renderChanges()}});

@@ -4,345 +4,489 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Carl Michael Galang is a cognitive scientist and information systems researcher studying empathy, agency, imitation, and human–AI interaction.">
-  <meta name="theme-color" content="#f8f9fc">
+  <meta name="theme-color" content="#f4f1e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b1c18" media="(prefers-color-scheme: dark)">
   <title>Carl Michael Galang, PhD | Social cognition &amp; human–AI interaction</title>
   <link rel="icon" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
   <link rel="stylesheet" href="assets/css/site.css">
   <script src="assets/js/nav.js" defer></script>
+  <script src="assets/js/papers.js" defer></script>
+  <link rel="canonical" href="https://galangca.github.io/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Carl Michael Galang",
+    "honorificSuffix": "PhD",
+    "url": "https://galangca.github.io/",
+    "image": "https://galangca.github.io/assets/images/carl-michael-galang.png",
+    "jobTitle": "Postdoctoral Research Fellow",
+    "affiliation": {"@type": "Organization", "name": "DeGroote School of Business, McMaster University"},
+    "email": "mailto:galangc@mcmaster.ca",
+    "sameAs": ["https://scholar.google.com/citations?user=iZGbEqEAAAAJ&hl=en", "https://orcid.org/0000-0002-4088-8476", "https://www.linkedin.com/in/cmgalang"],
+    "knowsAbout": ["social cognition", "empathy", "sense of agency", "imitation", "human–AI interaction"]
+  }
+  </script>
   <!-- GoatCounter: privacy-friendly, cookieless visitor counts -->
   <script data-goatcounter="https://galangca.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="wordmark" href="index.html" aria-label="Carl Michael Galang, home">cmg<span aria-hidden="true">.</span></a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="#research">Research</a><a href="#publications">Publications</a>
-        <details class="nav-dropdown"><summary>Tools <span class="caret" aria-hidden="true">▾</span></summary><div class="nav-menu"><a href="tools/ABDC_Explorer.html">ABDC Journal Quality Explorer</a></div></details>
-        <a href="cv.html">CV</a>
-        <a class="nav-contact" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
-      </nav>
-    </div>
-  </header>
+  <nav class="site-nav" aria-label="Main navigation"><div class="in">
+    <a class="home" href="#main">~/cmg</a>
+    <a href="#research">research</a>
+    <a href="#publications">papers</a>
+    <details class="nav-dropdown"><summary>tools <span aria-hidden="true">▾</span></summary><div class="nav-menu"><a href="tools/ABDC_Explorer.html">abdc-explorer<span>ABDC journal list, 2010–2025</span></a></div></details>
+    <a href="cv.html">cv</a>
+    <a href="#contact">contact</a>
+  </div></nav>
   <main id="main">
-    <section class="hero container" aria-labelledby="intro-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span> Social cognition &amp; human–AI interaction</p>
-        <h1 id="intro-title">Carl Michael<br>Galang<span class="name-period">.</span><span class="degree">PhD</span></h1>
-        <p class="hero-affiliation"><span class="affiliation-role">Postdoctoral Research Fellow</span>McMaster Digital Transformation Research Centre<br>DeGroote School of Business</p>
+    <h1><span class="p">~/</span>carl-michael-galang<span class="deg">, PhD</span> <span class="cursor" aria-hidden="true"></span></h1>
+
+    <div class="intro">
+      <dl>
+        <dt>who</dt><dd>Cognitive scientist &amp; information systems researcher</dd>
+        <dt>where</dt><dd>Postdoctoral Research Fellow, McMaster Digital Transformation Research Centre, DeGroote School of Business</dd>
+        <dt>asks</dt><dd>How do we understand <span class="hl">other minds, human or otherwise</span>?</dd>
+        <dt>now</dt><dd>Human–AI interaction with Milena Head &amp; Khaled Hassanein</dd>
+        <dt>find me</dt><dd><a href="mailto:galangc@mcmaster.ca">email</a> · <a href="cv.html">cv</a> · <a href="https://scholar.google.com/citations?user=iZGbEqEAAAAJ&amp;hl=en">scholar</a> · <a href="https://orcid.org/0000-0002-4088-8476">orcid</a> · <a href="https://www.linkedin.com/in/cmgalang">linkedin</a></dd>
+      </dl>
+      <figure><img src="assets/images/carl-michael-galang.png" alt="Carl Michael Galang" width="128" height="128"><figcaption class="cap">fig. 1 · the author</figcaption></figure>
+    </div>
+
+    <div class="stats" aria-label="At a glance">
+      <div class="stat"><b data-count="published">28</b><span>peer-reviewed papers</span></div>
+      <div class="stat"><b data-count="first-author">18</b><span>as first author</span></div>
+      <div class="stat"><b data-count="since">2017</b><span>publishing since</span></div>
+      <div class="stat"><b data-count="pipeline">9</b><span>in the pipeline</span></div>
+    </div>
+
+    <h2 id="research">research <span class="c">3 threads</span></h2>
+    <p class="lede">My work asks how we understand other minds, experience control over our actions, and respond to the people and technologies around us.</p>
+    <div class="themes">
+      <div class="theme">
+        <h3>empathy/ <span>· <span data-count="tag:empathy">14</span> papers</span></h3>
+        <p>How we respond to others’ experiences, including pain, and how social context shapes those responses.</p>
+        <div class="m">e.g. <a href="https://www.tandfonline.com/doi/full/10.1080/02699931.2019.1625307">Please Empathize!</a> (2020), <a href="https://doi.org/10.1080/17470919.2021.1886165">social power &amp; ERPs of empathy for pain</a> (2021)</div>
       </div>
-      <div class="hero-summary">
-        <p class="hero-lead">Understanding other minds.<br><em>Human or otherwise.</em></p>
-        <p class="hero-description">I'm a cognitive scientist and information systems researcher studying how we relate to one another and to artificial intelligence.</p>
-        <div class="hero-actions"><a class="button button-primary" href="#publications">Explore my work <span aria-hidden="true">↓</span></a><a class="text-link" href="cv.html">View my CV <span aria-hidden="true">↗</span></a></div>
+      <div class="theme">
+        <h3>agency-control/ <span>· <span data-count="tag:agency">16</span> papers</span></h3>
+        <p>How we experience our own actions, coordinate with others, and come to feel in control, individually and together.</p>
+        <div class="m">e.g. <a href="https://psycnet.apa.org/fulltext/2026-67710-001.html">Sense of agency during group control</a> (2025), <a href="https://www.sciencedirect.com/science/article/pii/S0010027724001173">Anticipated imitation of multiple agents</a> (2024)</div>
       </div>
-    </section>
-    <section class="research-section" id="research" aria-labelledby="research-title">
-      <div class="container">
-        <div class="section-intro">
-          <div><p class="eyebrow">01 / Research</p><h2 id="research-title">The social brain,<br>in a changing world.</h2></div>
-          <div class="section-description"><p>My work asks how we understand other minds, experience control over our actions, and respond to the people and technologies around us.</p><p>At McMaster, I work with Prof. Milena Head and Prof. Khaled Hassanein at the DeGroote School of Business, bringing cognitive science, information systems, and human–AI interaction research into conversation.</p></div>
-        </div>
-        <div class="research-grid">
-          <article class="research-item"><span class="research-number" aria-hidden="true">01</span><h3>Empathy &amp; <br>social cognition</h3><p>How we respond to others’ experiences, including pain, and how social context shapes those responses.</p></article>
-          <article class="research-item"><span class="research-number" aria-hidden="true">02</span><h3>Agency &amp; <br>imitation</h3><p>How we experience our own actions, coordinate with others, and come to feel in control, individually and together.</p></article>
-          <article class="research-item"><span class="research-number" aria-hidden="true">03</span><h3>Human–AI <br>interaction</h3><p>How our cognition is affected by AI use, how we mentally represent AI as social agents, and how we can optimize human–AI interactions.</p></article>
-        </div>
-        <div class="methods-strip"><p class="eyebrow">Across methods</p><p>EEG <span>·</span> TMS <span>·</span> Psychophysiology <span>·</span> Behavioural experiments <span>·</span> Quantitative modeling</p></div>
+      <div class="theme">
+        <h3>human-ai/ <span>· <span data-count="tag:human-ai">3</span> papers</span></h3>
+        <p>How AI use affects cognition, how we mentally represent AI as social agents, and how human–AI interaction can be improved.</p>
+        <div class="m">e.g. <a href="https://doi.org/10.31234/osf.io/2mb7x_v2">The face of ChatGPT</a> (preprint), <a href="https://doi.org/10.31234/osf.io/gbnfq_v1">Multimodal LLMs encode implicit gender bias</a> (under review)</div>
       </div>
-    </section>
-    <section class="publications-section container" id="publications" aria-labelledby="publications-title">
-      <div class="section-heading"><div><p class="eyebrow">02 / Publications</p><h2 id="publications-title">Preprints and work under review,<br>followed by published works.</h2></div><a class="text-link" href="https://scholar.google.com/citations?user=iZGbEqEAAAAJ&amp;hl=en">Google Scholar <span aria-hidden="true">↗</span></a></div>
-      <div class="work-in-progress" id="preprints">
-        <div class="subsection-heading"><h3>Preprints</h3><span class="status-label">Before peer review</span></div>
-        <ol class="paper-list">
-          <li class="paper"><div class="paper-year">2026</div><div class="paper-content"><h4><a href="https://doi.org/10.31234/osf.io/2mb7x_v2">The face of ChatGPT: Using reverse correlation to reveal mental representations of AI.</a></h4><p class="paper-authors"><strong>Galang, C.M.</strong>, Hassanein, K., Head, M., &amp; Obhi, S.S.</p></div><div class="paper-links"><a class="paper-link" href="https://doi.org/10.31234/osf.io/2mb7x_v2" aria-label="Read preprint: The face of ChatGPT">Preprint <span aria-hidden="true">↗</span></a></div></li>
-          <li class="paper"><div class="paper-year">2026</div><div class="paper-content"><h4><a href="https://doi.org/10.31234/osf.io/eycr8_v1">When the clock lies: Intention reports can be biased by authoritative suggestion.</a></h4><p class="paper-authors">Dominik, T., Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p></div><div class="paper-links"><a class="paper-link" href="https://doi.org/10.31234/osf.io/eycr8_v1" aria-label="Read preprint: When the clock lies">Preprint <span aria-hidden="true">↗</span></a></div></li>
-          <li class="paper"><div class="paper-year">2019</div><div class="paper-content"><h4><a href="https://osf.io/bnh7p">Introducing a Framework for Open and Reproducible Research Training (FORRT).</a></h4><p class="paper-authors">Azevedo, F., Parsons, S., Micheli, L., Strand, J., Rinke, E., …, <strong>Galang, C.M.</strong>, … &amp; FORRT</p></div><div class="paper-links"><a class="paper-link" href="https://osf.io/bnh7p" aria-label="Read preprint: Framework for Open and Reproducible Research Training">Preprint <span aria-hidden="true">↗</span></a></div></li>
-        </ol>
-        <div class="subsection-heading"><h3>Under review</h3><span class="status-label">In peer review</span></div>
-        <ol class="paper-list">
-          <li class="paper"><div class="paper-year">2026</div><div class="paper-content"><h4><a href="https://dx.doi.org/10.2139/ssrn.7289291">The Sense of Agency During Collective Rule-Breaking.</a></h4><p class="paper-authors">Nisanci, S., Formica, S., Brass, M., &amp; <strong>Galang, C.M.</strong></p><p class="paper-journal">Under Review at <em>Cognition</em></p></div><div class="paper-links"><a class="paper-link" href="https://dx.doi.org/10.2139/ssrn.7289291" aria-label="Read preprint: The Sense of Agency During Collective Rule-Breaking">Preprint <span aria-hidden="true">↗</span></a></div></li>
-          <li class="paper"><div class="paper-year">2026</div><div class="paper-content"><h4><a href="https://doi.org/10.31234/osf.io/gbnfq_v1">Multimodal Large Language Models Encode Implicit Gender Bias.</a></h4><p class="paper-authors">Nisanci, S., Bou Saba, S., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p><p class="paper-journal">Under Review at <em>PNAS</em></p></div><div class="paper-links"><a class="paper-link" href="https://doi.org/10.31234/osf.io/gbnfq_v1" aria-label="Read preprint: Multimodal Large Language Models Encode Implicit Gender Bias">Preprint <span aria-hidden="true">↗</span></a></div></li>
-        </ol>
-      </div>
-      <div class="subsection-heading journal-heading"><h3>Published works</h3><span class="status-label">Peer reviewed</span></div>
-<ol class="paper-list">
-          <li class="paper">
-            <div class="paper-year">2026</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S1053810026001248">Social Exclusion Does Not Affect Interval Estimation of Action-Outcome Events.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Biswas, M., Luk, M., &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Consciousness and Cognition, 144</em>, 104116.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S1053810026001248" aria-label="Read paper: Social Exclusion Does Not Affect Interval Estimation of Action-Outcome Events.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2026</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S0001691826011674">The intentional stance does not modulate the automatic imitation bias against robots.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Hassanein, K., &amp; Head, M.</p>
-              <p class="paper-journal"><em>Acta Psychologica</em>, 107366.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S0001691826011674" aria-label="Read paper: The intentional stance does not modulate the automatic imitation bias against robots.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2026</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S0001691826008590">Us and Them: Anticipated Imitation Between Groups.</a></h4>
-              <p class="paper-authors">Marschner, M., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Acta Psychologica, 267</em>, 107058.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S0001691826008590" aria-label="Read paper: Us and Them: Anticipated Imitation Between Groups.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2026</div>
-            <div class="paper-content">
-              <h4><a href="https://www.nature.com/articles/s41586-025-09844-9">Investigating the analytical robustness of the social and behavioural sciences.</a></h4>
-              <p class="paper-authors">Aczel, B., Szaszi, B., Clelland, H. T., Kovacs, M., Schulz-Kümpel, H., Holzmeister, F., … , <strong>Galang, C.M.</strong>, … &amp; Nosek, B. A.</p>
-              <p class="paper-journal"><em>Nature, 652</em>,  135-142.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.nature.com/articles/s41586-025-09844-9" aria-label="Read paper: Investigating the analytical robustness of the social and behavioural sciences.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2025</div>
-            <div class="paper-content">
-              <h4><a href="https://psycnet.apa.org/fulltext/2026-67710-001.html">Sense of Agency during Group Control.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Cracco, E., Chirkov, V., Obhi, S.S., &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Journal of Experimental Psychology: General, 154</em>(12), 3392-3404.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://psycnet.apa.org/fulltext/2026-67710-001.html" aria-label="Read paper: Sense of Agency during Group Control.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2025</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S0010945225002825?via%3Dihub">Motor preparation during pain observation does not influence event-related Mu/Beta desynchronization.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Jenkins, M., Sanders, T., Vijh, R., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Cortex, 193</em>, 160-170.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S0010945225002825?via%3Dihub" aria-label="Read paper: Motor preparation during pain observation does not influence event-related Mu/Beta desynchronization.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2025</div>
-            <div class="paper-content">
-              <h4><a href="https://link.springer.com/article/10.1007/s00426-025-02178-1">Moderate Manipulation to Somatosensory Feedback Does Not Affect Libet-style Intentional Action.</a></h4>
-              <p class="paper-authors">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Psychological Research, 89</em>(140), 1-13.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://link.springer.com/article/10.1007/s00426-025-02178-1" aria-label="Read paper: Moderate Manipulation to Somatosensory Feedback Does Not Affect Libet-style Intentional Action.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2025</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S1053810025000650">Preliminary evidence for a selective agency-boosting effect of psychosocial stress.</a></h4>
-              <p class="paper-authors">Edwards, S., <strong>Galang, C.M.</strong>, Fung, K., Knight, A., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Consciousness and Cognition, 131</em>, 103872.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S1053810025000650" aria-label="Read paper: Preliminary evidence for a selective agency-boosting effect of psychosocial stress.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2025</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S1053810025000443">Temporal binding during deliberate rule breaking.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Akan, A., Pfister, R., &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Consciousness and Cognition, 130</em>, 103851.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S1053810025000443" aria-label="Read paper: Temporal binding during deliberate rule breaking.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-</ol>
-<details class="publication-archive"><summary><span>Earlier publications <span class="summary-count">2017–2024 · 19 papers</span></span><span class="disclosure-icon" aria-hidden="true">+</span></summary><ol class="paper-list" start="10">
-          <li class="paper">
-            <div class="paper-year">2024</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S1053810024000990">Using a Veto Paradigm to Investigate the Decision Models in Explaining Libet-style Experiments.</a></h4>
-              <p class="paper-authors">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Consciousness and Cognition, 124</em>, 103732.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S1053810024000990" aria-label="Read paper: Using a Veto Paradigm to Investigate the Decision Models in Explaining Libet-style Experiments.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2024</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S0010027724001173">Anticipated imitation of multiple agents.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Cracco, E., &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Cognition, 249</em>, 105831.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S0010027724001173" aria-label="Read paper: Anticipated imitation of multiple agents.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2024</div>
-            <div class="paper-content">
-              <h4><a href="https://www.nature.com/articles/s44271-024-00077-6">Defining key concepts for mental state attribution.</a></h4>
-              <p class="paper-authors">Quesque, F., Apperly, I, Baillargeon, R., [...], <strong>Galang, C.M.</strong>, [...], &amp; Brass, M.</p>
-              <p class="paper-journal"><em>Communications Psychology, 2</em>(29), 1-5.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.nature.com/articles/s44271-024-00077-6" aria-label="Read paper: Defining key concepts for mental state attribution.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2022</div>
-            <div class="paper-content">
-              <h4><a href="https://link.springer.com/article/10.1007/s00221-022-06508-2">Empathic pain observation does not influence automatic imitation in an online setting.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Experimental Brain Research, 241</em>, 263-276.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://link.springer.com/article/10.1007/s00221-022-06508-2" aria-label="Read paper: Empathic pain observation does not influence automatic imitation in an online setting.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2022</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/abs/pii/S0149763422002482?via%3Dihub">The Sense of Agency for Brain Disorders: A Comprehensive Review and Proposed Framework.</a></h4>
-              <p class="paper-authors">Malik, R., <strong>Galang, C.M.</strong>, &amp; Finger, E.</p>
-              <p class="paper-journal"><em>Neuroscience and Biobehavioral Reviews, 139</em>, 104759.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/abs/pii/S0149763422002482?via%3Dihub" aria-label="Read paper: The Sense of Agency for Brain Disorders: A Comprehensive Review and Proposed Framework.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2022</div>
-            <div class="paper-content">
-              <h4><a href="https://onlinelibrary.wiley.com/doi/10.1111/cogs.13179">Cognitive Science in a Nutshell.</a></h4>
-              <p class="paper-authors">Mekik, C.S. &amp; <strong>Galang, C.M.</strong></p>
-              <p class="paper-journal"><em>Cognitive Science, 46</em>, e13179.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://onlinelibrary.wiley.com/doi/10.1111/cogs.13179" aria-label="Read paper: Cognitive Science in a Nutshell.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://ccsenet.org/journal/index.php/ijps/article/view/0/46332">Blatant Dehumanization is Not Influenced by Dual Identity Labels: Evidence from the Canadian Context.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Ku, M., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>International Journal of Psychological Studies, 13</em>(4), 62-74.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://ccsenet.org/journal/index.php/ijps/article/view/0/46332" aria-label="Read paper: Blatant Dehumanization is Not Influenced by Dual Identity Labels: Evidence from the Canadian Context.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S1053810021001434?dgcid=author">Studying Sense of Agency Online: Testing the robustness of the intentional binding effect using an online sample.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Malik, R., Kinley, I., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Consciousness and Cognition, 95</em>, 103217.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S1053810021001434?dgcid=author" aria-label="Read paper: Studying Sense of Agency Online: Testing the robustness of the intentional binding effect using an online sample.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://doi.org/10.1080/17470919.2021.1886165">Exploring the relationship between social power and the ERP components of empathy for pain.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Jenkins, M., Fahim, G., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Social Neuroscience, 16</em>, 174-188.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://doi.org/10.1080/17470919.2021.1886165" aria-label="Read paper: Exploring the relationship between social power and the ERP components of empathy for pain.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://link.springer.com/article/10.1007%2Fs00221-020-05990-w">Investigating the effects of pain observation on approach and withdrawal actions.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Pichtikova, M., Sanders, T., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Experimental Brain Research, 239</em>, 847-856.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://link.springer.com/article/10.1007%2Fs00221-020-05990-w" aria-label="Read paper: Investigating the effects of pain observation on approach and withdrawal actions.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://journals.physiology.org/doi/abs/10.1152/jn.00600.2020">To Move or Not to Move: Motor cortical output is enhanced during pain observation regardless of motor preparation state.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Journal of Neurophysiology, 125</em>, 599-605.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://journals.physiology.org/doi/abs/10.1152/jn.00600.2020" aria-label="Read paper: To Move or Not to Move: Motor cortical output is enhanced during pain observation regardless of motor preparation state.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2021</div>
-            <div class="paper-content">
-              <h4><a href="https://doi.org/10.3389/fpsyg.2021.588934">Exploring the Relationship Between Empathy, Self-Construal Style, and Self-Reported Social Distancing Tendencies During the COVID-19 Pandemic.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Johnson, D., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Frontiers in Psychology, 12</em>, 588934.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://doi.org/10.3389/fpsyg.2021.588934" aria-label="Read paper: Exploring the Relationship Between Empathy, Self-Construal Style, and Self-Reported Social Distancing Tendencies During the COVID-19 Pandemic.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2020</div>
-            <div class="paper-content">
-              <h4><a href="https://www.sciencedirect.com/science/article/pii/S0001691819304640?via%3Dihub">Automatic imitation does not predict levels of generosity during a modified dictator game.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Acta Psychologica, 204</em>, 103022.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.sciencedirect.com/science/article/pii/S0001691819304640?via%3Dihub" aria-label="Read paper: Automatic imitation does not predict levels of generosity during a modified dictator game.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2020</div>
-            <div class="paper-content">
-              <h4><a href="https://www.tandfonline.com/doi/full/10.1080/17470919.2019.1674686">Exploring the Effects of Visual Perspective on the ERP Components of Empathy for Pain.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Jenkins, M., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Social Neuroscience, 15</em>(2), 186-198.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.tandfonline.com/doi/full/10.1080/17470919.2019.1674686" aria-label="Read paper: Exploring the Effects of Visual Perspective on the ERP Components of Empathy for Pain.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2020</div>
-            <div class="paper-content">
-              <h4><a href="https://www.tandfonline.com/doi/full/10.1080/02699931.2019.1625307">Please Empathize! Instructions to empathize strengthen response facilitation after pain observation.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Cognition and Emotion, 34</em>(2), 316-328.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.tandfonline.com/doi/full/10.1080/02699931.2019.1625307" aria-label="Read paper: Please Empathize! Instructions to empathize strengthen response facilitation after pain observation.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2019</div>
-            <div class="paper-content">
-              <h4><a href="https://www.tandfonline.com/doi/abs/10.1080/17588928.2018.1504763">Social Power and Frontal Alpha Asymmetry.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Cognitive Neuroscience, 10</em>(1), 44-56.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://www.tandfonline.com/doi/abs/10.1080/17588928.2018.1504763" aria-label="Read paper: Social Power and Frontal Alpha Asymmetry.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2018</div>
-            <div class="paper-content">
-              <h4><a href="http://journals.sagepub.com/eprint/kZ7yRdYhkuE7AWyNabJZ/full">The effect of scrambling upright and inverted faces on the N170.</a></h4>
-              <p class="paper-authors">Civile, C., Elchlepp, H., McLaren, R., <strong>Galang, C.M.</strong>, Lavric, A., &amp; McLaren, I.P.L.</p>
-              <p class="paper-journal"><em>Quarterly Journal of Experimental Psychology, 71</em>(11), 2464-2476.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="http://journals.sagepub.com/eprint/kZ7yRdYhkuE7AWyNabJZ/full" aria-label="Read paper: The effect of scrambling upright and inverted faces on the N170.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2017</div>
-            <div class="paper-content">
-              <h4><a href="https://link.springer.com/article/10.1007%2Fs00221-017-5070-9">Observing painful events in others leads to a temporally extended general response facilitation in the self.</a></h4>
-              <p class="paper-authors"><strong>Galang, C.M.</strong>, Naish, K.R., Arbabi, K., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Experimental Brain Research, 235</em>(11), 3469-3477.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://link.springer.com/article/10.1007%2Fs00221-017-5070-9" aria-label="Read paper: Observing painful events in others leads to a temporally extended general response facilitation in the self.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-          <li class="paper">
-            <div class="paper-year">2017</div>
-            <div class="paper-content">
-              <h4><a href="https://link.springer.com/article/10.1007%2Fs00221-016-4837-8">Effects of intentional movement preparation on response times to symbolic and imitative cues.</a></h4>
-              <p class="paper-authors">Naish, K.R., Rajagobal, A., <strong>Galang, C.M.</strong>, Sartori, L., &amp; Obhi, S.S.</p>
-              <p class="paper-journal"><em>Experimental Brain Research, 235</em>(3), 753-61.</p>
-            </div>
-            <div class="paper-links"><a class="paper-link" href="https://link.springer.com/article/10.1007%2Fs00221-016-4837-8" aria-label="Read paper: Effects of intentional movement preparation on response times to symbolic and imitative cues.">Read paper <span aria-hidden="true">↗</span></a></div>
-          </li>
-</ol></details>
-      <details class="publication-archive prep-list">
-        <summary><span>In preparation <span class="summary-count">4 projects</span></span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
-        <ul>
-          <li><h4>Development and validation of the Epistemic Stance Test for generative AI (EST-GenAI).</h4><p class="paper-authors"><strong>Galang, C.M.</strong>, Hassanein, K., Head, M., &amp; Mekik, S.C.</p></li>
-          <li><h4>Intentional Binding &amp; the Sense of Agency.</h4><p class="paper-authors"><strong>Galang, C.M.</strong>, Malik, R., Obhi, S.S., &amp; Brass, M.</p></li>
-          <li><h4>Stimulating Your Voluntariness: What Can Brain Stimulation Studies Tell Us about Intention and Voluntary Behaviors?</h4><p class="paper-authors">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</p></li>
-          <li><h4>Gender Cues Influence Attribution of Cause and Effect.</h4><p class="paper-authors">Saba, S., <strong>Galang, C.M.</strong>, &amp; Brass</p></li>
-        </ul>
-      </details>
-    </section>
-    <section class="contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="container contact-inner"><div><p class="eyebrow">03 / Get in touch</p><h2 id="contact-title">Let’s talk minds.</h2><p>For research, related materials, or a conversation about the work.</p></div><div class="contact-links"><a class="contact-email" href="mailto:galangc@mcmaster.ca">galangc@mcmaster.ca <span aria-hidden="true">↗</span></a><div class="profile-links"><a href="https://scholar.google.com/citations?user=iZGbEqEAAAAJ&amp;hl=en">Google Scholar ↗</a><a href="https://orcid.org/0000-0002-4088-8476">ORCID ↗</a><a href="cv.html">Curriculum vitae ↗</a></div></div></div>
-    </section>
+    </div>
+    <p class="methods"><span class="mono">methods:</span> EEG · TMS · psychophysiology · behavioural experiments · quantitative modelling</p>
+
+    <h2 id="publications">papers <span class="c"><a href="https://scholar.google.com/citations?user=iZGbEqEAAAAJ&amp;hl=en">google scholar ↗</a></span></h2>
+    <div class="filters" role="group" aria-label="Filter papers">
+      <span class="prompt">$ grep</span>
+      <button type="button" data-f="all" aria-pressed="true">all</button>
+      <button type="button" data-f="empathy" aria-pressed="false">#empathy</button>
+      <button type="button" data-f="agency" aria-pressed="false">#agency-control</button>
+      <button type="button" data-f="human-ai" aria-pressed="false">#human-ai</button>
+      <button type="button" data-f="other" aria-pressed="false">#other</button>
+      <input type="search" id="paper-search" placeholder="title, author, journal…" aria-label="Search papers">
+    </div>
+    <p class="status" id="paper-status" aria-live="polite"></p>
+
+    <h2 id="preprints">preprints <span class="c">not yet peer reviewed</span></h2>
+    <ol class="paper-list" data-section="preprints">
+        <li data-tags="human-ai">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://doi.org/10.31234/osf.io/2mb7x_v2">The face of ChatGPT: Using reverse correlation to reveal mental representations of AI.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Hassanein, K., Head, M., &amp; Obhi, S.S.</div>
+            <div class="m v">PsyArXiv / OSF preprint</div>
+            <div class="row-foot"><span class="tag">#human-ai</span><a class="open" href="https://doi.org/10.31234/osf.io/2mb7x_v2" aria-label="Open preprint: The face of ChatGPT: Using reverse correlation to reveal mental representations of AI.">open preprint ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://doi.org/10.31234/osf.io/eycr8_v1">When the clock lies: Intention reports can be biased by authoritative suggestion.</a>
+            <div class="m">Dominik, T., Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="m v">PsyArXiv / OSF preprint</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://doi.org/10.31234/osf.io/eycr8_v1" aria-label="Open preprint: When the clock lies: Intention reports can be biased by authoritative suggestion.">open preprint ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="other">
+          <span class="y">2019</span>
+          <div>
+            <a href="https://osf.io/bnh7p">Introducing a Framework for Open and Reproducible Research Training (FORRT).</a>
+            <div class="m">Azevedo, F., Parsons, S., Micheli, L., Strand, J., Rinke, E., …, <strong>Galang, C.M.</strong>, … &amp; FORRT</div>
+            <div class="m v">PsyArXiv / OSF preprint</div>
+            <div class="row-foot"><span class="tag">#other</span><a class="open" href="https://osf.io/bnh7p" aria-label="Open preprint: Introducing a Framework for Open and Reproducible Research Training (FORRT).">open preprint ↗</a></div>
+          </div>
+        </li>
+    </ol>
+    <p class="empty">no matches</p>
+
+    <h2 id="under-review">under review <span class="c">in peer review</span></h2>
+    <ol class="paper-list" data-section="under-review">
+        <li data-tags="agency">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://dx.doi.org/10.2139/ssrn.7289291">The Sense of Agency During Collective Rule-Breaking.</a>
+            <div class="m">Nisanci, S., Formica, S., Brass, M., &amp; <strong>Galang, C.M.</strong></div>
+            <div class="m v">Under Review at <em>Cognition</em></div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://dx.doi.org/10.2139/ssrn.7289291" aria-label="Open preprint: The Sense of Agency During Collective Rule-Breaking.">open preprint ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="human-ai">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://doi.org/10.31234/osf.io/gbnfq_v1">Multimodal Large Language Models Encode Implicit Gender Bias.</a>
+            <div class="m">Nisanci, S., Bou Saba, S., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="m v">Under Review at <em>PNAS</em></div>
+            <div class="row-foot"><span class="tag">#human-ai</span><a class="open" href="https://doi.org/10.31234/osf.io/gbnfq_v1" aria-label="Open preprint: Multimodal Large Language Models Encode Implicit Gender Bias.">open preprint ↗</a></div>
+          </div>
+        </li>
+    </ol>
+    <p class="empty">no matches</p>
+
+    <h2 id="published">published <span class="c">peer reviewed</span></h2>
+    <h3 class="yh">2026 <span>(4)</span></h3>
+    <ol class="paper-list" data-section="published">
+        <li data-tags="agency empathy">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S1053810026001248">Social Exclusion Does Not Affect Interval Estimation of Action-Outcome Events.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Biswas, M., Luk, M., &amp; Brass, M.</div>
+            <div class="m v"><em>Consciousness and Cognition, 144</em>, 104116.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><span class="tag">#empathy</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S1053810026001248" aria-label="Open paper: Social Exclusion Does Not Affect Interval Estimation of Action-Outcome Events.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="human-ai agency">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S0001691826011674">The intentional stance does not modulate the automatic imitation bias against robots.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Hassanein, K., &amp; Head, M.</div>
+            <div class="m v"><em>Acta Psychologica</em>, 107366.</div>
+            <div class="row-foot"><span class="tag">#human-ai</span><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S0001691826011674" aria-label="Open paper: The intentional stance does not modulate the automatic imitation bias against robots.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S0001691826008590">Us and Them: Anticipated Imitation Between Groups.</a>
+            <div class="m">Marschner, M., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="m v"><em>Acta Psychologica, 267</em>, 107058.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S0001691826008590" aria-label="Open paper: Us and Them: Anticipated Imitation Between Groups.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="other">
+          <span class="y">2026</span>
+          <div>
+            <a href="https://www.nature.com/articles/s41586-025-09844-9">Investigating the analytical robustness of the social and behavioural sciences.</a>
+            <div class="m">Aczel, B., Szaszi, B., Clelland, H. T., Kovacs, M., Schulz-Kümpel, H., Holzmeister, F., … , <strong>Galang, C.M.</strong>, … &amp; Nosek, B. A.</div>
+            <div class="m v"><em>Nature, 652</em>,  135-142.</div>
+            <div class="row-foot"><span class="tag">#other</span><a class="open" href="https://www.nature.com/articles/s41586-025-09844-9" aria-label="Open paper: Investigating the analytical robustness of the social and behavioural sciences.">open paper ↗</a></div>
+          </div>
+        </li>
+    </ol>
+    <h3 class="yh">2025 <span>(5)</span></h3>
+    <ol class="paper-list" data-section="published">
+        <li data-tags="agency">
+          <span class="y">2025</span>
+          <div>
+            <a href="https://psycnet.apa.org/fulltext/2026-67710-001.html">Sense of Agency during Group Control.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Cracco, E., Chirkov, V., Obhi, S.S., &amp; Brass, M.</div>
+            <div class="m v"><em>Journal of Experimental Psychology: General, 154</em>(12), 3392-3404.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://psycnet.apa.org/fulltext/2026-67710-001.html" aria-label="Open paper: Sense of Agency during Group Control.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2025</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S0010945225002825?via%3Dihub">Motor preparation during pain observation does not influence event-related Mu/Beta desynchronization.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Jenkins, M., Sanders, T., Vijh, R., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Cortex, 193</em>, 160-170.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S0010945225002825?via%3Dihub" aria-label="Open paper: Motor preparation during pain observation does not influence event-related Mu/Beta desynchronization.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2025</span>
+          <div>
+            <a href="https://link.springer.com/article/10.1007/s00426-025-02178-1">Moderate Manipulation to Somatosensory Feedback Does Not Affect Libet-style Intentional Action.</a>
+            <div class="m">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="m v"><em>Psychological Research, 89</em>(140), 1-13.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://link.springer.com/article/10.1007/s00426-025-02178-1" aria-label="Open paper: Moderate Manipulation to Somatosensory Feedback Does Not Affect Libet-style Intentional Action.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2025</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S1053810025000650">Preliminary evidence for a selective agency-boosting effect of psychosocial stress.</a>
+            <div class="m">Edwards, S., <strong>Galang, C.M.</strong>, Fung, K., Knight, A., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Consciousness and Cognition, 131</em>, 103872.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S1053810025000650" aria-label="Open paper: Preliminary evidence for a selective agency-boosting effect of psychosocial stress.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2025</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S1053810025000443">Temporal binding during deliberate rule breaking.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Akan, A., Pfister, R., &amp; Brass, M.</div>
+            <div class="m v"><em>Consciousness and Cognition, 130</em>, 103851.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S1053810025000443" aria-label="Open paper: Temporal binding during deliberate rule breaking.">open paper ↗</a></div>
+          </div>
+        </li>
+    </ol>
+    <details class="fold" id="older-papers">
+      <summary>+ 19 earlier (2017–2024)</summary>
+      <h3 class="yh">2024 <span>(3)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="agency">
+          <span class="y">2024</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S1053810024000990">Using a Veto Paradigm to Investigate the Decision Models in Explaining Libet-style Experiments.</a>
+            <div class="m">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="m v"><em>Consciousness and Cognition, 124</em>, 103732.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S1053810024000990" aria-label="Open paper: Using a Veto Paradigm to Investigate the Decision Models in Explaining Libet-style Experiments.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2024</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S0010027724001173">Anticipated imitation of multiple agents.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Cracco, E., &amp; Brass, M.</div>
+            <div class="m v"><em>Cognition, 249</em>, 105831.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S0010027724001173" aria-label="Open paper: Anticipated imitation of multiple agents.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2024</span>
+          <div>
+            <a href="https://www.nature.com/articles/s44271-024-00077-6">Defining key concepts for mental state attribution.</a>
+            <div class="m">Quesque, F., Apperly, I, Baillargeon, R., [...], <strong>Galang, C.M.</strong>, [...], &amp; Brass, M.</div>
+            <div class="m v"><em>Communications Psychology, 2</em>(29), 1-5.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://www.nature.com/articles/s44271-024-00077-6" aria-label="Open paper: Defining key concepts for mental state attribution.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2022 <span>(3)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="agency empathy">
+          <span class="y">2022</span>
+          <div>
+            <a href="https://link.springer.com/article/10.1007/s00221-022-06508-2">Empathic pain observation does not influence automatic imitation in an online setting.</a>
+            <div class="m"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Experimental Brain Research, 241</em>, 263-276.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><span class="tag">#empathy</span><a class="open" href="https://link.springer.com/article/10.1007/s00221-022-06508-2" aria-label="Open paper: Empathic pain observation does not influence automatic imitation in an online setting.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2022</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0149763422002482?via%3Dihub">The Sense of Agency for Brain Disorders: A Comprehensive Review and Proposed Framework.</a>
+            <div class="m">Malik, R., <strong>Galang, C.M.</strong>, &amp; Finger, E.</div>
+            <div class="m v"><em>Neuroscience and Biobehavioral Reviews, 139</em>, 104759.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/abs/pii/S0149763422002482?via%3Dihub" aria-label="Open paper: The Sense of Agency for Brain Disorders: A Comprehensive Review and Proposed Framework.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="other">
+          <span class="y">2022</span>
+          <div>
+            <a href="https://onlinelibrary.wiley.com/doi/10.1111/cogs.13179">Cognitive Science in a Nutshell.</a>
+            <div class="m">Mekik, C.S. &amp; <strong>Galang, C.M.</strong></div>
+            <div class="m v"><em>Cognitive Science, 46</em>, e13179.</div>
+            <div class="row-foot"><span class="tag">#other</span><a class="open" href="https://onlinelibrary.wiley.com/doi/10.1111/cogs.13179" aria-label="Open paper: Cognitive Science in a Nutshell.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2021 <span>(6)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="empathy">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://ccsenet.org/journal/index.php/ijps/article/view/0/46332">Blatant Dehumanization is Not Influenced by Dual Identity Labels: Evidence from the Canadian Context.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Ku, M., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>International Journal of Psychological Studies, 13</em>(4), 62-74.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://ccsenet.org/journal/index.php/ijps/article/view/0/46332" aria-label="Open paper: Blatant Dehumanization is Not Influenced by Dual Identity Labels: Evidence from the Canadian Context.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S1053810021001434?dgcid=author">Studying Sense of Agency Online: Testing the robustness of the intentional binding effect using an online sample.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Malik, R., Kinley, I., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Consciousness and Cognition, 95</em>, 103217.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S1053810021001434?dgcid=author" aria-label="Open paper: Studying Sense of Agency Online: Testing the robustness of the intentional binding effect using an online sample.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://doi.org/10.1080/17470919.2021.1886165">Exploring the relationship between social power and the ERP components of empathy for pain.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Jenkins, M., Fahim, G., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Social Neuroscience, 16</em>, 174-188.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://doi.org/10.1080/17470919.2021.1886165" aria-label="Open paper: Exploring the relationship between social power and the ERP components of empathy for pain.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://link.springer.com/article/10.1007%2Fs00221-020-05990-w">Investigating the effects of pain observation on approach and withdrawal actions.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Pichtikova, M., Sanders, T., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Experimental Brain Research, 239</em>, 847-856.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://link.springer.com/article/10.1007%2Fs00221-020-05990-w" aria-label="Open paper: Investigating the effects of pain observation on approach and withdrawal actions.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://journals.physiology.org/doi/abs/10.1152/jn.00600.2020">To Move or Not to Move: Motor cortical output is enhanced during pain observation regardless of motor preparation state.</a>
+            <div class="m"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Journal of Neurophysiology, 125</em>, 599-605.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://journals.physiology.org/doi/abs/10.1152/jn.00600.2020" aria-label="Open paper: To Move or Not to Move: Motor cortical output is enhanced during pain observation regardless of motor preparation state.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2021</span>
+          <div>
+            <a href="https://doi.org/10.3389/fpsyg.2021.588934">Exploring the Relationship Between Empathy, Self-Construal Style, and Self-Reported Social Distancing Tendencies During the COVID-19 Pandemic.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Johnson, D., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Frontiers in Psychology, 12</em>, 588934.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://doi.org/10.3389/fpsyg.2021.588934" aria-label="Open paper: Exploring the Relationship Between Empathy, Self-Construal Style, and Self-Reported Social Distancing Tendencies During the COVID-19 Pandemic.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2020 <span>(3)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="agency empathy">
+          <span class="y">2020</span>
+          <div>
+            <a href="https://www.sciencedirect.com/science/article/pii/S0001691819304640?via%3Dihub">Automatic imitation does not predict levels of generosity during a modified dictator game.</a>
+            <div class="m"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Acta Psychologica, 204</em>, 103022.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><span class="tag">#empathy</span><a class="open" href="https://www.sciencedirect.com/science/article/pii/S0001691819304640?via%3Dihub" aria-label="Open paper: Automatic imitation does not predict levels of generosity during a modified dictator game.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2020</span>
+          <div>
+            <a href="https://www.tandfonline.com/doi/full/10.1080/17470919.2019.1674686">Exploring the Effects of Visual Perspective on the ERP Components of Empathy for Pain.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Jenkins, M., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Social Neuroscience, 15</em>(2), 186-198.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://www.tandfonline.com/doi/full/10.1080/17470919.2019.1674686" aria-label="Open paper: Exploring the Effects of Visual Perspective on the ERP Components of Empathy for Pain.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="empathy">
+          <span class="y">2020</span>
+          <div>
+            <a href="https://www.tandfonline.com/doi/full/10.1080/02699931.2019.1625307">Please Empathize! Instructions to empathize strengthen response facilitation after pain observation.</a>
+            <div class="m"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Cognition and Emotion, 34</em>(2), 316-328.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://www.tandfonline.com/doi/full/10.1080/02699931.2019.1625307" aria-label="Open paper: Please Empathize! Instructions to empathize strengthen response facilitation after pain observation.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2019 <span>(1)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="empathy">
+          <span class="y">2019</span>
+          <div>
+            <a href="https://www.tandfonline.com/doi/abs/10.1080/17588928.2018.1504763">Social Power and Frontal Alpha Asymmetry.</a>
+            <div class="m"><strong>Galang, C.M.</strong> &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Cognitive Neuroscience, 10</em>(1), 44-56.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://www.tandfonline.com/doi/abs/10.1080/17588928.2018.1504763" aria-label="Open paper: Social Power and Frontal Alpha Asymmetry.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2018 <span>(1)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="other">
+          <span class="y">2018</span>
+          <div>
+            <a href="http://journals.sagepub.com/eprint/kZ7yRdYhkuE7AWyNabJZ/full">The effect of scrambling upright and inverted faces on the N170.</a>
+            <div class="m">Civile, C., Elchlepp, H., McLaren, R., <strong>Galang, C.M.</strong>, Lavric, A., &amp; McLaren, I.P.L.</div>
+            <div class="m v"><em>Quarterly Journal of Experimental Psychology, 71</em>(11), 2464-2476.</div>
+            <div class="row-foot"><span class="tag">#other</span><a class="open" href="http://journals.sagepub.com/eprint/kZ7yRdYhkuE7AWyNabJZ/full" aria-label="Open paper: The effect of scrambling upright and inverted faces on the N170.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+      <h3 class="yh">2017 <span>(2)</span></h3>
+      <ol class="paper-list" data-section="published">
+        <li data-tags="empathy">
+          <span class="y">2017</span>
+          <div>
+            <a href="https://link.springer.com/article/10.1007%2Fs00221-017-5070-9">Observing painful events in others leads to a temporally extended general response facilitation in the self.</a>
+            <div class="m"><strong>Galang, C.M.</strong>, Naish, K.R., Arbabi, K., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Experimental Brain Research, 235</em>(11), 3469-3477.</div>
+            <div class="row-foot"><span class="tag">#empathy</span><a class="open" href="https://link.springer.com/article/10.1007%2Fs00221-017-5070-9" aria-label="Open paper: Observing painful events in others leads to a temporally extended general response facilitation in the self.">open paper ↗</a></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">2017</span>
+          <div>
+            <a href="https://link.springer.com/article/10.1007%2Fs00221-016-4837-8">Effects of intentional movement preparation on response times to symbolic and imitative cues.</a>
+            <div class="m">Naish, K.R., Rajagobal, A., <strong>Galang, C.M.</strong>, Sartori, L., &amp; Obhi, S.S.</div>
+            <div class="m v"><em>Experimental Brain Research, 235</em>(3), 753-61.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span><a class="open" href="https://link.springer.com/article/10.1007%2Fs00221-016-4837-8" aria-label="Open paper: Effects of intentional movement preparation on response times to symbolic and imitative cues.">open paper ↗</a></div>
+          </div>
+        </li>
+      </ol>
+    </details>
+    <p class="empty">no matches</p>
+
+    <h2 id="in-prep">in prep <span class="c">4 projects</span></h2>
+    <ol class="paper-list" data-section="in-prep">
+        <li data-tags="human-ai">
+          <span class="y">wip</span>
+          <div>
+            <span class="t">Development and validation of the Epistemic Stance Test for generative AI (EST-GenAI).</span>
+            <div class="m"><strong>Galang, C.M.</strong>, Hassanein, K., Head, M., &amp; Mekik, S.C.</div>
+            <div class="row-foot"><span class="tag">#human-ai</span></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">wip</span>
+          <div>
+            <span class="t">Intentional Binding &amp; the Sense of Agency.</span>
+            <div class="m"><strong>Galang, C.M.</strong>, Malik, R., Obhi, S.S., &amp; Brass, M.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span></div>
+          </div>
+        </li>
+        <li data-tags="agency">
+          <span class="y">wip</span>
+          <div>
+            <span class="t">Stimulating Your Voluntariness: What Can Brain Stimulation Studies Tell Us about Intention and Voluntary Behaviors?</span>
+            <div class="m">Shum, Y.H., <strong>Galang, C.M.</strong>, &amp; Brass, M.</div>
+            <div class="row-foot"><span class="tag">#agency-control</span></div>
+          </div>
+        </li>
+        <li data-tags="other">
+          <span class="y">wip</span>
+          <div>
+            <span class="t">Gender Cues Influence Attribution of Cause and Effect.</span>
+            <div class="m">Saba, S., <strong>Galang, C.M.</strong>, &amp; Brass</div>
+            <div class="row-foot"><span class="tag">#other</span></div>
+          </div>
+        </li>
+    </ol>
+    <p class="empty">no matches</p>
+
+    <h2 id="contact">contact</h2>
+    <dl>
+      <dt>email</dt><dd><a href="mailto:galangc@mcmaster.ca">galangc@mcmaster.ca</a></dd>
+      <dt>office</dt><dd>DeGroote School of Business, McMaster University, Hamilton, ON</dd>
+      <dt>profiles</dt><dd><a href="https://scholar.google.com/citations?user=iZGbEqEAAAAJ&amp;hl=en">Google Scholar</a> · <a href="https://orcid.org/0000-0002-4088-8476">ORCID</a> · <a href="https://www.linkedin.com/in/cmgalang">LinkedIn</a> · <a href="cv.html">CV</a></dd>
+      <dt>write for</dt><dd>research questions, related materials, or a conversation about the work</dd>
+    </dl>
+
+    <footer>
+      <p>© 2026 Carl Michael Galang</p>
+      <p>Explicit disclaimer: this website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable.</p>
+    </footer>
   </main>
-  <footer class="site-footer container">
-    <p>© 2026 Carl Michael Galang</p>
-    <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
-    <p class="footer-disclosure">Explicit Disclaimer: This Website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable.</p>
-  </footer>
 </body>
 </html>
