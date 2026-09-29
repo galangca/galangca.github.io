@@ -8,9 +8,7 @@
   var reviewed = items('preprints').concat(items('under-review'), published);
   var counts = {
     published: published.length,
-    'first-author': published.filter(function (li) { return /^\s*Galang,/.test(li.querySelector('.m').textContent); }).length,
-    since: Math.min.apply(null, published.map(function (li) { return +li.querySelector('.y').textContent; })),
-    pipeline: items('preprints').length + items('under-review').length + items('in-prep').length
+    'first-author': published.filter(function (li) { return /^\s*Galang,/.test(li.querySelector('.m').textContent); }).length
   };
   document.querySelectorAll('[data-count]').forEach(function (el) {
     var key = el.dataset.count;
@@ -21,6 +19,25 @@
       el.textContent = counts[key];
     }
   });
+})();
+
+/* Citation stats come from assets/data/scholar.json, refreshed weekly from Google Scholar
+   by .github/workflows/scholar.yml. Numbers written in the HTML are the fallback. */
+(function () {
+  var els = document.querySelectorAll('[data-scholar]');
+  if (!els.length || !window.fetch) return;
+  fetch('assets/data/scholar.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (stats) {
+      els.forEach(function (el) {
+        var v = stats[el.dataset.scholar];
+        if (typeof v === 'number') {
+          el.textContent = v;
+          if (stats.updated) el.title = 'Google Scholar, as of ' + stats.updated;
+        }
+      });
+    })
+    .catch(function () {});
 })();
 
 /* Filter the paper lists by topic tag and free-text search. */
