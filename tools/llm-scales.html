@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A searchable catalogue of psychometrically validated survey scales about people's interaction with ChatGPT, large language models and generative AI, with subscales, reliability, status and links.">
+  <meta name="theme-color" content="#f4f1e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b1c18" media="(prefers-color-scheme: dark)">
+  <title>LLM Scale Finder</title>
+  <link rel="icon" href="../assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script src="../assets/js/nav.js" defer></script>
+  <script src="../assets/js/scales.js" defer></script>
+  <link rel="canonical" href="https://galangca.github.io/tools/llm-scales.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LLM Scale Finder">
+  <meta property="og:description" content="Searchable catalogue of validated survey scales for research on ChatGPT, LLMs and generative AI.">
+  <meta property="og:url" content="https://galangca.github.io/tools/llm-scales.html">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LLM Scale Finder",
+    "url": "https://galangca.github.io/tools/llm-scales.html",
+    "applicationCategory": "ReferenceApplication",
+    "operatingSystem": "Any",
+    "description": "A searchable catalogue of psychometrically validated survey scales about ChatGPT, large language models and generative AI.",
+    "author": {"@type": "Person", "name": "Carl Michael Galang", "url": "https://galangca.github.io/"},
+    "isAccessibleForFree": true
+  }
+  </script>
+  <!-- GoatCounter: privacy-friendly, cookieless visitor counts -->
+  <script data-goatcounter="https://galangca.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="site-nav" aria-label="Main navigation"><div class="in">
+    <a class="home" href="../index.html">~/cmg</a>
+    <a href="../index.html#research">research</a>
+    <a href="../index.html#publications">papers</a>
+    <details class="nav-dropdown"><summary>tools <span aria-hidden="true">▾</span></summary><div class="nav-menu"><a href="ABDC_Explorer.html">abdc-explorer<span>ABDC journal list, 2010–2025</span></a><a href="llm-scales.html" aria-current="page">llm-scales<span>validated LLM / GenAI survey scales</span></a></div></details>
+    <a href="../cv.html">cv</a>
+    <a href="../index.html#contact">contact</a>
+  </div></nav>
+  <main id="main">
+    <h1><span class="p">~/tools/</span>llm-scales <span class="cursor" aria-hidden="true"></span></h1>
+    <p class="why">If you are a human–AI interaction researcher like me, you have no doubt had the pleasure of trying to figure out which scales are out there, which ones were actually validated, and whether that validation ever made it past a preprint. So I set out to build a list.</p>
+    <p class="why">Specifically, I used Claude Opus 5.5 to run a multi-agent deep dive: 26 AI agents searched the literature over about 10 hours, and every scale was then checked against its source paper by a separate agent. <a href="llm-scales-method.html">See the model, agents, time and prompts used →</a></p>
+    <noscript><p>This catalogue needs JavaScript to search. The full data is available as <a href="../assets/data/llm-scales.json">JSON</a>.</p></noscript>
+
+    <div class="stats" aria-label="Catalogue at a glance">
+      <div class="stat"><b id="n-scales">–</b><span>validated scales</span></div>
+      <div class="stat"><b id="n-published">–</b><span>published</span></div>
+      <div class="stat"><b id="n-preprint">–</b><span>preprints</span></div>
+      <div class="stat"><b id="n-languages">–</b><span>languages</span></div>
+    </div>
+
+    <h2 id="scales">scales <span class="c"><a href="#about">how scales are chosen ↓</a></span></h2>
+    <div class="filters" role="group" aria-label="Search scales">
+      <span class="prompt">$ grep</span>
+      <input type="search" id="scale-search" placeholder="construct, subscale, author, 'trust', 'Turkish'…" aria-label="Search scales">
+    </div>
+    <div class="filters" role="group" aria-label="Filter by construct" id="construct-filters">
+      <span class="prompt">construct</span>
+      <button type="button" data-construct="all" aria-pressed="true">all</button>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by strength of evidence">
+      <span class="prompt">evidence</span>
+      <button type="button" data-evidence="verified" aria-pressed="true">validated</button>
+      <button type="button" data-evidence="all" aria-pressed="false">+ flagged (<span id="n-flagged">–</span>)</button>
+      <button type="button" data-evidence="flagged" aria-pressed="false">flagged only</button>
+      <a class="filter-help" href="#about-flagged">what's flagged?</a>
+    </div>
+    <div class="filters scale-controls">
+      <span class="prompt">status</span>
+      <button type="button" data-status="all" aria-pressed="true">all</button>
+      <button type="button" data-status="published" aria-pressed="false">published</button>
+      <button type="button" data-status="preprint" aria-pressed="false">preprint</button>
+      <label><span class="visually-hidden">Population</span><select id="population-filter"><option value="">any population</option></select></label>
+      <label><span class="visually-hidden">Language</span><select id="language-filter"><option value="">any language</option></select></label>
+      <label class="check"><input type="checkbox" id="items-filter"> items available</label>
+      <label><span class="visually-hidden">Sort by</span><select id="sort">
+        <option value="new">newest first</option>
+        <option value="az">A–Z</option>
+        <option value="short">fewest items</option>
+      </select></label>
+      <label><span class="visually-hidden">Scales per page</span><select id="per-page" class="narrow">
+        <option value="5">5 per page</option>
+        <option value="10">10 per page</option>
+        <option value="25">25 per page</option>
+        <option value="50">50 per page</option>
+        <option value="0">show all</option>
+      </select></label>
+    </div>
+    <p class="status" id="scale-status" aria-live="polite">loading…</p>
+    <ol class="paper-list scale-list" id="scale-list"></ol>
+    <p class="empty" id="scale-empty">no scales match these filters</p>
+    <button type="button" class="show-more" id="show-more" hidden>show more ↓</button>
+    <div class="actions"><a href="../assets/data/llm-scales.json" download="llm-scales.json">download json ↓</a><button type="button" class="linklike" id="csv-download">download csv ↓</button></div>
+
+    <h2 id="about">about</h2>
+    <dl>
+      <dt>what counts</dt><dd>A scale is listed when its items target LLMs, generative AI or AI chatbots (ChatGPT, Copilot, Gemini, Claude, AI companions) <em>and</em> a paper or preprint whose main aim is developing or validating it reports (a) the factor structure, (b) reliability and (c) at least one form of validity evidence. Preprints are included and labelled.</dd>
+      <dt>not included</dt><dd>General “AI” scales that don’t target generative AI (e.g., attitudes toward AI in general, AI anxiety, AI literacy), robot and automation scales, and adoption models that adapt items without a validation study.</dd>
+      <dt id="about-flagged">flagged</dt><dd>Scales that target generative AI and have a development paper, but that an independent check could not confirm meet the bar above. They are hidden by default; use the <em>evidence</em> filter to show them. <b>Partial evidence</b> means the paper was read and something is missing, usually validity evidence beyond factor analysis. <b>Unconfirmed</b> means the full text could not be accessed, so the scale may well qualify. Each card says why it was flagged.</dd>
+      <dt>translations</dt><dd>Validated translations and cross-cultural adaptations are listed inside the original scale’s entry.</dd>
+      <dt>method</dt><dd>Built from an AI-assisted literature sweep in which every entry was then checked against its source paper, followed by manual spot checks (<a href="llm-scales-method.html">full method and prompts</a>). Mistakes are still possible: always read the original paper before using a scale. Last updated <span id="updated">–</span>.</dd>
+      <dt>missing one?</dt><dd><a id="suggest" href="https://github.com/galangca/galangca.github.io/issues/new?title=Scale%20suggestion%3A%20&amp;body=Scale%20name%3A%0APaper%20or%20preprint%20link%3A%0AWhy%20it%20qualifies%20(factor%20structure%2C%20reliability%2C%20validity)%3A%0A">Suggest a scale on GitHub</a> or <a href="mailto:galangc@mcmaster.ca?subject=LLM%20Scale%20Finder%3A%20scale%20suggestion">by email</a>. Corrections are welcome too.</dd>
+    </dl>
+
+    <footer>
+      <p>© 2026 Carl Michael Galang</p>
+      <p>Explicit disclaimer: this website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable. Scale summaries were compiled with AI assistance and checked against the source papers.</p>
+    </footer>
+  </main>
+</body>
+</html>

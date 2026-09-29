@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How the LLM Scale Finder catalogue was built: the model, number of AI agents, time taken, verification steps and the exact prompts used.">
+  <meta name="theme-color" content="#f4f1e8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b1c18" media="(prefers-color-scheme: dark)">
+  <title>LLM Scale Finder Method</title>
+  <link rel="icon" href="../assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script src="../assets/js/nav.js" defer></script>
+  <link rel="canonical" href="https://galangca.github.io/tools/llm-scales-method.html">
+  <!-- GoatCounter: privacy-friendly, cookieless visitor counts -->
+  <script data-goatcounter="https://galangca.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="site-nav" aria-label="Main navigation"><div class="in">
+    <a class="home" href="../index.html">~/cmg</a>
+    <a href="../index.html#research">research</a>
+    <a href="../index.html#publications">papers</a>
+    <details class="nav-dropdown"><summary>tools <span aria-hidden="true">▾</span></summary><div class="nav-menu"><a href="ABDC_Explorer.html">abdc-explorer<span>ABDC journal list, 2010–2025</span></a><a href="llm-scales.html">llm-scales<span>validated LLM / GenAI survey scales</span></a></div></details>
+    <a href="../cv.html">cv</a>
+    <a href="../index.html#contact">contact</a>
+  </div></nav>
+  <main id="main">
+    <h1><span class="p">~/tools/llm-scales/</span>method <span class="cursor" aria-hidden="true"></span></h1>
+    <p class="why">How the <a href="llm-scales.html">LLM Scale Finder</a> list was made, so you can judge it, and reuse or improve the approach.</p>
+
+    <div class="stats" aria-label="The run at a glance">
+      <div class="stat"><b>26</b><span>AI agents</span></div>
+      <div class="stat"><b>~10 h</b><span>wall-clock time</span></div>
+      <div class="stat"><b>1,751</b><span>searches &amp; page reads</span></div>
+      <div class="stat"><b>174 → 118</b><span>candidates → listed</span></div>
+    </div>
+
+    <h2 id="run">the run</h2>
+    <dl>
+      <dt>model</dt><dd>Claude Opus 5.5 (<code>claude-opus-5-5</code>, Anthropic) for every agent, run through the Workflow tool in Claude Code.</dd>
+      <dt>when</dt><dd>28 September 2026, 8:47 pm → 29 September 2026, 7:10 am (Toronto). That includes two pauses when the account hit its usage limit; the run resumed automatically each time.</dd>
+      <dt>scale</dt><dd>26 agents, about 4.5 million tokens, and 1,751 tool calls (web searches and reads of publisher pages, PubMed Central, preprint servers and OpenAlex).</dd>
+      <dt>code</dt><dd>The complete workflow script, including every prompt and the output schema: <a href="../assets/data/llm-scales-workflow.js">llm-scales-workflow.js</a>. The resulting data: <a href="../assets/data/llm-scales.json">llm-scales.json</a>.</dd>
+    </dl>
+
+    <h2 id="steps">steps</h2>
+    <ol class="steps">
+      <li><b>Sweep (7 agents in parallel).</b> Each agent searched one cluster of constructs and returned every candidate scale with its citation, subscales, psychometrics and a note on where it saw the evidence. Result: 158 unique candidates, plus near-misses set aside.</li>
+      <li><b>Gap-fill (1 agent).</b> A “completeness critic” got the full list and searched for what was missing: non-English journals, specific professions, code assistants, children and older adults, conference papers, and recent preprints. It added 16 candidates.</li>
+      <li><b>Verify (18 agents).</b> The 174 candidates were split into batches of 10. For each batch, a separate, skeptical agent opened every source and checked the citation, the inclusion criteria, subscale names, item counts, reliability numbers and publication status, then corrected the record. Result: 128 kept, 41 borderline, 5 dropped, 1 not checked.</li>
+      <li><b>Clean-up (by Claude in the main session, then me).</b> Validated translations were nested under their original scales (9 entries). Population and language labels were standardised. All 143 DOIs were checked to resolve at doi.org, and 12 entries (about 10%) were spot-checked against their papers. Of the 41 borderline scales, 35 are listed as <em>flagged</em> (hidden by default, each with the reason). The other 6 were left out: 5 whose items may not target generative AI, and 1 translation that was already listed.</li>
+    </ol>
+
+    <h2 id="request">my request</h2>
+    <p>The instruction I gave Claude (verbatim, typos included), followed by the scope decisions I made when it asked:</p>
+    <pre class="prompt">I want you to /plan a new tool. Essentially, I want you to do a deep deep deep dive on Human-AI interaction work and get me a list of all psychometrically validatd survey. The point of this tool is to be able to search so that students/researchers have an easier time to know what is out there, that is validated, what is a pre-print or published, and links to the paper and summaries of the subscales/point of the survey.</pre>
+    <ul class="decisions">
+      <li><b>Validation bar:</b> a dedicated development/validation paper or preprint reporting factor structure, reliability and at least one form of validity evidence.</li>
+      <li><b>Scope:</b> modern LLMs specifically; general “AI” scales excluded.</li>
+      <li><b>Translations:</b> nested under the original scale.</li>
+      <li><b>Research approach:</b> a multi-agent workflow with independent verification.</li>
+    </ul>
+
+    <h2 id="prompts">prompts</h2>
+    <p>Every agent received the shared instructions, followed by its role-specific prompt. They are reproduced verbatim; bracketed text marks where the script inserted content.</p>
+    <details class="fold" open><summary>shared instructions (all agents)</summary><pre class="prompt">TASK CONTEXT: We are building a public, searchable catalogue of PSYCHOMETRICALLY VALIDATED survey scales about people's interaction with MODERN LLMs / GENERATIVE AI, for students and researchers.
+
+INCLUDE a scale only if ALL hold:
+1. Its items target LLMs, generative AI, or AI chatbots (ChatGPT, Copilot, Gemini, Claude, Bard, Ernie, AI companions like Replika/Character.AI, "generative AI tools"). A general-AI scale re-worded for ChatGPT/GenAI and fully re-validated counts (as its own entry).
+2. It has a dedicated development/validation paper or preprint (main aim = develop or validate the scale), reporting (a) factor structure (EFA, CFA, ESEM, IRT/Rasch, network), (b) reliability (alpha, omega, CR, test-retest), and (c) at least one validity evidence (convergent/discriminant, criterion, known-groups, measurement invariance, nomological).
+3. Published (journal or peer-reviewed proceedings) OR preprint (PsyArXiv, OSF, arXiv, SSRN, Research Square, medRxiv, etc.).
+
+EXCLUDE: general "AI" scales not targeted at GenAI/LLMs (GAAIS, ATAI, AI anxiety scale, MAILS, AI literacy scales about AI broadly), robots, automation/decision-aid trust, TAM/UTAUT/structural models that merely adapt items without a validation study, theses/dissertations, papers that only USE a scale.
+
+TRANSLATIONS/ADAPTATIONS: if a validated translation/cross-cultural adaptation of a qualifying scale exists, list it in that scale's "adaptations" array. If you only find the adaptation, still report it as a record and set "adaptation_of" to the original scale's name + DOI.
+
+SEARCH HOW: First load web tools: call ToolSearch with query "select:WebSearch,WebFetch". Search Google Scholar-style queries, PsyArXiv, OSF, arXiv, SSRN, ERIC, Research Square, and publisher sites (Elsevier, Springer, Taylor &amp; Francis, Frontiers, MDPI, Wiley, SAGE, APA). Use many query variants (e.g. "ChatGPT scale development validation", "generative AI" scale psychometric, "chatbot" questionnaire CFA reliability, Turkish/Chinese/Spanish/German adaptation). Snowball: check reference lists of reviews of GenAI measurement and "cited by" of known scales. Be exhaustive for your cluster — aim to find every qualifying scale, 2023-2026 especially.
+
+HONESTY: Only report what you actually saw in a source (full text preferred; abstract minimum). Never guess DOIs — fetch https://doi.org/&lt;doi&gt; or the publisher page to confirm. If a field is unknown write null (or empty array), do not invent. In evidence_notes say what you saw and where (full text vs abstract only).
+
+FIELD RULES:
+- id: kebab-case slug of acronym or short name (e.g. "chatgpt-dependence-scale").
+- summary: 1-2 plain-language sentences for a student: what it measures and when you'd use it.
+- constructs: 1-3 values ONLY from: attitudes, acceptance-use, trust, reliance, credibility, dependence, literacy, self-efficacy, anxiety, ethics-concerns, privacy, academic-integrity, learning, anthropomorphism, social-presence, relationships, workplace, health, creativity, other.
+- subscales: name, item count, one-line description of what that subscale captures. Unidimensional → one entry named "(unidimensional)".
+- psychometrics.reliability: short string with numbers, e.g. "α .84–.92; ω .86".
+- citation: APA 7.
+- status: "published" or "preprint" (if a preprint later appeared in a journal, status=published and keep preprint_url).
+- items_available: true only if full item wording is given in the paper/appendix/OSF.</pre></details>
+    <details class="fold"><summary>sweep agents (7)</summary>
+    <pre class="prompt">[shared instructions above]
+
+YOUR CLUSTER: [cluster description]
+Find every qualifying scale in this cluster (scales that also fit other clusters are fine to include). Put near-misses you are unsure about in "borderline" with the reason.</pre>
+    <p class="m">The seven cluster descriptions:</p>
+    <ul class="clusters">
+      <li><b>attitudes</b>: Attitudes toward ChatGPT/GenAI, perceptions, acceptance, adoption, use intention, usage frequency/behaviour, satisfaction, perceived usefulness scales that were properly validated.</li>
+      <li><b>trust</b>: Trust in LLMs/chatbots, reliance, over-reliance, verification behaviour, perceived credibility/accuracy of GenAI output, scepticism, calibration.</li>
+      <li><b>dependence</b>: ChatGPT/GenAI dependence, addiction, problematic or compulsive use, overuse, AI chatbot dependency, withdrawal, fear of missing out on AI.</li>
+      <li><b>literacy</b>: GenAI literacy, ChatGPT competence, prompt engineering skill, GenAI self-efficacy, digital competence with GenAI, critical evaluation skills, readiness to use GenAI.</li>
+      <li><b>anxiety</b>: GenAI/ChatGPT anxiety, technostress, job/replacement threat from GenAI, ethical concerns, perceived risks, privacy concerns, misinformation worry, moral judgments of GenAI use.</li>
+      <li><b>education</b>: Education-specific: student and teacher GenAI/ChatGPT use scales, academic integrity/cheating/plagiarism with GenAI, GenAI in learning/writing/assessment, teacher acceptance, learning outcomes, AI-assisted learning motivation.</li>
+      <li><b>social</b>: Anthropomorphism/mind perception of LLM chatbots, social presence, parasocial/companion relationships (Replika, Character.AI), emotional attachment, loneliness with AI companions, plus workplace GenAI scales (employee use, AI-augmented work, creativity with GenAI) and health contexts (patients/clinicians using ChatGPT).</li>
+    </ul></details>
+    <details class="fold"><summary>completeness critic (1)</summary><pre class="prompt">[shared instructions above]
+
+YOU ARE THE COMPLETENESS CRITIC. Seven cluster sweeps already found these scales:
+[list of every scale found so far]
+
+Find qualifying scales that are MISSING from this list. Try angles the sweeps may have missed: non-English origin scales (Chinese, Turkish, Korean, Arabic, Spanish, Portuguese, German, Indonesian, Persian journals), specific professions (nurses, physicians, lawyers, programmers, journalists), code assistants (GitHub Copilot), AI image generators if paired with text GenAI, older-adult samples, children/adolescents, conference proceedings (CHI, CSCW), recent 2025-2026 preprints, systematic reviews of GenAI instruments and their tables. Also list validated translations/adaptations of the known scales (report them as records with adaptation_of set). Return ONLY new items, not ones already listed.</pre></details>
+    <details class="fold"><summary>verifiers (18)</summary><pre class="prompt">[shared instructions above]
+
+YOU ARE AN INDEPENDENT, SKEPTICAL VERIFIER. Other agents proposed the records below. For EACH record, open the actual source (fetch the DOI/URL; find full text via publisher, PMC, ResearchGate, preprint server) and check:
+1. The DOI/URL resolves to this paper; citation (authors, year, title, venue) is correct.
+2. It meets ALL inclusion criteria (GenAI/LLM-targeted items; dedicated validation; factor structure + reliability + validity evidence). If it fails, verdict "drop" with reason. If you truly cannot tell, "borderline".
+3. Subscale names, item counts, total items, response format, reliability numbers, samples match the paper. FIX any errors in "record".
+4. Status is current: if a preprint now has a journal version, set status "published", update citation/doi/venue, keep preprint_url.
+5. Adaptations listed are real (check each quickly); remove any you cannot confirm.
+6. Summary is accurate and plain-language; constructs fit.
+If the record has adaptation_of set, confirm the original and keep adaptation_of (we will nest it).
+Return one result per input record (same id), with the corrected full record. In corrections, list what you changed (or "none"). In record.evidence_notes, state what you verified and whether from full text or abstract.
+
+RECORDS:
+[a batch of about 10 proposed records]</pre></details>
+
+    <h2 id="limits">limits</h2>
+    <ul class="decisions">
+      <li>AI agents can misread papers. Verification and spot checks reduce errors but don't remove them; always read the original paper before using a scale.</li>
+      <li>Some papers were paywalled, so a few records rest on abstracts rather than full text.</li>
+      <li>Coverage reflects what was findable online as of 29 September 2026. <a href="llm-scales.html#about">Suggest a missing scale.</a></li>
+    </ul>
+
+    <footer>
+      <p>© 2026 Carl Michael Galang</p>
+      <p>Explicit disclaimer: this website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable. Scale summaries were compiled with AI assistance and checked against the source papers.</p>
+    </footer>
+  </main>
+</body>
+</html>
