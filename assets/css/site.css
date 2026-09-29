@@ -135,6 +135,27 @@ code { font: .85em var(--mono); background: var(--hl); padding: 0 .25em; }
 .flag { font-size: .8rem; color: var(--muted); font-style: italic; margin: 0 0 .15rem; }
 .filter-help { font-size: .75rem; margin-left: .3rem; }
 @media (prefers-color-scheme: dark) { .badge.partial, .badge.unconfirmed { border-color: #f2a39a; color: #f2a39a; } }
+.year-chart { position: relative; margin: .2rem 0 1rem; }
+.yc-plot { display: flex; align-items: stretch; height: 9rem; max-width: 30rem; }
+.yc-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 2px; font: .72rem var(--mono); color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; }
+.yc-col:hover .yc-bar, .yc-col:focus-visible .yc-bar { filter: brightness(1.12); }
+.yc-col[aria-pressed="false"].dim .yc-bar { opacity: .3; }
+.yc-col[aria-pressed="true"] .yc-n { color: var(--ink); font-weight: 600; }
+.yc-col:disabled { cursor: default; }
+.yc-bar { display: flex; flex-direction: column-reverse; gap: 2px; width: min(100%, 2.6rem); }
+.yc-bar span { display: block; min-height: 0; }
+.yc-bar .published { background: var(--accent); }
+.yc-bar .preprint { border: 1px dashed var(--muted); background: repeating-linear-gradient(45deg, var(--muted) 0 1px, transparent 1px 5px); }
+.yc-bar span:last-child { border-radius: 4px 4px 0 0; }
+.yc-y { align-self: stretch; text-align: center; border-top: 1px solid var(--line); padding-top: .15rem; }
+.yc-col[aria-pressed="true"] .yc-y { color: var(--accent); font-weight: 600; }
+.year-chart figcaption { font: .72rem var(--mono); color: var(--muted); margin-top: .3rem; }
+.yc-key { display: inline-block; width: .7rem; height: .7rem; vertical-align: -.05rem; margin: 0 .25rem 0 .1rem; }
+.yc-key.published { background: var(--accent); margin-left: 0; }
+.yc-key.preprint { margin-left: .6rem; border: 1px dashed var(--muted); background: repeating-linear-gradient(45deg, var(--muted) 0 1px, transparent 1px 4px); }
+.yc-tip { position: absolute; top: 0; z-index: 2; pointer-events: none; font: .75rem/1.4 var(--mono); color: var(--muted); background: var(--card); border: 1px solid var(--line); padding: .3rem .5rem; white-space: nowrap; }
+.yc-tip b { color: var(--ink); font-weight: 600; }
+.yc-tip[hidden] { display: none; }
 .scale-more > summary { cursor: pointer; font: .78rem var(--mono); color: var(--accent); margin-top: .45rem; }
 .scale-more[open] { border-left: 2px solid var(--line); padding-left: .8rem; margin-top: .3rem; }
 .subscales { width: 100%; border-collapse: collapse; font-size: .82rem; margin: .6rem 0; }
