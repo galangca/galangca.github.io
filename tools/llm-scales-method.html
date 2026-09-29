@@ -52,7 +52,7 @@
       <li><b>Sweep (7 agents in parallel).</b> Each agent searched one cluster of constructs and returned every candidate scale with its citation, subscales, psychometrics and a note on where it saw the evidence. Result: 158 unique candidates, plus near-misses set aside.</li>
       <li><b>Gap-fill (1 agent).</b> A “completeness critic” got the full list and searched for what was missing: non-English journals, specific professions, code assistants, children and older adults, conference papers, and recent preprints. It added 16 candidates.</li>
       <li><b>Verify (18 agents).</b> The 174 candidates were split into batches of 10. For each batch, a separate, skeptical agent opened every source and checked the citation, the inclusion criteria, subscale names, item counts, reliability numbers and publication status, then corrected the record. Result: 128 kept, 41 borderline, 5 dropped, 1 not checked.</li>
-      <li><b>Clean-up (by Claude in the main session, then me).</b> Validated translations were nested under their original scales (9 entries). Population and language labels were standardised. All 143 DOIs were checked to resolve at doi.org, and 12 entries (about 10%) were spot-checked against their papers. Of the 41 borderline scales, 35 are listed as <em>flagged</em> (hidden by default, each with the reason). The other 6 were left out: 5 whose items may not target generative AI, and 1 translation that was already listed.</li>
+      <li><b>Clean-up (Claude, in the main session).</b> Validated translations were nested under their original scales (9 entries). Population and language labels were standardised. A script confirmed that all 179 DOIs resolve at doi.org (this checks that the link works, not that the record is right). Claude spot-checked 12 entries (about 10%) against their abstracts or full text. Of the 41 borderline scales, 35 are listed as <em>flagged</em> (hidden by default, each with the reason). The other 6 were left out: 5 whose items may not target generative AI, and 1 translation that was already listed.</li>
     </ol>
 
     <h2 id="request">my request</h2>
@@ -129,14 +129,15 @@ RECORDS:
 
     <h2 id="limits">limits</h2>
     <ul class="decisions">
-      <li>AI agents can misread papers. Verification and spot checks reduce errors but don't remove them; always read the original paper before using a scale.</li>
+      <li><b>Human review has been brief.</b> I have only skimmed the catalogue as a whole; I have not checked individual entries against their papers. Every check described above was done by AI agents or scripts. Treat each entry as a pointer to the paper, and confirm subscales, item counts, reliability figures and publication status against the primary source before you cite or use a scale.</li>
+      <li>AI agents can misread papers. The AI verification and spot checks reduce errors but don't remove them.</li>
       <li>Some papers were paywalled, so a few records rest on abstracts rather than full text.</li>
       <li>Coverage reflects what was findable online as of 29 September 2026. <a href="llm-scales.html#about">Suggest a missing scale.</a></li>
     </ul>
 
     <footer>
       <p>© 2026 Carl Michael Galang</p>
-      <p>Explicit disclaimer: this website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable. Scale summaries were compiled with AI assistance and checked against the source papers.</p>
+      <p>Explicit disclaimer: this website was designed by generative AI. The research and scholarly work are my own, with collaborators credited where applicable. Scale entries were compiled and checked by AI; they have not been individually reviewed by a person.</p>
     </footer>
   </main>
 </body>
