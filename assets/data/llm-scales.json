@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-29",
+ "updated": "2026-10-01",
  "scales": [
   {
    "id": "pugenais-9",
@@ -10698,6 +10698,58 @@
    ],
    "verified": "2026-09-28",
    "evidence": "verified"
+  },
+  {
+   "id": "offloading-score",
+   "name": "Offloading Score",
+   "acronym": null,
+   "summary": "A behavioural measure, not a questionnaire: it estimates what share of a task's steps a person handed to an AI tool by comparing their logged workflow with a simulated workflow done without the tool. Use it when you have interaction logs and want an objective reliance measure alongside self-reports.",
+   "target": "AI coding assistants (LLM-based tools)",
+   "constructs": [
+    "reliance"
+   ],
+   "populations": [
+    "software developers"
+   ],
+   "items": null,
+   "response": "Computed from interaction traces (keystrokes, clicks, screenshots); score 0–1",
+   "subscales": [
+    {
+     "name": "(unidimensional)",
+     "items": null,
+     "description": "Fraction of task steps saved by the AI tool relative to an LLM-simulated counterfactual workflow without it."
+    }
+   ],
+   "psychometrics": {
+    "structure": "Not applicable (computed metric; no factor analysis)",
+    "reliability": "No reliability coefficients; LLM-as-judge labels agreed 80–81% with human labels",
+    "validity": [
+     "Content: 85% of simulated counterfactual workflows rated plausible (≥3/5)",
+     "Construct: score shifts 6.9–12.9% under meaningful perturbations and stays stable under irrelevant ones",
+     "Criterion/known-groups: higher offloading under time pressure (.451 vs .308, +43%, p = .018; r = .37 with condition), which code attribution (r = .17), other usage metrics and self-reports did not detect"
+    ],
+    "samples": [
+     {
+      "n": 40,
+      "country": "United States",
+      "population": "experienced freelance developers (Upwork) in a between-subjects study, 1-hour vs 4-hour time limit"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Padmakumar, V., Ibrahim, L., Wang, Z. Z., Wang, J., Liao, Q. V., & Yang, D. (2026). Offloading score: Measuring AI reliance through counterfactual workflows (arXiv:2605.29392). arXiv. https://doi.org/10.48550/arXiv.2605.29392",
+   "authors": "Vishakh Padmakumar; Lujain Ibrahim; Zora Zhiruo Wang; Jennifer Wang; Q. Vera Liao; Diyi Yang",
+   "year": 2026,
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2605.29392",
+   "url": "https://arxiv.org/abs/2605.29392",
+   "preprint_url": "https://arxiv.org/abs/2605.29392",
+   "items_available": false,
+   "language": "English",
+   "adaptations": [],
+   "evidence": "partial",
+   "flag_reason": "A behavioural metric computed from interaction logs, not a self-report survey scale, so it has no factor structure or reliability coefficients; validity rests on one 40-person study.",
+   "verified": "2026-10-01"
   }
  ]
 }
