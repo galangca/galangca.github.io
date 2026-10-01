@@ -71,9 +71,9 @@
     </div>
     <div class="filters" role="group" aria-label="Filter by strength of evidence">
       <span class="prompt">evidence</span>
-      <button type="button" data-evidence="verified" aria-pressed="true">validated</button>
-      <button type="button" data-evidence="all" aria-pressed="false">+ flagged (<span id="n-flagged">–</span>)</button>
-      <button type="button" data-evidence="flagged" aria-pressed="false">flagged only</button>
+      <button type="button" data-evidence="all" aria-pressed="true">all</button>
+      <button type="button" data-evidence="verified" aria-pressed="false">validated only</button>
+      <button type="button" data-evidence="flagged" aria-pressed="false">flagged only (<span id="n-flagged">–</span>)</button>
       <a class="filter-help" href="#about-flagged">what's flagged?</a>
     </div>
     <div class="filters" role="group" aria-label="Filter by publication year" id="year-filters">
@@ -116,7 +116,7 @@
     <dl>
       <dt>what counts</dt><dd>A scale is listed when its items target LLMs, generative AI or AI chatbots (ChatGPT, Copilot, Gemini, Claude, AI companions) <em>and</em> a paper or preprint whose main aim is developing or validating it reports (a) the factor structure, (b) reliability and (c) at least one form of validity evidence. Preprints are included and labelled.</dd>
       <dt>not included</dt><dd>General “AI” scales that don’t target generative AI (e.g., attitudes toward AI in general, AI anxiety, AI literacy), robot and automation scales, and adoption models that adapt items without a validation study.</dd>
-      <dt id="about-flagged">flagged</dt><dd>Scales that target generative AI and have a development paper, but that an independent check could not confirm meet the bar above. They are hidden by default; use the <em>evidence</em> filter to show them. <b>Partial evidence</b> means the paper was read and something is missing, usually validity evidence beyond factor analysis. <b>Unconfirmed</b> means the full text could not be accessed, so the scale may well qualify. Each card says why it was flagged.</dd>
+      <dt id="about-flagged">flagged</dt><dd>Scales that target generative AI and have a development paper, but that an independent check could not confirm meet the bar above. They are shown by default; use the <em>evidence</em> filter to hide them. <b>Partial evidence</b> means the paper was read and something is missing, usually validity evidence beyond factor analysis. <b>Unconfirmed</b> means the full text could not be accessed, so the scale may well qualify. Each card says why it was flagged.</dd>
       <dt>translations</dt><dd>Validated translations and cross-cultural adaptations are listed inside the original scale’s entry.</dd>
       <dt>method</dt><dd>Built from an AI-assisted literature sweep in which a separate AI agent checked every entry against its source paper (<a href="llm-scales-method.html">full method and prompts</a>). A person has only skimmed the list, so mistakes are likely: always confirm details against the original paper before using a scale. Last updated <span id="updated">–</span>.</dd>
       <dt>missing one?</dt><dd><a id="suggest" href="https://github.com/galangca/galangca.github.io/issues/new?title=Scale%20suggestion%3A%20&amp;body=Scale%20name%3A%0APaper%20or%20preprint%20link%3A%0AWhy%20it%20qualifies%20(factor%20structure%2C%20reliability%2C%20validity)%3A%0A">Suggest a scale on GitHub</a> or <a href="mailto:galangc@mcmaster.ca?subject=LLM%20Scale%20Finder%3A%20scale%20suggestion">by email</a>. Corrections are welcome too.</dd>
