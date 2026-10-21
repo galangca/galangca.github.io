@@ -1,0 +1,33 @@
+name: Build CV PDF from Word doc
+
+on:
+  push:
+    paths:
+      - "documents/source/C.V. Carl Michael Galang.docx"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install LibreOffice and Times New Roman
+        run: |
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer ttf-mscorefonts-installer
+          fc-cache -f
+      - name: Convert to PDF
+        run: soffice --headless --convert-to pdf --outdir . "documents/source/C.V. Carl Michael Galang.docx"
+      - name: Commit PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add "C.V. Carl Michael Galang.pdf"
+          git diff --cached --quiet && exit 0
+          git commit -m "Rebuild CV PDF from Word doc"
+          git pull --rebase
+          git push
