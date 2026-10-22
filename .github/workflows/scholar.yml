@@ -17,6 +17,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/update_scholar.py
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
       - name: Commit if changed
         run: |
           git diff --quiet assets/data/scholar.json && exit 0

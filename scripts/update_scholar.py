@@ -1,36 +1,47 @@
-"""Fetch citation stats from the public Google Scholar profile into assets/data/scholar.json.
+"""Fetch citation stats for the Google Scholar profile into assets/data/scholar.json.
 
-Scholar has no API, so this reads the profile page. If Scholar blocks the request or the
-page layout changes, the existing JSON is left untouched and the script exits non-zero.
+Scholar blocks requests from GitHub's runners (HTTP 403), so this goes through SerpAPI's
+google_scholar_author engine. It needs the SERPAPI_KEY environment variable (a repo secret
+in Actions). If the request fails or the response lacks the stats, the existing JSON is
+left untouched and the script exits non-zero.
 """
 import datetime
 import json
+import os
 import pathlib
-import re
 import sys
+import urllib.parse
 import urllib.request
 
-PROFILE = "https://scholar.google.com/citations?user=iZGbEqEAAAAJ&hl=en"
+AUTHOR_ID = "iZGbEqEAAAAJ"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "data" / "scholar.json"
 
-req = urllib.request.Request(PROFILE, headers={
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/128.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
+key = os.environ.get("SERPAPI_KEY")
+if not key:
+    sys.exit("SERPAPI_KEY is not set.")
+
+query = urllib.parse.urlencode({
+    "engine": "google_scholar_author",
+    "author_id": AUTHOR_ID,
+    "hl": "en",
+    "api_key": key,
 })
-html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+data = json.load(urllib.request.urlopen("https://serpapi.com/search.json?" + query, timeout=60))
+if "error" in data:
+    sys.exit("SerpAPI error: " + data["error"])
 
-# The stats table lists all-time and recent values in pairs: citations, h-index, i10-index.
-values = [int(v) for v in re.findall(r'class="gsc_rsb_std">(\d+)<', html)]
-if len(values) < 6:
-    sys.exit("Could not find citation stats on the Scholar page (blocked or layout changed).")
+# cited_by.table is a list of single-key rows: citations, h_index, i10_index, each with an "all" value.
+try:
+    table = {k: v["all"] for row in data["cited_by"]["table"] for k, v in row.items()}
+    stats = {
+        "citations": int(table["citations"]),
+        "h_index": int(table["h_index"]),
+        "i10_index": int(table["i10_index"]),
+        "updated": datetime.date.today().isoformat(),
+    }
+except (KeyError, TypeError, ValueError):
+    sys.exit("Could not find citation stats in the SerpAPI response.")
 
-stats = {
-    "citations": values[0],
-    "h_index": values[2],
-    "i10_index": values[4],
-    "updated": datetime.date.today().isoformat(),
-}
 old = json.loads(OUT.read_text()) if OUT.exists() else {}
 if {k: v for k, v in old.items() if k != "updated"} == {k: v for k, v in stats.items() if k != "updated"}:
     print("No change:", stats)

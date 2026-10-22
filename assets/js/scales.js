@@ -16,7 +16,7 @@
   var moreButton = document.getElementById('show-more');
   var yearBars = document.getElementById('year-bars');
   var yearTip = document.getElementById('year-tip');
-  var state = { construct: 'all', status: 'all', evidence: 'verified', year: 'all' };
+  var state = { construct: 'all', status: 'all', evidence: 'all', year: 'all' };
   var FLAG_LABELS = { partial: 'partial evidence', unconfirmed: 'unconfirmed' };
   function isVerified(s) { return (s.evidence || 'verified') === 'verified'; }
   var scales = [];
