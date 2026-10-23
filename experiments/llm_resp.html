@@ -48,13 +48,38 @@
     }
 
     #jspsych-content {
-      width: min(100% - 32px, 800px);
-      max-width: 800px;
+      width: min(100% - 32px, 1200px);
+      max-width: 1200px;
       margin: 0 auto;
       padding: 34px 0 54px;
     }
 
-    .study-wrap { width: 100%; text-align: left; }
+    .study-wrap { width: 100%; max-width: 800px; margin: 0 auto; text-align: left; }
+    .study-wrap.split { max-width: none; }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .split-scenario {
+      position: sticky;
+      top: 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+
+    .split-scenario .scenario-card { padding: 28px 30px; }
+    .split-scenario .scenario-text { font-size: 17px; line-height: 1.7; }
+    .split-questions .rating-instructions { margin-top: 0; }
+    .split-questions .jspsych-btn { display: block; margin: 24px auto 0 !important; }
+
+    @media (max-width: 960px) {
+      .split-layout { grid-template-columns: 1fr; gap: 18px; }
+      .split-scenario { position: static; max-height: none; overflow: visible; }
+    }
 
     .paper-card {
       width: 100%;
@@ -358,8 +383,8 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "3.0.0",
-  SCHEMA_VERSION: "2.0.0",
+  EXPERIMENT_VERSION: "4.0.0",
+  SCHEMA_VERSION: "3.0.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
   PROLIFIC_COMPLETION_CODE: "",
@@ -510,94 +535,96 @@ jsPsych.data.addProperties({
 // EXPERIMENTAL MATERIALS: 3 delegation conditions x 2 actor genders x 2 outcomes
 // -----------------------------------------------------------------------------
 // Vignettes follow the Kitayama et al. (2006) scenarios used by Genschow, Rigoni &
-// Brass (2017): a named person with a job title, a one-sentence setup, what they
-// did, and the outcome. {Name}, {he}, {him}, {his}, {himself}, {He} and {His} are
-// filled per trial; success_phrase/failure_phrase restate the outcome in the items.
+// Brass (2017): a senior person, a situation with stakes for other people, a
+// deliberate decision about how to do the work, and its consequences.
+// {Name}, {he}, {him}, {his}, {himself}, {He} and {His} are filled per trial;
+// success_phrase/failure_phrase restate the consequence in the items, and boss
+// is the role participants take for the reward/punish items.
 const TASKS = [
-  {id:"report", label:"Organizational report", object:"report",
-    setup:"{Name} is a project coordinator at a mid-sized engineering firm. Ahead of the firm's annual planning meeting, {his} manager asks {him} to prepare a report summarizing the progress of the firm's six ongoing projects.",
-    action:"gathers the relevant information, analyzes it, and prepares the report",
-    success:"The final report is accurate and complete, and the manager evaluates it very positively.",
-    failure:"The final report contains several important inaccuracies, and the manager evaluates it negatively.",
-    success_phrase:"producing an accurate and complete progress report",
-    failure_phrase:"producing a progress report with several important inaccuracies"},
-  {id:"presentation", label:"Survey presentation", object:"presentation",
-    setup:"{Name} is a marketing analyst at a regional grocery chain. The chain recently surveyed 2,000 of its customers, and {his} manager asks {him} to prepare a presentation of the results for the senior leadership team.",
-    action:"reviews the survey results, decides which findings to include, and prepares the presentation",
-    success:"The final presentation accurately represents the survey results, and the manager evaluates it very positively.",
-    failure:"The final presentation misrepresents several important survey results, and the manager evaluates it negatively.",
-    success_phrase:"producing a presentation that accurately represents the survey results",
-    failure_phrase:"producing a presentation that misrepresents several important survey results"},
-  {id:"employee_feedback", label:"Employee feedback summary", object:"summary",
-    setup:"{Name} works in the human resources department of a large insurance company. After the company's annual staff survey, {his} manager asks {him} to summarize the written comments employees submitted about their workplace experiences.",
-    action:"reads the feedback, identifies the major themes, and prepares the summary",
-    success:"The final summary accurately reflects the employee feedback, and the manager evaluates it positively.",
-    failure:"The final summary misrepresents several important themes in the employee feedback, and the manager evaluates it negatively.",
-    success_phrase:"producing a summary that accurately reflects the employee feedback",
-    failure_phrase:"producing a summary that misrepresents several important themes in the feedback"},
-  {id:"training_guide", label:"Training guide", object:"training guide",
-    setup:"{Name} is an operations supervisor at a logistics company that is about to hire twenty new warehouse staff. {His} manager asks {him} to prepare the training guide that new employees will use during their first week.",
-    action:"gathers the necessary information, organizes the material, and prepares the training guide",
-    success:"The final training guide is clear and accurate, and the manager evaluates it positively.",
-    failure:"The final training guide contains several important pieces of incorrect information, and the manager evaluates it negatively.",
-    success_phrase:"producing a clear and accurate training guide",
-    failure_phrase:"producing a training guide with several important pieces of incorrect information"},
-  {id:"project_brief", label:"Project brief", object:"briefing document",
-    setup:"{Name} is a policy officer in a city planning department that is about to begin redeveloping a downtown park. {His} manager asks {him} to prepare a briefing document about the project for the department's senior staff.",
-    action:"reviews the available information, identifies the key issues, and prepares the briefing document",
-    success:"The briefing document accurately identifies the important issues, and the manager evaluates it positively.",
-    failure:"The briefing document contains several important inaccuracies, and the manager evaluates it negatively.",
-    success_phrase:"producing a briefing document that accurately identifies the important issues",
-    failure_phrase:"producing a briefing document with several important inaccuracies"},
-  {id:"customer_feedback", label:"Customer feedback report", object:"report",
-    setup:"{Name} is a customer service team lead at a telecommunications company that recently introduced a new online billing service. {His} manager asks {him} to prepare a report summarizing customer comments about the new service.",
-    action:"reviews the comments, identifies recurring themes, and prepares the report",
-    success:"The final report accurately summarizes the customer feedback, and the manager evaluates it positively.",
-    failure:"The final report misrepresents several important aspects of the customer feedback, and the manager evaluates it negatively.",
-    success_phrase:"producing a report that accurately summarizes the customer feedback",
-    failure_phrase:"producing a report that misrepresents several important aspects of the customer feedback"},
-  {id:"meeting_brief", label:"Meeting brief", object:"briefing document",
-    setup:"{Name} is an executive assistant at a manufacturing company that is preparing for an important meeting with its main supplier. {His} manager asks {him} to prepare a briefing document for the people attending the meeting.",
-    action:"reviews the relevant materials, identifies the most important information, and prepares the briefing document",
-    success:"The briefing accurately communicates the relevant information, and the manager evaluates it positively.",
-    failure:"The briefing contains several important inaccuracies, and the manager evaluates it negatively.",
-    success_phrase:"producing a briefing that accurately communicates the relevant information",
-    failure_phrase:"producing a briefing with several important inaccuracies"},
-  {id:"faq", label:"FAQ document", object:"FAQ document",
-    setup:"{Name} is an administrator at a university that is introducing a new procedure for submitting travel expense claims. {His} manager asks {him} to prepare a document answering staff's frequently asked questions about the procedure.",
-    action:"researches the procedure, identifies the relevant information, and prepares the document",
-    success:"The final document provides accurate answers, and the manager evaluates it positively.",
-    failure:"The final document gives incorrect information in several important answers, and the manager evaluates it negatively.",
-    success_phrase:"producing an FAQ document with accurate answers",
-    failure_phrase:"producing an FAQ document with incorrect information in several important answers"},
-  {id:"project_plan", label:"Project plan", object:"project plan",
-    setup:"{Name} is a team lead at a software company that has agreed to build a mobile app for a new client. {His} manager asks {him} to prepare a written project plan setting out the tasks and deadlines.",
-    action:"reviews the project requirements, identifies the necessary tasks and deadlines, and prepares the plan",
-    success:"The final project plan accurately identifies the necessary tasks and deadlines, and the manager evaluates it positively.",
-    failure:"The final project plan contains several important errors in the tasks or deadlines, and the manager evaluates it negatively.",
-    success_phrase:"producing a project plan that accurately identifies the tasks and deadlines",
-    failure_phrase:"producing a project plan with several important errors in the tasks or deadlines"},
-  {id:"policy_summary", label:"Policy summary", object:"summary",
-    setup:"{Name} works in the compliance office of a regional hospital network that has just adopted a new policy on remote work. {His} manager asks {him} to prepare a short summary explaining the policy to other employees.",
-    action:"reads the policy, identifies the important information, and prepares the summary",
-    success:"The final summary explains the policy accurately, and the manager evaluates it positively.",
-    failure:"The final summary explains several important parts of the policy incorrectly, and the manager evaluates it negatively.",
-    success_phrase:"producing a summary that explains the policy accurately",
-    failure_phrase:"producing a summary that explains several important parts of the policy incorrectly"},
-  {id:"stakeholder_update", label:"Stakeholder update", object:"written update",
-    setup:"{Name} is a project manager at a non-profit organization that is renovating a community centre. {His} manager asks {him} to prepare a written update on the renovation's progress for the funders and community partners involved.",
-    action:"gathers the relevant information, decides what should be included, and prepares the update",
-    success:"The final update accurately communicates the project's progress, and the manager evaluates it positively.",
-    failure:"The final update contains several important inaccuracies about the project's progress, and the manager evaluates it negatively.",
-    success_phrase:"producing an update that accurately communicates the project's progress",
-    failure_phrase:"producing an update with several important inaccuracies about the project's progress"},
-  {id:"info_summary", label:"Information summary", object:"summary document",
-    setup:"{Name} is a research assistant at a regional transportation agency. {His} manager asks {him} to prepare a short document summarizing several recent reports on how residents use public transit.",
-    action:"reads the sources, identifies the important information, and prepares the summary",
-    success:"The final document accurately summarizes the relevant information, and the manager evaluates it positively.",
-    failure:"The final document contains several important inaccuracies, and the manager evaluates it negatively.",
-    success_phrase:"producing a document that accurately summarizes the reports",
-    failure_phrase:"producing a document with several important inaccuracies"}
+  {id:"dosing_guidance", label:"Dosing guidance", object:"dosing guidance", boss:"the hospital's chief executive",
+    setup:"{Name} is the director of pharmacy at a large regional hospital. Because of a national shortage of a common antibiotic, the hospital must switch hundreds of patients to a substitute drug that is dosed differently.",
+    action:"write new dosing guidance for the hospital's nurses",
+    success:"Nurses switch patients to the substitute drug smoothly, and no dosing errors occur.",
+    failure:"The guidance contains several dosing errors, and a number of patients receive incorrect doses and need extra monitoring.",
+    success_phrase:"nurses switching patients to the substitute drug without any dosing errors",
+    failure_phrase:"patients receiving incorrect doses of the substitute drug"},
+  {id:"relocation_plan", label:"School relocation plan", object:"relocation plan", boss:"the chair of the school board",
+    setup:"{Name} is the superintendent of a school district. A week before the new school year, flooding damaged two elementary schools, and their 800 students have to be moved to other buildings.",
+    action:"prepare the relocation plan that will be sent to families",
+    success:"Families know where and when to bring their children, and the first day of school runs smoothly.",
+    failure:"The plan lists several incorrect bus routes and times, and hundreds of students miss the first day of school.",
+    success_phrase:"the first day of school running smoothly for the relocated students",
+    failure_phrase:"hundreds of students missing the first day of school"},
+  {id:"heat_advisory", label:"Heat wave advisory", object:"advisory", boss:"the city manager",
+    setup:"{Name} is the director of emergency management for a mid-sized city. Forecasters have warned that a severe heat wave will reach the city within three days.",
+    action:"prepare a public advisory listing the city's cooling centres and their opening hours",
+    success:"Residents find the cooling centres easily, and the centres are well used throughout the heat wave.",
+    failure:"The advisory lists several wrong addresses and opening hours, and many residents, including elderly people, arrive at buildings that are closed.",
+    success_phrase:"residents finding and using the cooling centres during the heat wave",
+    failure_phrase:"many residents arriving at cooling centres that were closed"},
+  {id:"regulator_report", label:"Report to the regulator", object:"report", boss:"the bank's chief executive",
+    setup:"{Name} is the chief compliance officer at a national bank. A new regulation requires the bank to report to the government regulator how it protects its customers' savings.",
+    action:"prepare the bank's report to the regulator",
+    success:"The regulator accepts the report without any concerns, and the bank avoids a costly review.",
+    failure:"The report contains several important errors, and the regulator fines the bank $2 million.",
+    success_phrase:"the regulator accepting the report without any concerns",
+    failure_phrase:"the regulator fining the bank $2 million"},
+  {id:"rebooking_instructions", label:"Storm rebooking instructions", object:"instructions", boss:"the airline's chief executive",
+    setup:"{Name} is a vice-president of operations at a large airline. A winter storm is expected to cancel more than 300 of the airline's flights over the coming weekend.",
+    action:"prepare instructions telling the airline's agents how to rebook affected passengers",
+    success:"Agents rebook passengers quickly, and almost everyone reaches their destination within a day.",
+    failure:"The instructions contain several important errors, and thousands of passengers are stranded at airports overnight.",
+    success_phrase:"almost all passengers reaching their destination within a day",
+    failure_phrase:"thousands of passengers being stranded at airports overnight"},
+  {id:"recall_notice", label:"Product recall notice", object:"recall notice", boss:"the company's chief executive",
+    setup:"{Name} is the head of quality assurance at a packaged-food company. Laboratory tests have found that some batches of the company's peanut-free granola bars may contain traces of peanuts.",
+    action:"prepare the recall notice for stores and customers",
+    success:"Stores remove the affected batches within a day, and no customers have an allergic reaction.",
+    failure:"The notice lists several wrong batch numbers, the affected bars stay on shelves for another week, and several customers have allergic reactions.",
+    success_phrase:"the affected bars being removed before any customer had an allergic reaction",
+    failure_phrase:"several customers having allergic reactions"},
+  {id:"assistance_guide", label:"Winter assistance guide", object:"guide", boss:"the company's chief executive",
+    setup:"{Name} is a senior manager at an electric company that serves several large cities. After electricity prices rose sharply, the company created a program to cut winter bills for low-income households.",
+    action:"prepare the guide explaining who is eligible and how to apply",
+    success:"Most eligible households apply, and thousands of families have their winter bills reduced.",
+    failure:"The guide describes the eligibility rules incorrectly, and thousands of eligible families do not apply and pay full price all winter.",
+    success_phrase:"thousands of families having their winter bills reduced",
+    failure_phrase:"thousands of eligible families missing out on reduced winter bills"},
+  {id:"grant_proposal", label:"Grant proposal", object:"proposal", boss:"the chair of the food bank's board",
+    setup:"{Name} is the executive director of a food bank. A national foundation has invited the food bank to apply for a large grant that would let it serve 2,000 more families each month.",
+    action:"write the grant proposal",
+    success:"The foundation awards the grant, and the food bank begins serving 2,000 more families each month.",
+    failure:"The proposal contains several important errors, the foundation rejects it, and the planned expansion is cancelled.",
+    success_phrase:"the food bank receiving the grant and serving 2,000 more families",
+    failure_phrase:"the foundation rejecting the proposal and the expansion being cancelled"},
+  {id:"safety_manual", label:"Crane safety manual", object:"safety manual", boss:"the company's chief executive",
+    setup:"{Name} is the director of safety at a construction company. The company has just bought a new type of crane for its building sites, and none of its workers have operated one before.",
+    action:"write the safety manual that crane operators and site workers must follow",
+    success:"Workers follow the manual, and the cranes are used for a full year without a single accident.",
+    failure:"The manual contains several important errors, and two workers are injured in accidents during the first month.",
+    success_phrase:"the cranes being used for a year without a single accident",
+    failure_phrase:"two workers being injured in crane accidents"},
+  {id:"breach_notice", label:"Data breach notification", object:"notification", boss:"the company's chief executive",
+    setup:"{Name} is the chief technology officer at an online retailer. Hackers have stolen the passwords of about 50,000 of the company's customers.",
+    action:"write the notification telling affected customers what happened and how to protect their accounts",
+    success:"Almost all affected customers secure their accounts within a few days, and very few lose any money.",
+    failure:"The notification gives several incorrect instructions, and hundreds of customers have money taken from their accounts.",
+    success_phrase:"almost all affected customers securing their accounts in time",
+    failure_phrase:"hundreds of customers having money taken from their accounts"},
+  {id:"scholarship_guidelines", label:"Scholarship guidelines", object:"guidelines", boss:"the university's president",
+    setup:"{Name} is a dean at a public university. A donor has just given the university $5 million to fund scholarships for students from low-income families.",
+    action:"write the guidelines the selection committee will use to decide who receives a scholarship",
+    success:"The committee awards every scholarship to a qualified student, and the donor praises the program.",
+    failure:"The guidelines contain several important errors, and dozens of qualified students are wrongly turned down.",
+    success_phrase:"every scholarship going to a qualified student",
+    failure_phrase:"dozens of qualified students being wrongly turned down"},
+  {id:"service_notice", label:"Subway closure notice", object:"notice", boss:"the transit agency's chief executive",
+    setup:"{Name} is the director of customer service at a city transit agency. The city's busiest subway line will close for two weeks of urgent repairs.",
+    action:"prepare the notice telling riders about the replacement bus service",
+    success:"Riders switch to the replacement buses smoothly, and delays stay short throughout the closure.",
+    failure:"The notice gives several wrong bus stops and times, and thousands of commuters are late for work during the first week.",
+    success_phrase:"riders switching to the replacement buses with only short delays",
+    failure_phrase:"thousands of commuters being late for work"}
 ];
 
 const NAMES = {
@@ -662,9 +689,8 @@ function prototypeNote() {
   return `<div class="prototype-note"><strong>Researcher preview:</strong> ${details.join(" ")}</div>`;
 }
 
-function progressHTML(index, phase) {
-  const offset = phase === "ratings" ? 0.5 : 0;
-  const percent = Math.min(100, ((index + offset) / N_SCENARIOS_PRESENTED) * 100);
+function progressHTML(index) {
+  const percent = Math.min(100, (index / N_SCENARIOS_PRESENTED) * 100);
   return `
     <div class="progress-wrap" aria-label="Study progress">
       <div class="progress-track" aria-hidden="true"><div class="progress-fill" style="width:${percent.toFixed(1)}%"></div></div>
@@ -687,30 +713,40 @@ function fillTemplate(text, trial) {
   });
 }
 
-function makeVignetteHTML(trial, index) {
+function makeVignetteHTML(trial) {
   const task = trial.task;
+  const decision = `In response, {Name} decides to ${task.action}.`;
   const workDescription = {
-    solo: `{Name} ${task.action}. {Name} completes all parts of the task personally and prepares the final ${task.object} {himself}.`,
-    human: `{Name} completes most of the task but asks a colleague to complete approximately one-third of the work. {Name} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
-    llm: `{Name} completes most of the task but asks a large language model, such as ChatGPT, to complete approximately one-third of the work. {Name} reviews the model's output, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
+    solo: `${decision} {Name} completes all parts of the work personally and prepares the final ${task.object} {himself}.`,
+    human: `${decision} {Name} completes most of the work but asks a colleague to complete approximately one-third of it. {Name} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
+    llm: `${decision} {Name} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {Name} reviews the model's output, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
   }[trial.delegation];
 
   const outcomeText = trial.outcome === "success" ? task.success : task.failure;
   return `
-    <div class="study-wrap">
-      ${progressHTML(index, "vignette")}
-      <article class="scenario-card">
-        <div class="eyebrow">Workplace scenario</div>
-        <h2>${task.label}</h2>
-        <div class="scenario-text">
-          <p>${fillTemplate(task.setup, trial)}</p>
-          <p>${fillTemplate(workDescription, trial)}</p>
-        </div>
-        <div class="outcome-panel">
-          <span class="outcome-label">Manager's evaluation</span>
-          ${outcomeText}
-        </div>
-      </article>
+    <article class="scenario-card">
+      <div class="eyebrow">Workplace scenario</div>
+      <h2>${task.label}</h2>
+      <div class="scenario-text">
+        <p>${fillTemplate(task.setup, trial)}</p>
+        <p>${fillTemplate(workDescription, trial)}</p>
+      </div>
+      <div class="outcome-panel">
+        <span class="outcome-label">What happened</span>
+        ${outcomeText}
+      </div>
+    </article>`;
+}
+
+// Scenario on the left (sticky on wide screens), questions on the right.
+function makeScenarioPageHTML(trial, index) {
+  return `
+    <div class="study-wrap split">
+      ${progressHTML(index)}
+      <div class="split-layout">
+        <div class="split-scenario">${makeVignetteHTML(trial)}</div>
+        <div class="split-questions">${makeRatingHTML(trial, index)}</div>
+      </div>
     </div>`;
 }
 
@@ -748,8 +784,8 @@ function makeRatingHTML(trial, index) {
   const behaviour = trial.outcome === "success" ? task.success_phrase : task.failure_phrase;
 
   const primary = trial.outcome === "success"
-    ? item("primary_credit", `{Name} deserves credit for the quality of the final ${task.object}.`)
-    : item("primary_responsibility", `{Name} is responsible for the problems with the final ${task.object}.`);
+    ? item("primary_credit", "{Name} deserves credit for what happened.")
+    : item("primary_responsibility", "{Name} is responsible for what went wrong.");
 
   const attribution = [
     item("person_cause", `Features of {Name} (such as {his} ${PERSON_EXAMPLES}) influenced the outcome (${behaviour}).`),
@@ -763,8 +799,8 @@ function makeRatingHTML(trial, index) {
   }
 
   const consequences = [
-    item("reward", "As {Name}'s manager, I would reward {Name} and give {him} a bonus."),
-    item("punish", "As {Name}'s manager, I would punish {Name} and give {him} a formal reprimand.")
+    item("reward", `As ${task.boss}, I would reward {Name} and give {him} a bonus.`),
+    item("punish", `As ${task.boss}, I would punish {Name} and give {him} a formal reprimand.`)
   ].join("");
 
   return `
@@ -773,7 +809,7 @@ function makeRatingHTML(trial, index) {
     ${primary}
     <div class="rating-section-label">What influenced the outcome</div>
     ${attribution.join("")}
-    <div class="rating-section-label">If you were the manager</div>
+    <div class="rating-section-label">If you were ${task.boss}</div>
     ${consequences}
     <div class="rating-section-label">Your confidence</div>
     ${item("certainty", "Regarding the statements above, I am sure that my judgments are correct.")}
@@ -922,8 +958,8 @@ const instructionsPage = {
         <h2>How the study works</h2>
         <ul class="instruction-list">
           <li>Treat every scenario as a <strong>different person</strong> completing a <strong>different workplace task</strong>.</li>
-          <li>Read the full scenario, including the manager's evaluation of the finished work.</li>
-          <li>On the following page, answer every question by indicating how much you agree or disagree with each statement.</li>
+          <li>Read the full scenario, including what happened as a result.</li>
+          <li>The scenario stays on screen while you answer. Answer every question by indicating how much you agree or disagree with each statement.</li>
           <li>Use the full scale, from <em>Strongly disagree</em> to <em>Strongly agree</em>, whenever it reflects your view.</li>
         </ul>
         <p class="small muted" style="margin-top:24px;">Please complete the study in one sitting and avoid using the browser's Back or Refresh controls.</p>
@@ -1134,27 +1170,17 @@ function buildTimeline() {
 
   TRIALS.forEach(function(trial, index) {
     timeline.push({
-      type: jsPsychHtmlButtonResponse,
-      stimulus: function() { return makeVignetteHTML(trial, index); },
-      choices: ["Continue to questions"],
-      data: trialMetadata(trial, index, "vignette")
-    });
-    timeline.push({
       type: jsPsychSurveyHtmlForm,
-      preamble: function() {
-        return `
-          <div class="study-wrap ratings-header">
-            ${progressHTML(index, "ratings")}
-            <div class="paper-card compact">
-              <div class="eyebrow">Your judgment</div>
-              <h2>Thinking about ${trial.name}</h2>
-              <p class="muted">Base each response on the scenario you just read.</p>
-            </div>
-          </div>`;
-      },
-      html: function() { return `<div class="study-wrap">${makeRatingHTML(trial, index)}</div>`; },
+      html: function() { return makeScenarioPageHTML(trial, index); },
       button_label: "Continue",
-      on_load: bindRequiredItems,
+      on_load: function() {
+        // Keep the Continue button under the questions rather than below both columns.
+        const column = document.querySelector(".split-questions");
+        const button = document.querySelector(".jspsych-btn");
+        if (column && button) column.appendChild(button);
+        bindRequiredItems();
+        window.scrollTo(0, 0);
+      },
       data: trialMetadata(trial, index, "ratings"),
       on_finish: normalizeRatingData
     });
