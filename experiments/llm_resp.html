@@ -406,7 +406,7 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "5.0.0",
+  EXPERIMENT_VERSION: "5.1.0",
   SCHEMA_VERSION: "4.0.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
@@ -812,7 +812,16 @@ function makeVignetteHTML(trial) {
     llm: `${decision} {Name} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {Name} reviews the model's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
   }[trial.delegation];
 
-  const outcomeText = trial.outcome === "success" ? task.success : task.failure;
+  // Say where the errors were (or were not), so people don't guess differently for a colleague and an LLM.
+  const helperPart = { human: "the part the colleague completed", llm: "the part the large language model completed" }[trial.delegation];
+  const sourceText = trial.outcome === "success"
+    ? (trial.delegation === "solo"
+        ? "Every part {Name} completed is free of errors."
+        : `${helperPart[0].toUpperCase() + helperPart.slice(1)} is free of errors too, and {Name} kept it after reviewing it.`)
+    : (trial.delegation === "solo"
+        ? "The errors are all in one part, about one-third of the work, and {Name} did not catch them when reviewing it."
+        : `The errors are all in ${helperPart}, and {Name} did not catch them when reviewing it.`);
+  const outcomeText = `${trial.outcome === "success" ? task.success : task.failure} ${fillTemplate(sourceText, trial)}`;
   return `
     <article class="scenario-card">
       <div class="eyebrow">Workplace scenario</div>
