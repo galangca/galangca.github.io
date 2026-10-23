@@ -335,6 +335,7 @@
 
     .choice-label { display: block; margin: 10px 0; line-height: 1.45; }
     .choice-label input { margin-right: 9px; accent-color: var(--accent); }
+    .choice-list { clear: both; }
 
     .submit-spinner {
       width: 34px;
@@ -406,8 +407,8 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "5.1.0",
-  SCHEMA_VERSION: "4.0.0",
+  EXPERIMENT_VERSION: "5.2.0",
+  SCHEMA_VERSION: "4.1.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
   PROLIFIC_COMPLETION_CODE: "",
@@ -876,6 +877,23 @@ function likertHTML(name, prompt, prefix) {
     </fieldset>`;
 }
 
+// Manipulation check: who did the delegated third. Values match trial.delegation.
+const MANIP_CHECK_OPTIONS = [
+  ["solo", "No one. {Name} did all of the work"],
+  ["human", "A colleague"],
+  ["llm", "A large language model (an AI tool such as ChatGPT)"]
+];
+
+function manipCheckHTML(trial, prefix) {
+  const options = MANIP_CHECK_OPTIONS.map(([value, label]) => `
+        <label class="choice-label"><input type="radio" name="manip_check" value="${value}" required>${fillTemplate(label, trial)}</label>`).join("");
+  return `
+    <fieldset class="likert-item" tabindex="-1" data-likert="manip_check">
+      <legend class="likert-question" id="${prefix}-manip_check-question">In this scenario, who completed about one-third of the work?</legend>
+      <div class="choice-list">${options}</div>
+    </fieldset>`;
+}
+
 function makeRatingHTML(trial, index) {
   const task = trial.task;
   const prefix = `rating-${index}`;
@@ -912,6 +930,8 @@ function makeRatingHTML(trial, index) {
     ${consequences}
     <div class="rating-section-label">Your confidence</div>
     ${item("certainty", "Regarding the statements above, I am sure that my judgments are correct.")}
+    <div class="rating-section-label">About the scenario</div>
+    ${manipCheckHTML(trial, prefix)}
     <div id="item-completion" class="completion-status" aria-live="polite"></div>`;
 }
 
@@ -979,7 +999,9 @@ function normalizeRatingData(data) {
   data.correspondence_bias = data.internal_attribution === null || data.external_attribution === null
     ? null
     : data.internal_attribution - data.external_attribution;
-  data.rating_items_answered = Object.keys(response).length;
+  data.rating_items_answered = RATING_FIELDS.filter(field => data[field] !== null).length;
+  data.manip_check = response.manip_check || null;
+  data.manip_check_correct = data.manip_check === null ? null : data.manip_check === data.delegation;
 }
 
 function trialMetadata(trial, index, role) {
@@ -1391,7 +1413,33 @@ function buildTimeline() {
   return timeline;
 }
 
+// Desktop only (also set the Prolific device filter). iPadOS reports a Mac user agent,
+// so a touch-capable "Macintosh" counts as a tablet. Test mode skips the check.
+function isPhoneOrTablet() {
+  if (navigator.userAgentData && navigator.userAgentData.mobile) return true;
+  const ua = navigator.userAgent || "";
+  return /Mobi|Android|iPhone|iPad|iPod|Tablet|Silk|Kindle/i.test(ua) ||
+    (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+}
+
+function showDesktopOnlyScreen() {
+  const display = jsPsych.getDisplayElement() || document.body;
+  display.innerHTML = `
+    <div class="study-wrap">
+      <div class="paper-card centered">
+        <div class="eyebrow">Computer required</div>
+        <h2>Please use a desktop or laptop computer</h2>
+        <p>This study can only be completed on a desktop or laptop computer. It cannot be completed on a phone or tablet.</p>
+        <p class="small muted">If you came from Prolific, please return the study there, or reopen this link on a computer.</p>
+      </div>
+    </div>`;
+}
+
 function startExperiment() {
+  if (!IS_TEST_MODE && isPhoneOrTablet()) {
+    showDesktopOnlyScreen();
+    return;
+  }
   if (ensurePavloviaParameters()) return;
   jsPsych.run(buildTimeline());
 }
