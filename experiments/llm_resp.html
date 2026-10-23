@@ -336,6 +336,8 @@
     .choice-label { display: block; margin: 10px 0; line-height: 1.45; }
     .choice-label input { margin-right: 9px; accent-color: var(--accent); }
     .choice-list { clear: both; }
+    .est-text { margin: 0 0 12px; }
+    .est-text:last-child { margin-bottom: 0; }
 
     .submit-spinner {
       width: 34px;
@@ -407,8 +409,8 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "5.3.0",
-  SCHEMA_VERSION: "4.1.0",
+  EXPERIMENT_VERSION: "5.4.0",
+  SCHEMA_VERSION: "4.2.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
   PROLIFIC_COMPLETION_CODE: "",
@@ -862,9 +864,9 @@ const LIKERT_LABELS = [
 const PERSON_EXAMPLES = "character, ability, or effort";
 const SITUATION_EXAMPLES = "the atmosphere, social norms, or other contextual factors";
 
-function likertHTML(name, prompt, prefix) {
+function likertHTML(name, prompt, prefix, labels = LIKERT_LABELS) {
   const questionId = `${prefix}-${name}-question`;
-  const options = LIKERT_LABELS.map(function(label, i) {
+  const options = labels.map(function(label, i) {
     return `
         <label class="likert-option">
           <input type="radio" name="${name}" value="${i + 1}" required>
@@ -1039,7 +1041,7 @@ function consentHTML() {
         ${informationSheet}
         <div class="consent-copy">
           <p><strong>Purpose.</strong> This study examines how people evaluate work completed in workplace settings.</p>
-          <p><strong>What you will do.</strong> You will read 12 independent workplace scenarios and answer questions about the person described in each scenario. You will then answer a short questionnaire about your views on human choice and a small number of demographic questions.</p>
+          <p><strong>What you will do.</strong> You will read 12 independent workplace scenarios and answer questions about the person described in each scenario. You will then answer a short questionnaire about your views on human choice, rate explanations of a few AI responses, and answer a small number of demographic questions.</p>
           <p><strong>Voluntary participation.</strong> Taking part is voluntary. You may stop at any time by closing this page. The approved study materials must specify withdrawal procedures, risks, benefits, compensation, confidentiality, data use, and researcher contact details.</p>
         </div>
         <label class="consent-label">
@@ -1198,6 +1200,121 @@ const fwiPage = {
     data.fwi_compound = mean(compound);
   }
 };
+
+// EST-AI: mentalistic vs mechanistic explanations of generative AI output.
+// Copied from the Forecasting Game study (items 9, 10, 12, 14, 16, 17), with its
+// endpoint-and-midpoint labels. Stored as 1-7 (the Forecasting Game's
+// survey-likert stored 0-6).
+const EST_ITEMS = [
+  { id: 9,  prompt: "Identify why teamwork improves performance.",
+    output: "Shared perspectives allow members to compensate for each other's weaknesses.",
+    mentalistic: "The AI understands collaboration as coordinated intention.",
+    mechanistic: "The AI extracts co-occurring ideas from management data." },
+  { id: 10, prompt: "Compose a short poem about sunrise.",
+    output: "The light spills gently across the restless sea, waking color and sound.",
+    mentalistic: "The AI imagines the beauty of dawn vividly.",
+    mechanistic: "The AI combines frequent poetic descriptors of sunrise." },
+  { id: 12, prompt: "Generate a short argument for renewable energy.",
+    output: "Sustainable power reduces emissions and secures resources for future generations.",
+    mentalistic: "The AI believes environmental protection is essential.",
+    mechanistic: "The AI selects statistically linked terms on sustainability." },
+  { id: 14, prompt: "Give advice to someone nervous before a public speech.",
+    output: "Take slow breaths, focus on your message, not the audience's faces.",
+    mentalistic: "The AI understands how anxiety affects confidence.",
+    mechanistic: "The AI recombines coping instructions from prior data." },
+  { id: 16, prompt: "Respond to a user asking, 'Am I a good person?'",
+    output: "Only you can define that, but caring to ask already means you reflect deeply.",
+    mentalistic: "The AI seeks to affirm the user's moral reflection.",
+    mechanistic: "The AI models dialogue patterns from advice contexts." },
+  { id: 17, prompt: "Describe what makes a joke funny.",
+    output: "Humour often relies on breaking expectations in a harmless, surprising way.",
+    mentalistic: "The AI reflects on how people experience amusement.",
+    mechanistic: "The AI detects linguistic contrasts common in humour texts." }
+];
+
+const EST_LABELS = ["Strongly disagree", "", "", "Neutral", "", "", "Strongly agree"];
+
+function estExchangeHTML(prompt, output) {
+  return `
+    <div class="outcome-panel">
+      <span class="outcome-label">User prompt</span>
+      <p class="est-text">"${prompt}"</p>
+      <span class="outcome-label">AI output</span>
+      <p class="est-text">"${output}"</p>
+    </div>`;
+}
+
+// The worked example's Explanation A is mentalistic or mechanistic at random.
+const EST_EXAMPLE_MENTAL_FIRST = RNG() < 0.5;
+const EST_EXAMPLE = EST_EXAMPLE_MENTAL_FIRST
+  ? ["The AI wanted to make the user feel welcomed.", "The AI assembled common greeting phrases from prior text."]
+  : ["The AI assembled common greeting phrases from prior text.", "The AI wanted to make the user feel welcomed."];
+
+const estInstructionsPage = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <div class="study-wrap">
+      <div class="paper-card">
+        <div class="eyebrow">Explanations of AI responses</div>
+        <h2>How AI produces its answers</h2>
+        <p>You will see short scenarios in which a person types a prompt to a generative AI system (e.g., ChatGPT, Gemini, DeepSeek), and the AI produces an output.</p>
+        <p>For each scenario, you will rate how much you agree with <strong>two different explanations</strong> of why the AI produced that response.</p>
+        <p>There are no right or wrong answers. Please respond based on what you genuinely think.</p>
+        <div class="eyebrow" style="margin-top:26px;">Example</div>
+        ${estExchangeHTML("Write a friendly greeting.", "Hi there! Hope you're having a great day.")}
+        <p style="margin-top:18px;"><strong>Explanation A:</strong> "${EST_EXAMPLE[0]}"</p>
+        <p><strong>Explanation B:</strong> "${EST_EXAMPLE[1]}"</p>
+        <p class="small muted">In the real task, you will rate your agreement with both explanations on a 1 to 7 scale.</p>
+      </div>
+    </div>`,
+  choices: ["Continue"],
+  data: { trial_role: "est_instructions", est_example_order: EST_EXAMPLE_MENTAL_FIRST ? "mentalistic_first" : "mechanistic_first" }
+};
+
+function makeESTPage(item, mentalFirst, index) {
+  const code = String(item.id).padStart(2, "0");
+  const prefix = `est-${code}`;
+  const mental = likertHTML("mentalistic", item.mentalistic, prefix, EST_LABELS);
+  const mech = likertHTML("mechanistic", item.mechanistic, prefix, EST_LABELS);
+  return {
+    type: jsPsychSurveyHtmlForm,
+    html: `
+      <div class="study-wrap">
+        <div class="paper-card compact ratings-header">
+          <div class="eyebrow">Explanations of AI responses · ${index + 1} of ${EST_ITEMS.length}</div>
+          ${estExchangeHTML(item.prompt, item.output)}
+        </div>
+        <div class="rating-instructions">How much do you agree with each explanation of why the AI produced this response?</div>
+        ${mentalFirst ? mental + mech : mech + mental}
+        <div id="item-completion" class="completion-status" aria-live="polite"></div>
+      </div>`,
+    button_label: "Continue",
+    on_load: function() {
+      bindRequiredItems();
+      startBlurCount();
+      window.scrollTo(0, 0);
+    },
+    data: {
+      trial_role: "est_item",
+      est_item_id: item.id,
+      est_order: mentalFirst ? "mentalistic_first" : "mechanistic_first"
+    },
+    on_finish: function(data) {
+      data.blur_count = stopBlurCount();
+      const response = data.response || {};
+      data.est_mentalistic = numericResponse(response, "mentalistic");
+      data.est_mechanistic = numericResponse(response, "mechanistic");
+    }
+  };
+}
+
+// Half the items show the mentalistic explanation first, assigned at random per
+// participant (seeded RNG); item order is fixed, as in the original.
+function buildESTPages() {
+  const half = Math.floor(EST_ITEMS.length / 2);
+  const mentalFirst = shuffle(EST_ITEMS.map((_, i) => i < half), RNG);
+  return [estInstructionsPage, ...EST_ITEMS.map((item, i) => makeESTPage(item, mentalFirst[i], i))];
+}
 
 function demographicsHTML() {
   return `
@@ -1408,7 +1525,7 @@ function buildTimeline() {
       }
     });
   });
-  study.push(fwiPage, demographicsPage, funnelPage, debriefPage, finalPage);
+  study.push(fwiPage, ...buildESTPages(), demographicsPage, funnelPage, debriefPage, finalPage);
 
   timeline.push({ timeline: study, conditional_function: () => PARTICIPANT_CONSENTED });
   if (RUNNING_ON_PAVLOVIA) timeline.push(makePavloviaFinish());
