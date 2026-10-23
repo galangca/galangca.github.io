@@ -242,6 +242,7 @@
     }
 
     .likert-item {
+      min-width: 0;
       margin: 12px 0;
       padding: 18px 20px 16px;
       border: 1px solid var(--line);
@@ -249,14 +250,19 @@
       background: #fff;
     }
 
+    /* Floating the legend keeps it inside the box instead of on the fieldset border. */
     .likert-question {
+      float: left;
+      width: 100%;
       margin: 0 0 14px;
+      padding: 0;
       font-size: 16px;
       font-weight: 700;
       line-height: 1.45;
     }
 
     .likert-scale {
+      clear: both;
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 6px;
@@ -286,6 +292,10 @@
     .likert-option:has(input:focus-visible) { outline: 3px solid rgba(23, 105, 170, 0.35); outline-offset: 2px; }
 
     .likert-item.answered { border-color: #c6a0b3; background: #fffcfd; }
+    .likert-item.missing { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+    .likert-item:focus { outline: none; }
+    .likert-item:focus-visible { outline: 3px solid rgba(23, 105, 170, 0.35); outline-offset: 2px; }
+    .split-scenario:focus-visible { outline: 3px solid rgba(23, 105, 170, 0.35); outline-offset: 3px; border-radius: 8px; }
 
     .completion-status {
       min-height: 22px;
@@ -308,6 +318,19 @@
       background: #fff;
       color: var(--ink);
       font: inherit;
+    }
+
+    .text-field {
+      width: 100%;
+      min-height: 110px;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1px solid #8a847d;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      resize: vertical;
     }
 
     .choice-label { display: block; margin: 10px 0; line-height: 1.45; }
@@ -345,6 +368,9 @@
     .jspsych-btn:hover:not(:disabled) { background: var(--accent-dark) !important; transform: translateY(-1px); }
     .jspsych-btn:focus-visible { outline: 3px solid rgba(23, 105, 170, 0.45) !important; outline-offset: 3px; }
     .jspsych-btn:disabled { border-color: #aaa49d !important; background: #aaa49d !important; cursor: not-allowed; opacity: 0.72; }
+    .jspsych-btn.secondary { background: #fff !important; color: var(--accent) !important; }
+    .jspsych-btn.secondary:hover { background: var(--accent-soft) !important; }
+    .consent-actions { text-align: center; }
 
     a { color: var(--accent); }
     a:focus-visible { outline: 3px solid rgba(23, 105, 170, 0.4); outline-offset: 3px; }
@@ -368,9 +394,6 @@
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
     }
   </style>
-  <!-- GoatCounter: privacy-friendly, cookieless visitor counts -->
-  <script data-goatcounter="https://galangca.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
 </head>
 <body></body>
 
@@ -383,11 +406,12 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "4.0.0",
-  SCHEMA_VERSION: "3.0.0",
+  EXPERIMENT_VERSION: "5.0.0",
+  SCHEMA_VERSION: "4.0.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
   PROLIFIC_COMPLETION_CODE: "",
+  PROLIFIC_NOCONSENT_CODE: "",
   DOWNLOAD_LOCAL_DATA_ON_FINISH: true,
   ALLOW_LIVE_TEST_MODE: false
 });
@@ -467,13 +491,23 @@ const SESSION_ID = PROLIFIC_SESSION_ID || PAVLOVIA_SESSION || makeRandomId(18);
 const RANDOMIZATION_SEED = createRandomSeed();
 const RNG = mulberry32(RANDOMIZATION_SEED);
 
-const COMPLETION_CODE_CONFIGURED =
-  /^[A-Za-z0-9]+$/.test(CONFIG.PROLIFIC_COMPLETION_CODE) &&
-  !CONFIG.PROLIFIC_COMPLETION_CODE.toUpperCase().includes("REPLACE");
+function isProlificCode(code) {
+  return /^[A-Za-z0-9]+$/.test(code) && !code.toUpperCase().includes("REPLACE");
+}
 
-const PROLIFIC_RETURN_URL = COMPLETION_CODE_CONFIGURED
-  ? `https://app.prolific.com/submissions/complete?cc=${encodeURIComponent(CONFIG.PROLIFIC_COMPLETION_CODE)}`
-  : "";
+function prolificReturnURL(code) {
+  return isProlificCode(code)
+    ? `https://app.prolific.com/submissions/complete?cc=${encodeURIComponent(code)}`
+    : "";
+}
+
+const COMPLETION_CODE_CONFIGURED = isProlificCode(CONFIG.PROLIFIC_COMPLETION_CODE);
+const NOCONSENT_CODE_CONFIGURED = isProlificCode(CONFIG.PROLIFIC_NOCONSENT_CODE);
+const PROLIFIC_RETURN_URL = prolificReturnURL(CONFIG.PROLIFIC_COMPLETION_CODE);
+const PROLIFIC_NOCONSENT_URL = prolificReturnURL(CONFIG.PROLIFIC_NOCONSENT_CODE);
+
+// Set by the consent page; gates the study timeline and the end-of-study handling.
+let PARTICIPANT_CONSENTED = false;
 
 const TEST_MODE_REQUESTED = URL_PARAMS.has("test") || URL_PARAMS.has("nscenarios");
 const TEST_MODE_ALLOWED = !RUNNING_ON_PAVLOVIA || CONFIG.ALLOW_LIVE_TEST_MODE;
@@ -502,9 +536,30 @@ function localCompletionScreen() {
     </div>`;
 }
 
+function declineScreenHTML() {
+  return `
+    <div class="study-wrap">
+      <div class="paper-card centered">
+        <div class="eyebrow">Study ended</div>
+        <h2>Thank you</h2>
+        <p>You have chosen not to take part. No further questions will be shown.</p>
+        <p class="small muted">${PROLIFIC_NOCONSENT_URL ? "You will now be returned to Prolific." : "You may now close this page."}</p>
+      </div>
+    </div>`;
+}
+
+function showDeclineScreen() {
+  const display = jsPsych.getDisplayElement();
+  if (display) display.innerHTML = declineScreenHTML();
+}
+
 const jsPsych = initJsPsych({
   show_progress_bar: false,
   on_finish: function() {
+    if (!RUNNING_ON_PAVLOVIA && !PARTICIPANT_CONSENTED) {
+      window.setTimeout(showDeclineScreen, 50);
+      return;
+    }
     if (!RUNNING_ON_PAVLOVIA && CONFIG.DOWNLOAD_LOCAL_DATA_ON_FINISH) {
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       jsPsych.data.get().localSave("csv", `LOCAL_${CONFIG.STUDY_ID}_${makeRandomId(8)}_${timestamp}.csv`);
@@ -528,8 +583,41 @@ jsPsych.data.addProperties({
   running_on_pavlovia: RUNNING_ON_PAVLOVIA,
   test_mode: IS_TEST_MODE,
   planned_n_scenarios: CONFIG.N_SCENARIOS,
-  presented_n_scenarios: N_SCENARIOS_PRESENTED
+  presented_n_scenarios: N_SCENARIOS_PRESENTED,
+  screen_width: window.screen ? window.screen.width : null,
+  screen_height: window.screen ? window.screen.height : null,
+  viewport_width: window.innerWidth,
+  viewport_height: window.innerHeight
 });
+
+// Counts how often the participant leaves the page during one trial. Switching tabs
+// fires both blur and visibilitychange, so an absence is counted once until return.
+let blurState = null;
+
+function startBlurCount() {
+  const state = { count: 0, away: false };
+  state.leave = function() {
+    if (state.away) return;
+    state.away = true;
+    state.count += 1;
+  };
+  state.back = function() { state.away = false; };
+  state.visibility = function() { document.hidden ? state.leave() : state.back(); };
+  window.addEventListener("blur", state.leave);
+  window.addEventListener("focus", state.back);
+  document.addEventListener("visibilitychange", state.visibility);
+  blurState = state;
+}
+
+function stopBlurCount() {
+  const state = blurState;
+  blurState = null;
+  if (!state) return null;
+  window.removeEventListener("blur", state.leave);
+  window.removeEventListener("focus", state.back);
+  document.removeEventListener("visibilitychange", state.visibility);
+  return state.count;
+}
 
 // -----------------------------------------------------------------------------
 // EXPERIMENTAL MATERIALS: 3 delegation conditions x 2 actor genders x 2 outcomes
@@ -544,84 +632,84 @@ const TASKS = [
   {id:"dosing_guidance", label:"Dosing guidance", object:"dosing guidance", boss:"the hospital's chief executive",
     setup:"{Name} is the director of pharmacy at a large regional hospital. Because of a national shortage of a common antibiotic, the hospital must switch hundreds of patients to a substitute drug that is dosed differently.",
     action:"write new dosing guidance for the hospital's nurses",
-    success:"Nurses switch patients to the substitute drug smoothly, and no dosing errors occur.",
+    success:"The guidance is clear and accurate, and nurses switch patients to the substitute drug smoothly with no dosing errors.",
     failure:"The guidance contains several dosing errors, and a number of patients receive incorrect doses and need extra monitoring.",
     success_phrase:"nurses switching patients to the substitute drug without any dosing errors",
     failure_phrase:"patients receiving incorrect doses of the substitute drug"},
   {id:"relocation_plan", label:"School relocation plan", object:"relocation plan", boss:"the chair of the school board",
     setup:"{Name} is the superintendent of a school district. A week before the new school year, flooding damaged two elementary schools, and their 800 students have to be moved to other buildings.",
     action:"prepare the relocation plan that will be sent to families",
-    success:"Families know where and when to bring their children, and the first day of school runs smoothly.",
+    success:"The plan lists the correct bus routes and times, and the first day of school runs smoothly for all 800 students.",
     failure:"The plan lists several incorrect bus routes and times, and hundreds of students miss the first day of school.",
     success_phrase:"the first day of school running smoothly for the relocated students",
     failure_phrase:"hundreds of students missing the first day of school"},
   {id:"heat_advisory", label:"Heat wave advisory", object:"advisory", boss:"the city manager",
     setup:"{Name} is the director of emergency management for a mid-sized city. Forecasters have warned that a severe heat wave will reach the city within three days.",
     action:"prepare a public advisory listing the city's cooling centres and their opening hours",
-    success:"Residents find the cooling centres easily, and the centres are well used throughout the heat wave.",
+    success:"The advisory lists the correct addresses and opening hours, and many residents, including elderly people, use the cooling centres throughout the heat wave.",
     failure:"The advisory lists several wrong addresses and opening hours, and many residents, including elderly people, arrive at buildings that are closed.",
     success_phrase:"residents finding and using the cooling centres during the heat wave",
-    failure_phrase:"many residents arriving at cooling centres that were closed"},
+    failure_phrase:"many residents arriving at closed cooling centres"},
   {id:"regulator_report", label:"Report to the regulator", object:"report", boss:"the bank's chief executive",
     setup:"{Name} is the chief compliance officer at a national bank. A new regulation requires the bank to report to the government regulator how it protects its customers' savings.",
     action:"prepare the bank's report to the regulator",
-    success:"The regulator accepts the report without any concerns, and the bank avoids a costly review.",
+    success:"The report is accurate and complete, and the regulator accepts it without any concerns.",
     failure:"The report contains several important errors, and the regulator fines the bank $2 million.",
     success_phrase:"the regulator accepting the report without any concerns",
     failure_phrase:"the regulator fining the bank $2 million"},
   {id:"rebooking_instructions", label:"Storm rebooking instructions", object:"instructions", boss:"the airline's chief executive",
     setup:"{Name} is a vice-president of operations at a large airline. A winter storm is expected to cancel more than 300 of the airline's flights over the coming weekend.",
     action:"prepare instructions telling the airline's agents how to rebook affected passengers",
-    success:"Agents rebook passengers quickly, and almost everyone reaches their destination within a day.",
+    success:"The instructions are clear and accurate, and almost all passengers reach their destination within a day.",
     failure:"The instructions contain several important errors, and thousands of passengers are stranded at airports overnight.",
     success_phrase:"almost all passengers reaching their destination within a day",
     failure_phrase:"thousands of passengers being stranded at airports overnight"},
   {id:"recall_notice", label:"Product recall notice", object:"recall notice", boss:"the company's chief executive",
     setup:"{Name} is the head of quality assurance at a packaged-food company. Laboratory tests have found that some batches of the company's peanut-free granola bars may contain traces of peanuts.",
     action:"prepare the recall notice for stores and customers",
-    success:"Stores remove the affected batches within a day, and no customers have an allergic reaction.",
+    success:"The notice lists the correct batch numbers, the affected bars are removed from shelves within a day, and no customers have allergic reactions.",
     failure:"The notice lists several wrong batch numbers, the affected bars stay on shelves for another week, and several customers have allergic reactions.",
-    success_phrase:"the affected bars being removed before any customer had an allergic reaction",
+    success_phrase:"the affected bars being removed before any customer has an allergic reaction",
     failure_phrase:"several customers having allergic reactions"},
   {id:"assistance_guide", label:"Winter assistance guide", object:"guide", boss:"the company's chief executive",
     setup:"{Name} is a senior manager at an electric company that serves several large cities. After electricity prices rose sharply, the company created a program to cut winter bills for low-income households.",
     action:"prepare the guide explaining who is eligible and how to apply",
-    success:"Most eligible households apply, and thousands of families have their winter bills reduced.",
+    success:"The guide describes the eligibility rules correctly, and thousands of eligible families apply and have their winter bills reduced.",
     failure:"The guide describes the eligibility rules incorrectly, and thousands of eligible families do not apply and pay full price all winter.",
     success_phrase:"thousands of families having their winter bills reduced",
     failure_phrase:"thousands of eligible families missing out on reduced winter bills"},
   {id:"grant_proposal", label:"Grant proposal", object:"proposal", boss:"the chair of the food bank's board",
     setup:"{Name} is the executive director of a food bank. A national foundation has invited the food bank to apply for a large grant that would let it serve 2,000 more families each month.",
     action:"write the grant proposal",
-    success:"The foundation awards the grant, and the food bank begins serving 2,000 more families each month.",
+    success:"The proposal is clear and accurate, the foundation awards the grant, and the food bank begins serving 2,000 more families each month.",
     failure:"The proposal contains several important errors, the foundation rejects it, and the planned expansion is cancelled.",
     success_phrase:"the food bank receiving the grant and serving 2,000 more families",
     failure_phrase:"the foundation rejecting the proposal and the expansion being cancelled"},
   {id:"safety_manual", label:"Crane safety manual", object:"safety manual", boss:"the company's chief executive",
     setup:"{Name} is the director of safety at a construction company. The company has just bought a new type of crane for its building sites, and none of its workers have operated one before.",
     action:"write the safety manual that crane operators and site workers must follow",
-    success:"Workers follow the manual, and the cranes are used for a full year without a single accident.",
+    success:"The manual is clear and accurate, and the cranes are used for a full year without a single accident.",
     failure:"The manual contains several important errors, and two workers are injured in accidents during the first month.",
     success_phrase:"the cranes being used for a year without a single accident",
     failure_phrase:"two workers being injured in crane accidents"},
   {id:"breach_notice", label:"Data breach notification", object:"notification", boss:"the company's chief executive",
     setup:"{Name} is the chief technology officer at an online retailer. Hackers have stolen the passwords of about 50,000 of the company's customers.",
     action:"write the notification telling affected customers what happened and how to protect their accounts",
-    success:"Almost all affected customers secure their accounts within a few days, and very few lose any money.",
+    success:"The notification gives clear and correct instructions, and almost all affected customers secure their accounts before any money is taken.",
     failure:"The notification gives several incorrect instructions, and hundreds of customers have money taken from their accounts.",
     success_phrase:"almost all affected customers securing their accounts in time",
     failure_phrase:"hundreds of customers having money taken from their accounts"},
   {id:"scholarship_guidelines", label:"Scholarship guidelines", object:"guidelines", boss:"the university's president",
     setup:"{Name} is a dean at a public university. A donor has just given the university $5 million to fund scholarships for students from low-income families.",
     action:"write the guidelines the selection committee will use to decide who receives a scholarship",
-    success:"The committee awards every scholarship to a qualified student, and the donor praises the program.",
+    success:"The guidelines are clear and accurate, and every scholarship goes to a qualified student.",
     failure:"The guidelines contain several important errors, and dozens of qualified students are wrongly turned down.",
     success_phrase:"every scholarship going to a qualified student",
     failure_phrase:"dozens of qualified students being wrongly turned down"},
   {id:"service_notice", label:"Subway closure notice", object:"notice", boss:"the transit agency's chief executive",
     setup:"{Name} is the director of customer service at a city transit agency. The city's busiest subway line will close for two weeks of urgent repairs.",
     action:"prepare the notice telling riders about the replacement bus service",
-    success:"Riders switch to the replacement buses smoothly, and delays stay short throughout the closure.",
+    success:"The notice gives the correct bus stops and times, and riders switch to the replacement buses with only short delays.",
     failure:"The notice gives several wrong bus stops and times, and thousands of commuters are late for work during the first week.",
     success_phrase:"riders switching to the replacement buses with only short delays",
     failure_phrase:"thousands of commuters being late for work"}
@@ -629,7 +717,7 @@ const TASKS = [
 
 const NAMES = {
   man: ["Daniel Harris", "Michael Turner", "Matthew Collins", "Andrew Mitchell", "Thomas Bennett", "James Carter"],
-  woman: ["Danielle Foster", "Michelle Hughes", "Emma Reynolds", "Sarah Morgan", "Hannah Brooks", "Jessica Parker"]
+  woman: ["Laura Foster", "Rachel Hughes", "Emma Reynolds", "Sarah Morgan", "Hannah Brooks", "Jessica Parker"]
 };
 
 const CONDITIONS = [];
@@ -682,9 +770,11 @@ function prototypeNote() {
   const missing = [];
   if (!CONFIG.LETTER_OF_INFORMATION_URL) missing.push("approved Letter of Information URL");
   if (!COMPLETION_CODE_CONFIGURED) missing.push("Prolific completion code");
+  if (!NOCONSENT_CODE_CONFIGURED) missing.push("Prolific no-consent code");
   if (missing.length === 0 && !IS_TEST_MODE) return "";
   const details = [];
-  if (missing.length) details.push(`Before launch, configure: ${missing.join(" and ")}.`);
+  const list = missing.length > 1 ? `${missing.slice(0, -1).join(", ")} and ${missing[missing.length - 1]}` : missing[0];
+  if (missing.length) details.push(`Before launch, configure: ${list}.`);
   if (IS_TEST_MODE) details.push(`Local test mode is showing ${N_SCENARIOS_PRESENTED} of ${CONFIG.N_SCENARIOS} scenarios.`);
   return `<div class="prototype-note"><strong>Researcher preview:</strong> ${details.join(" ")}</div>`;
 }
@@ -717,9 +807,9 @@ function makeVignetteHTML(trial) {
   const task = trial.task;
   const decision = `In response, {Name} decides to ${task.action}.`;
   const workDescription = {
-    solo: `${decision} {Name} completes all parts of the work personally and prepares the final ${task.object} {himself}.`,
+    solo: `${decision} {Name} completes all parts of the work personally, reviews the draft, makes any edits {he} thinks are necessary, and prepares the final ${task.object} {himself}.`,
     human: `${decision} {Name} completes most of the work but asks a colleague to complete approximately one-third of it. {Name} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
-    llm: `${decision} {Name} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {Name} reviews the model's output, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
+    llm: `${decision} {Name} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {Name} reviews the model's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
   }[trial.delegation];
 
   const outcomeText = trial.outcome === "success" ? task.success : task.failure;
@@ -744,7 +834,7 @@ function makeScenarioPageHTML(trial, index) {
     <div class="study-wrap split">
       ${progressHTML(index)}
       <div class="split-layout">
-        <div class="split-scenario">${makeVignetteHTML(trial)}</div>
+        <div class="split-scenario" tabindex="0" role="region" aria-label="Scenario">${makeVignetteHTML(trial)}</div>
         <div class="split-questions">${makeRatingHTML(trial, index)}</div>
       </div>
     </div>`;
@@ -771,10 +861,10 @@ function likertHTML(name, prompt, prefix) {
         </label>`;
   }).join("");
   return `
-    <div class="likert-item" role="radiogroup" aria-labelledby="${questionId}" data-likert="${name}">
-      <p class="likert-question" id="${questionId}">${prompt}</p>
+    <fieldset class="likert-item" tabindex="-1" data-likert="${name}">
+      <legend class="likert-question" id="${questionId}">${prompt}</legend>
       <div class="likert-scale">${options}</div>
-    </div>`;
+    </fieldset>`;
 }
 
 function makeRatingHTML(trial, index) {
@@ -785,13 +875,13 @@ function makeRatingHTML(trial, index) {
 
   const primary = trial.outcome === "success"
     ? item("primary_credit", "{Name} deserves credit for what happened.")
-    : item("primary_responsibility", "{Name} is responsible for what went wrong.");
+    : item("primary_blame", "{Name} deserves blame for what went wrong.");
 
   const attribution = [
     item("person_cause", `Features of {Name} (such as {his} ${PERSON_EXAMPLES}) influenced the outcome (${behaviour}).`),
-    item("situation_cause", `Features of the environment that surround {Name} (such as ${SITUATION_EXAMPLES}) influenced the outcome (${behaviour}).`),
+    item("situation_cause", `Features of the environment that surrounds {Name} (such as ${SITUATION_EXAMPLES}) influenced the outcome (${behaviour}).`),
     item("person_cf", `The outcome would have been different if features of {Name} (such as {his} ${PERSON_EXAMPLES}) had been different.`),
-    item("situation_cf", `The outcome would have been different if features of the environment that surround {him} (such as ${SITUATION_EXAMPLES}) had been different.`)
+    item("situation_cf", `The outcome would have been different if features of the environment that surrounds {Name} (such as ${SITUATION_EXAMPLES}) had been different.`)
   ];
   if (trial.delegation !== "solo") {
     const helper = trial.delegation === "human" ? "The colleague's" : "The large language model's";
@@ -817,32 +907,44 @@ function makeRatingHTML(trial, index) {
 }
 
 function bindRequiredItems() {
+  const form = document.getElementById("jspsych-survey-html-form");
   const groups = Array.from(document.querySelectorAll("[data-likert]"));
-  const submitButton = document.querySelector(".jspsych-btn");
   const status = document.getElementById("item-completion");
-  if (!submitButton || groups.length === 0) return;
+  if (!form || groups.length === 0) return;
 
-  submitButton.disabled = true;
-  submitButton.setAttribute("aria-disabled", "true");
+  // This check replaces the browser's required-field bubbles, so they cannot double-prompt.
+  form.noValidate = true;
+  let announcedComplete = false;
+  const unanswered = () => groups.filter(group => group.querySelector("input:checked") === null);
 
-  function refreshStatus() {
-    let remaining = 0;
-    for (const group of groups) {
-      const answered = group.querySelector("input:checked") !== null;
-      group.classList.toggle("answered", answered);
-      if (!answered) remaining += 1;
-    }
-    if (remaining === 0) {
-      submitButton.disabled = false;
-      submitButton.removeAttribute("aria-disabled");
-      if (status) status.textContent = "All questions answered. You can continue.";
-    } else if (status) {
-      status.textContent = `${remaining} question${remaining === 1 ? "" : "s"} remaining.`;
-    }
+  function announce(text) {
+    if (!status) return;
+    // Clearing first makes screen readers repeat an unchanged message on a second attempt.
+    status.textContent = "";
+    window.setTimeout(function() { status.textContent = text; }, 50);
   }
 
-  for (const group of groups) group.addEventListener("change", refreshStatus);
-  refreshStatus();
+  for (const group of groups) {
+    group.addEventListener("change", function() {
+      group.classList.add("answered");
+      group.classList.remove("missing");
+      if (!announcedComplete && unanswered().length === 0) {
+        announcedComplete = true;
+        announce("All questions answered. You can continue.");
+      }
+    });
+  }
+
+  // Capture phase runs before the plugin's own submit listener on the form.
+  form.addEventListener("submit", function(event) {
+    const missing = unanswered();
+    if (missing.length === 0) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    for (const group of missing) group.classList.add("missing");
+    announce(`${missing.length} question${missing.length === 1 ? "" : "s"} remaining.`);
+    missing[0].focus();
+  }, true);
 }
 
 function mean(values) {
@@ -855,7 +957,7 @@ function numericResponse(response, field) {
 }
 
 const RATING_FIELDS = [
-  "primary_credit", "primary_responsibility", "person_cause", "situation_cause",
+  "primary_credit", "primary_blame", "person_cause", "situation_cause",
   "person_cf", "situation_cf", "helper_cause", "reward", "punish", "certainty"
 ];
 
@@ -911,7 +1013,8 @@ function consentHTML() {
           <input type="checkbox" name="consent_participate" value="yes" required>
           <span>I have read the information provided for this study, I am at least 18 years old, and I consent to participate.</span>
         </label>
-        <p class="small muted">If you do not consent, close this page and use the non-consent return path specified by the researcher.</p>
+        <input type="hidden" name="consent_decision" value="consent">
+        <div class="consent-actions"></div>
       </div>
     </div>`;
 }
@@ -921,8 +1024,29 @@ const consentPage = {
   html: consentHTML,
   button_label: "I consent — continue",
   data: { trial_role: "consent" },
+  on_load: function() {
+    const form = document.getElementById("jspsych-survey-html-form");
+    const submitButton = document.getElementById("jspsych-survey-html-form-next");
+    const actions = document.querySelector(".consent-actions");
+    if (!form || !submitButton || !actions) return;
+    const declineButton = document.createElement("button");
+    declineButton.type = "button";
+    declineButton.className = "jspsych-btn secondary";
+    declineButton.textContent = "I do not consent";
+    actions.append(submitButton, declineButton);
+    declineButton.addEventListener("click", function() {
+      form.elements.consent_decision.value = "decline";
+      const checkbox = form.elements.consent_participate;
+      checkbox.checked = false;
+      checkbox.required = false;
+      submitButton.click();
+    });
+  },
   on_finish: function(data) {
-    data.consent_participate = data.response && data.response.consent_participate === "yes";
+    const response = data.response || {};
+    data.consent_decision = response.consent_decision || null;
+    data.consent_participate = response.consent_decision === "consent" && response.consent_participate === "yes";
+    PARTICIPANT_CONSENTED = data.consent_participate;
   }
 };
 
@@ -959,7 +1083,7 @@ const instructionsPage = {
         <ul class="instruction-list">
           <li>Treat every scenario as a <strong>different person</strong> completing a <strong>different workplace task</strong>.</li>
           <li>Read the full scenario, including what happened as a result.</li>
-          <li>The scenario stays on screen while you answer. Answer every question by indicating how much you agree or disagree with each statement.</li>
+          <li>The scenario is shown on the same page as the questions, so you can look back at it while you answer. Answer every question by indicating how much you agree or disagree with each statement.</li>
           <li>Use the full scale, from <em>Strongly disagree</em> to <em>Strongly agree</em>, whenever it reflects your view.</li>
         </ul>
         <p class="small muted" style="margin-top:24px;">Please complete the study in one sitting and avoid using the browser's Back or Refresh controls.</p>
@@ -995,8 +1119,17 @@ const FWI_SUBSCALES = {
   dualism: [3, 6, 9, 12, 15]
 };
 
+// Instructed-response item shown unnumbered after FWI item 8; 3 = "Somewhat disagree".
+const ATTENTION_CHECK_AFTER_ITEM = 8;
+const ATTENTION_CHECK_TARGET = 3;
+
 function fwiHTML() {
-  const items = FWI_ITEMS.map((text, i) => likertHTML(`fwi_${i + 1}`, `${i + 1}. ${text}`, "fwi")).join("");
+  const items = FWI_ITEMS.map(function(text, i) {
+    const html = likertHTML(`fwi_${i + 1}`, `${i + 1}. ${text}`, "fwi");
+    return i + 1 === ATTENTION_CHECK_AFTER_ITEM
+      ? html + likertHTML("attention_check", "To show you are reading carefully, please select Somewhat disagree.", "fwi")
+      : html;
+  }).join("");
   return `
     <div class="study-wrap">
       <div class="paper-card compact ratings-header">
@@ -1013,12 +1146,18 @@ const fwiPage = {
   type: jsPsychSurveyHtmlForm,
   html: fwiHTML,
   button_label: "Continue",
-  on_load: bindRequiredItems,
+  on_load: function() {
+    bindRequiredItems();
+    startBlurCount();
+  },
   data: { trial_role: "free_will_inventory" },
   on_finish: function(data) {
+    data.blur_count = stopBlurCount();
     const response = data.response || {};
     const score = n => data[`fwi_${n}`];
     FWI_ITEMS.forEach((_, i) => { data[`fwi_${i + 1}`] = numericResponse(response, `fwi_${i + 1}`); });
+    data.attention_check = numericResponse(response, "attention_check");
+    data.attention_check_passed = data.attention_check === ATTENTION_CHECK_TARGET;
     for (const [subscale, items] of Object.entries(FWI_SUBSCALES)) data[`fwi_${subscale}`] = mean(items.map(score));
     // Compound score as in Genschow et al. (2017): free will + dualism + reversed determinism.
     const compound = [...FWI_SUBSCALES.free_will, ...FWI_SUBSCALES.dualism].map(score)
@@ -1073,6 +1212,41 @@ const demographicsPage = {
   }
 };
 
+const funnelPage = {
+  type: jsPsychSurveyHtmlForm,
+  html: `
+    <div class="study-wrap">
+      <div class="paper-card compact">
+        <div class="eyebrow">One last question</div>
+        <h2 id="funnel-question">In a sentence or two, what do you think this study was about?</h2>
+        <p class="muted" id="funnel-hint">This question is optional.</p>
+        <textarea class="text-field" name="funnel_probe" rows="4" aria-labelledby="funnel-question" aria-describedby="funnel-hint"></textarea>
+      </div>
+    </div>`,
+  button_label: "Continue",
+  data: { trial_role: "funnel_probe" },
+  on_finish: function(data) {
+    const text = data.response && typeof data.response.funnel_probe === "string" ? data.response.funnel_probe.trim() : "";
+    data.funnel_probe = text || null;
+  }
+};
+
+const debriefPage = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: `
+    <div class="study-wrap">
+      <div class="paper-card">
+        <div class="eyebrow">About this study</div>
+        <h2>Debriefing</h2>
+        <p>This study examined how people assign credit and blame when work is done alone, with a colleague, or with an AI tool.</p>
+        <p>All of the scenarios you read were fictional.</p>
+        <p>If you have any questions about the study, you can contact the researcher using the details in the Letter of Information.</p>
+      </div>
+    </div>`,
+  choices: ["Continue"],
+  data: { trial_role: "debrief" }
+};
+
 function finalButtonLabel() {
   if (!RUNNING_ON_PAVLOVIA) return "Finish and download test data";
   if (PROLIFIC_RETURN_URL) return "Finish and return to Prolific";
@@ -1121,6 +1295,10 @@ function makePavloviaFinish() {
     on_load: function() {
       const display = jsPsych.getDisplayElement();
       if (!display) return;
+      if (!PARTICIPANT_CONSENTED) {
+        display.innerHTML = declineScreenHTML();
+        return;
+      }
       display.innerHTML = `
         <div class="study-wrap">
           <div class="paper-card centered" aria-live="polite">
@@ -1140,6 +1318,11 @@ function makePavloviaFinish() {
       }
     },
     on_finish: function() {
+      if (!PARTICIPANT_CONSENTED) {
+        if (PROLIFIC_NOCONSENT_URL) window.location.assign(PROLIFIC_NOCONSENT_URL);
+        else showDeclineScreen();
+        return;
+      }
       if (PROLIFIC_RETURN_URL) {
         window.location.assign(PROLIFIC_RETURN_URL);
         return;
@@ -1166,10 +1349,13 @@ function makePavloviaFinish() {
 function buildTimeline() {
   const timeline = [];
   if (RUNNING_ON_PAVLOVIA) timeline.push(makePavloviaInit());
-  timeline.push(consentPage, welcomePage, instructionsPage);
+  timeline.push(consentPage);
 
+  // Everything after consent runs only for people who consented; the Pavlovia
+  // finish trial below still runs for decliners so their session closes cleanly.
+  const study = [welcomePage, instructionsPage];
   TRIALS.forEach(function(trial, index) {
-    timeline.push({
+    study.push({
       type: jsPsychSurveyHtmlForm,
       html: function() { return makeScenarioPageHTML(trial, index); },
       button_label: "Continue",
@@ -1179,14 +1365,19 @@ function buildTimeline() {
         const button = document.querySelector(".jspsych-btn");
         if (column && button) column.appendChild(button);
         bindRequiredItems();
+        startBlurCount();
         window.scrollTo(0, 0);
       },
       data: trialMetadata(trial, index, "ratings"),
-      on_finish: normalizeRatingData
+      on_finish: function(data) {
+        data.blur_count = stopBlurCount();
+        normalizeRatingData(data);
+      }
     });
   });
+  study.push(fwiPage, demographicsPage, funnelPage, debriefPage, finalPage);
 
-  timeline.push(fwiPage, demographicsPage, finalPage);
+  timeline.push({ timeline: study, conditional_function: () => PARTICIPANT_CONSENTED });
   if (RUNNING_ON_PAVLOVIA) timeline.push(makePavloviaFinish());
   return timeline;
 }
