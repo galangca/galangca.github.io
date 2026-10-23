@@ -216,65 +216,51 @@
       text-transform: uppercase;
     }
 
-    .rating-card {
+    .likert-item {
       margin: 12px 0;
-      padding: 19px 20px 17px;
+      padding: 18px 20px 16px;
       border: 1px solid var(--line);
       border-radius: 6px;
       background: #fff;
     }
 
-    .rating-question {
-      display: block;
-      margin-bottom: 15px;
+    .likert-question {
+      margin: 0 0 14px;
       font-size: 16px;
       font-weight: 700;
       line-height: 1.45;
     }
 
-    .slider-grid {
+    .likert-scale {
       display: grid;
-      grid-template-columns: 98px minmax(180px, 1fr) 98px;
-      gap: 13px;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .likert-option {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-    }
-
-    .slider-control { min-width: 0; }
-
-    .slider-control input[type="range"] {
-      width: 100%;
-      margin: 0;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-
-    .slider-control input[type="range"]:focus-visible {
-      outline: 3px solid rgba(23, 105, 170, 0.35);
-      outline-offset: 5px;
-      border-radius: 999px;
-    }
-
-    .anchor { color: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 1.3; }
-    .anchor.right { text-align: right; }
-
-    .live-value {
-      width: 48px;
-      min-height: 29px;
-      margin: 8px auto 0;
-      padding: 3px 6px;
+      gap: 5px;
+      padding: 8px 4px;
       border: 1px solid var(--line);
-      border-radius: 999px;
+      border-radius: 5px;
       background: #faf9f6;
       color: var(--muted);
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
+      font-size: 11px;
+      line-height: 1.25;
       text-align: center;
+      cursor: pointer;
     }
 
-    .rating-card.touched { border-color: #c6a0b3; background: #fffcfd; }
-    .rating-card.touched .live-value { border-color: #c6a0b3; color: var(--accent); background: var(--accent-soft); }
+    .likert-option input { margin: 0; accent-color: var(--accent); }
+    .likert-num { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .likert-option:hover { border-color: #c6a0b3; }
+    .likert-option:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-dark); font-weight: 700; }
+    .likert-option:has(input:focus-visible) { outline: 3px solid rgba(23, 105, 170, 0.35); outline-offset: 2px; }
+
+    .likert-item.answered { border-color: #c6a0b3; background: #fffcfd; }
 
     .completion-status {
       min-height: 22px;
@@ -343,13 +329,13 @@
       .paper-card, .scenario-card { padding: 26px 22px; }
       .study-facts { grid-template-columns: 1fr; }
       .study-fact { min-height: 0; }
-      .slider-grid { grid-template-columns: 76px minmax(120px, 1fr) 76px; gap: 8px; }
-      .rating-card { padding-left: 15px; padding-right: 15px; }
+      .likert-item { padding-left: 15px; padding-right: 15px; }
+      .likert-scale { grid-template-columns: 1fr; gap: 5px; }
+      .likert-option { flex-direction: row; gap: 10px; padding: 9px 12px; font-size: 14px; text-align: left; }
+      .likert-num { min-width: 1em; }
     }
 
     @media (max-width: 440px) {
-      .slider-grid { grid-template-columns: 58px minmax(105px, 1fr) 58px; }
-      .anchor { font-size: 10px; }
       .jspsych-btn { width: calc(100% - 16px); }
     }
 
@@ -372,8 +358,8 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "2.0.0",
-  SCHEMA_VERSION: "1.0.0",
+  EXPERIMENT_VERSION: "3.0.0",
+  SCHEMA_VERSION: "2.0.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
   PROLIFIC_COMPLETION_CODE: "",
@@ -523,24 +509,100 @@ jsPsych.data.addProperties({
 // -----------------------------------------------------------------------------
 // EXPERIMENTAL MATERIALS: 3 delegation conditions x 2 actor genders x 2 outcomes
 // -----------------------------------------------------------------------------
+// Vignettes follow the Kitayama et al. (2006) scenarios used by Genschow, Rigoni &
+// Brass (2017): a named person with a job title, a one-sentence setup, what they
+// did, and the outcome. {Name}, {he}, {him}, {his}, {himself}, {He} and {His} are
+// filled per trial; success_phrase/failure_phrase restate the outcome in the items.
 const TASKS = [
-  {id:"report", label:"Organizational report", object:"report", intro:"preparing a report summarizing the progress of several projects within the organization", action:"gathers the relevant information, analyzes it, and prepares the report", success:"The final report is accurate and complete and receives a very positive evaluation from the manager.", failure:"The final report contains several important inaccuracies and receives a negative evaluation from the manager."},
-  {id:"presentation", label:"Survey presentation", object:"presentation", intro:"preparing a presentation summarizing the results of a recent customer survey", action:"reviews the survey results, decides which findings to include, and prepares the presentation", success:"The final presentation accurately represents the survey results and receives a very positive evaluation.", failure:"The final presentation misrepresents several important survey results and receives a negative evaluation."},
-  {id:"employee_feedback", label:"Employee feedback summary", object:"summary", intro:"preparing a summary of feedback collected from employees about their workplace experiences", action:"reads the feedback, identifies the major themes, and prepares the summary", success:"The final summary accurately reflects the employee feedback and receives a positive evaluation.", failure:"The final summary incorrectly represents several important themes in the employee feedback and receives a negative evaluation."},
-  {id:"training_guide", label:"Training guide", object:"training guide", intro:"preparing a training guide for new employees joining the organization", action:"gathers the necessary information, organizes the material, and prepares the training guide", success:"The final training guide is clear, accurate, and receives a positive evaluation.", failure:"The final training guide contains several important pieces of incorrect information and receives a negative evaluation."},
-  {id:"project_brief", label:"Project brief", object:"briefing document", intro:"preparing a briefing document about an upcoming organizational project", action:"reviews the available information, identifies the key issues, and prepares the briefing document", success:"The briefing document accurately identifies the important issues and receives a positive evaluation.", failure:"The briefing document contains several important inaccuracies and receives a negative evaluation."},
-  {id:"customer_feedback", label:"Customer feedback report", object:"report", intro:"preparing a report summarizing customer comments about a recently introduced service", action:"reviews the comments, identifies recurring themes, and prepares the report", success:"The final report accurately summarizes the customer feedback and receives a positive evaluation.", failure:"The final report incorrectly summarizes several important aspects of the customer feedback and receives a negative evaluation."},
-  {id:"meeting_brief", label:"Meeting brief", object:"briefing document", intro:"preparing a briefing document for an important upcoming meeting", action:"reviews the relevant materials, identifies the most important information, and prepares the briefing document", success:"The briefing accurately communicates the relevant information and receives a positive evaluation.", failure:"The briefing contains several important inaccuracies and receives a negative evaluation."},
-  {id:"faq", label:"FAQ document", object:"FAQ document", intro:"preparing a document answering frequently asked questions about a new organizational procedure", action:"researches the procedure, identifies the relevant information, and prepares the document", success:"The final document provides accurate answers and receives a positive evaluation.", failure:"The final document provides incorrect information in several important answers and receives a negative evaluation."},
-  {id:"project_plan", label:"Project plan", object:"project plan", intro:"preparing a written project plan describing the tasks and deadlines for an upcoming project", action:"reviews the project requirements, identifies the necessary tasks and deadlines, and prepares the plan", success:"The final project plan accurately identifies the necessary tasks and deadlines and receives a positive evaluation.", failure:"The final project plan contains several important errors in the tasks or deadlines and receives a negative evaluation."},
-  {id:"policy_summary", label:"Policy summary", object:"summary", intro:"preparing a short summary explaining a new organizational policy to other employees", action:"reads the policy, identifies the important information, and prepares the summary", success:"The final summary accurately explains the policy and receives a positive evaluation.", failure:"The final summary incorrectly explains several important parts of the policy and receives a negative evaluation."},
-  {id:"stakeholder_update", label:"Stakeholder update", object:"written update", intro:"preparing a written update explaining the progress of a project to people involved in the project", action:"gathers the relevant information, decides what should be included, and prepares the update", success:"The final update accurately communicates the project progress and receives a positive evaluation.", failure:"The final update contains several important inaccuracies about the project progress and receives a negative evaluation."},
-  {id:"info_summary", label:"Information summary", object:"summary document", intro:"preparing a short document summarizing information from several sources for the organization", action:"reads the sources, identifies the important information, and prepares the summary", success:"The final document accurately summarizes the relevant information and receives a positive evaluation.", failure:"The final document contains several important inaccuracies and receives a negative evaluation."}
+  {id:"report", label:"Organizational report", object:"report",
+    setup:"{Name} is a project coordinator at a mid-sized engineering firm. Ahead of the firm's annual planning meeting, {his} manager asks {him} to prepare a report summarizing the progress of the firm's six ongoing projects.",
+    action:"gathers the relevant information, analyzes it, and prepares the report",
+    success:"The final report is accurate and complete, and the manager evaluates it very positively.",
+    failure:"The final report contains several important inaccuracies, and the manager evaluates it negatively.",
+    success_phrase:"producing an accurate and complete progress report",
+    failure_phrase:"producing a progress report with several important inaccuracies"},
+  {id:"presentation", label:"Survey presentation", object:"presentation",
+    setup:"{Name} is a marketing analyst at a regional grocery chain. The chain recently surveyed 2,000 of its customers, and {his} manager asks {him} to prepare a presentation of the results for the senior leadership team.",
+    action:"reviews the survey results, decides which findings to include, and prepares the presentation",
+    success:"The final presentation accurately represents the survey results, and the manager evaluates it very positively.",
+    failure:"The final presentation misrepresents several important survey results, and the manager evaluates it negatively.",
+    success_phrase:"producing a presentation that accurately represents the survey results",
+    failure_phrase:"producing a presentation that misrepresents several important survey results"},
+  {id:"employee_feedback", label:"Employee feedback summary", object:"summary",
+    setup:"{Name} works in the human resources department of a large insurance company. After the company's annual staff survey, {his} manager asks {him} to summarize the written comments employees submitted about their workplace experiences.",
+    action:"reads the feedback, identifies the major themes, and prepares the summary",
+    success:"The final summary accurately reflects the employee feedback, and the manager evaluates it positively.",
+    failure:"The final summary misrepresents several important themes in the employee feedback, and the manager evaluates it negatively.",
+    success_phrase:"producing a summary that accurately reflects the employee feedback",
+    failure_phrase:"producing a summary that misrepresents several important themes in the feedback"},
+  {id:"training_guide", label:"Training guide", object:"training guide",
+    setup:"{Name} is an operations supervisor at a logistics company that is about to hire twenty new warehouse staff. {His} manager asks {him} to prepare the training guide that new employees will use during their first week.",
+    action:"gathers the necessary information, organizes the material, and prepares the training guide",
+    success:"The final training guide is clear and accurate, and the manager evaluates it positively.",
+    failure:"The final training guide contains several important pieces of incorrect information, and the manager evaluates it negatively.",
+    success_phrase:"producing a clear and accurate training guide",
+    failure_phrase:"producing a training guide with several important pieces of incorrect information"},
+  {id:"project_brief", label:"Project brief", object:"briefing document",
+    setup:"{Name} is a policy officer in a city planning department that is about to begin redeveloping a downtown park. {His} manager asks {him} to prepare a briefing document about the project for the department's senior staff.",
+    action:"reviews the available information, identifies the key issues, and prepares the briefing document",
+    success:"The briefing document accurately identifies the important issues, and the manager evaluates it positively.",
+    failure:"The briefing document contains several important inaccuracies, and the manager evaluates it negatively.",
+    success_phrase:"producing a briefing document that accurately identifies the important issues",
+    failure_phrase:"producing a briefing document with several important inaccuracies"},
+  {id:"customer_feedback", label:"Customer feedback report", object:"report",
+    setup:"{Name} is a customer service team lead at a telecommunications company that recently introduced a new online billing service. {His} manager asks {him} to prepare a report summarizing customer comments about the new service.",
+    action:"reviews the comments, identifies recurring themes, and prepares the report",
+    success:"The final report accurately summarizes the customer feedback, and the manager evaluates it positively.",
+    failure:"The final report misrepresents several important aspects of the customer feedback, and the manager evaluates it negatively.",
+    success_phrase:"producing a report that accurately summarizes the customer feedback",
+    failure_phrase:"producing a report that misrepresents several important aspects of the customer feedback"},
+  {id:"meeting_brief", label:"Meeting brief", object:"briefing document",
+    setup:"{Name} is an executive assistant at a manufacturing company that is preparing for an important meeting with its main supplier. {His} manager asks {him} to prepare a briefing document for the people attending the meeting.",
+    action:"reviews the relevant materials, identifies the most important information, and prepares the briefing document",
+    success:"The briefing accurately communicates the relevant information, and the manager evaluates it positively.",
+    failure:"The briefing contains several important inaccuracies, and the manager evaluates it negatively.",
+    success_phrase:"producing a briefing that accurately communicates the relevant information",
+    failure_phrase:"producing a briefing with several important inaccuracies"},
+  {id:"faq", label:"FAQ document", object:"FAQ document",
+    setup:"{Name} is an administrator at a university that is introducing a new procedure for submitting travel expense claims. {His} manager asks {him} to prepare a document answering staff's frequently asked questions about the procedure.",
+    action:"researches the procedure, identifies the relevant information, and prepares the document",
+    success:"The final document provides accurate answers, and the manager evaluates it positively.",
+    failure:"The final document gives incorrect information in several important answers, and the manager evaluates it negatively.",
+    success_phrase:"producing an FAQ document with accurate answers",
+    failure_phrase:"producing an FAQ document with incorrect information in several important answers"},
+  {id:"project_plan", label:"Project plan", object:"project plan",
+    setup:"{Name} is a team lead at a software company that has agreed to build a mobile app for a new client. {His} manager asks {him} to prepare a written project plan setting out the tasks and deadlines.",
+    action:"reviews the project requirements, identifies the necessary tasks and deadlines, and prepares the plan",
+    success:"The final project plan accurately identifies the necessary tasks and deadlines, and the manager evaluates it positively.",
+    failure:"The final project plan contains several important errors in the tasks or deadlines, and the manager evaluates it negatively.",
+    success_phrase:"producing a project plan that accurately identifies the tasks and deadlines",
+    failure_phrase:"producing a project plan with several important errors in the tasks or deadlines"},
+  {id:"policy_summary", label:"Policy summary", object:"summary",
+    setup:"{Name} works in the compliance office of a regional hospital network that has just adopted a new policy on remote work. {His} manager asks {him} to prepare a short summary explaining the policy to other employees.",
+    action:"reads the policy, identifies the important information, and prepares the summary",
+    success:"The final summary explains the policy accurately, and the manager evaluates it positively.",
+    failure:"The final summary explains several important parts of the policy incorrectly, and the manager evaluates it negatively.",
+    success_phrase:"producing a summary that explains the policy accurately",
+    failure_phrase:"producing a summary that explains several important parts of the policy incorrectly"},
+  {id:"stakeholder_update", label:"Stakeholder update", object:"written update",
+    setup:"{Name} is a project manager at a non-profit organization that is renovating a community centre. {His} manager asks {him} to prepare a written update on the renovation's progress for the funders and community partners involved.",
+    action:"gathers the relevant information, decides what should be included, and prepares the update",
+    success:"The final update accurately communicates the project's progress, and the manager evaluates it positively.",
+    failure:"The final update contains several important inaccuracies about the project's progress, and the manager evaluates it negatively.",
+    success_phrase:"producing an update that accurately communicates the project's progress",
+    failure_phrase:"producing an update with several important inaccuracies about the project's progress"},
+  {id:"info_summary", label:"Information summary", object:"summary document",
+    setup:"{Name} is a research assistant at a regional transportation agency. {His} manager asks {him} to prepare a short document summarizing several recent reports on how residents use public transit.",
+    action:"reads the sources, identifies the important information, and prepares the summary",
+    success:"The final document accurately summarizes the relevant information, and the manager evaluates it positively.",
+    failure:"The final document contains several important inaccuracies, and the manager evaluates it negatively.",
+    success_phrase:"producing a document that accurately summarizes the reports",
+    failure_phrase:"producing a document with several important inaccuracies"}
 ];
 
 const NAMES = {
-  man: ["Daniel", "Michael", "Matthew", "Andrew", "Thomas", "James"],
-  woman: ["Danielle", "Michelle", "Emma", "Sarah", "Hannah", "Jessica"]
+  man: ["Daniel Harris", "Michael Turner", "Matthew Collins", "Andrew Mitchell", "Thomas Bennett", "James Carter"],
+  woman: ["Danielle Foster", "Michelle Hughes", "Emma Reynolds", "Sarah Morgan", "Hannah Brooks", "Jessica Parker"]
 };
 
 const CONDITIONS = [];
@@ -612,22 +674,26 @@ function progressHTML(index, phase) {
 
 function actorPronouns(gender) {
   return gender === "man"
-    ? { subject: "he", reflexive: "himself" }
-    : { subject: "she", reflexive: "herself" };
+    ? { he: "he", him: "him", his: "his", himself: "himself" }
+    : { he: "she", him: "her", his: "her", himself: "herself" };
+}
+
+function fillTemplate(text, trial) {
+  const pronouns = actorPronouns(trial.actor_gender);
+  return text.replace(/\{(Name|he|him|his|himself|He|His)\}/g, function(match, key) {
+    if (key === "Name") return trial.name;
+    const word = pronouns[key.toLowerCase()];
+    return key[0] === key[0].toUpperCase() ? word[0].toUpperCase() + word.slice(1) : word;
+  });
 }
 
 function makeVignetteHTML(trial, index) {
-  const pronouns = actorPronouns(trial.actor_gender);
   const task = trial.task;
-  let workDescription;
-
-  if (trial.delegation === "solo") {
-    workDescription = `${trial.name} ${task.action}. ${trial.name} completes all parts of the task personally and prepares the final ${task.object} ${pronouns.reflexive}.`;
-  } else if (trial.delegation === "human") {
-    workDescription = `${trial.name} completes most of the task but asks a colleague to complete approximately one-third of the work. ${trial.name} reviews the colleague's work, makes any edits ${pronouns.subject} thinks are necessary, and incorporates it into the final ${task.object}.`;
-  } else {
-    workDescription = `${trial.name} completes most of the task but asks a large language model, such as ChatGPT, to complete approximately one-third of the work. ${trial.name} reviews the model's output, makes any edits ${pronouns.subject} thinks are necessary, and incorporates it into the final ${task.object}.`;
-  }
+  const workDescription = {
+    solo: `{Name} ${task.action}. {Name} completes all parts of the task personally and prepares the final ${task.object} {himself}.`,
+    human: `{Name} completes most of the task but asks a colleague to complete approximately one-third of the work. {Name} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
+    llm: `{Name} completes most of the task but asks a large language model, such as ChatGPT, to complete approximately one-third of the work. {Name} reviews the model's output, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
+  }[trial.delegation];
 
   const outcomeText = trial.outcome === "success" ? task.success : task.failure;
   return `
@@ -637,8 +703,8 @@ function makeVignetteHTML(trial, index) {
         <div class="eyebrow">Workplace scenario</div>
         <h2>${task.label}</h2>
         <div class="scenario-text">
-          <p>${trial.name} is responsible for ${task.intro}.</p>
-          <p>${workDescription}</p>
+          <p>${fillTemplate(task.setup, trial)}</p>
+          <p>${fillTemplate(workDescription, trial)}</p>
         </div>
         <div class="outcome-panel">
           <span class="outcome-label">Manager's evaluation</span>
@@ -648,99 +714,125 @@ function makeVignetteHTML(trial, index) {
     </div>`;
 }
 
-function sliderHTML(name, prompt, leftAnchor, rightAnchor, index) {
-  const inputId = `rating-${index}-${name}`;
+// 7-point agreement scale from Genschow et al. (2017).
+const LIKERT_LABELS = [
+  "Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree",
+  "Somewhat agree", "Agree", "Strongly agree"
+];
+
+// Kitayama person/situation examples; the person examples are adapted for work quality.
+const PERSON_EXAMPLES = "character, ability, or effort";
+const SITUATION_EXAMPLES = "the atmosphere, social norms, or other contextual factors";
+
+function likertHTML(name, prompt, prefix) {
+  const questionId = `${prefix}-${name}-question`;
+  const options = LIKERT_LABELS.map(function(label, i) {
+    return `
+        <label class="likert-option">
+          <input type="radio" name="${name}" value="${i + 1}" required>
+          <span class="likert-num">${i + 1}</span>
+          <span class="likert-text">${label}</span>
+        </label>`;
+  }).join("");
   return `
-    <div class="rating-card" data-rating-card="${name}">
-      <label class="rating-question" for="${inputId}">${prompt}</label>
-      <div class="slider-grid">
-        <div class="anchor"><strong>0</strong><br>${leftAnchor}</div>
-        <div class="slider-control">
-          <input id="${inputId}" type="range" min="0" max="100" step="1" value="50" name="${name}" data-rating-slider="${name}" required>
-          <div class="live-value" data-rating-value="${name}" aria-live="polite">&mdash;</div>
-        </div>
-        <div class="anchor right"><strong>100</strong><br>${rightAnchor}</div>
-      </div>
+    <div class="likert-item" role="radiogroup" aria-labelledby="${questionId}" data-likert="${name}">
+      <p class="likert-question" id="${questionId}">${prompt}</p>
+      <div class="likert-scale">${options}</div>
     </div>`;
 }
 
 function makeRatingHTML(trial, index) {
+  const task = trial.task;
+  const prefix = `rating-${index}`;
+  const item = (name, text) => likertHTML(name, fillTemplate(text, trial), prefix);
+  const behaviour = trial.outcome === "success" ? task.success_phrase : task.failure_phrase;
+
   const primary = trial.outcome === "success"
-    ? sliderHTML("primary_credit", `How much credit does <strong>${trial.name}</strong> deserve for the quality of the final outcome?`, "No credit at all", "All of the credit", index)
-    : sliderHTML("primary_responsibility", `How responsible is <strong>${trial.name}</strong> for the problems with the final outcome?`, "Not at all responsible", "Completely responsible", index);
+    ? item("primary_credit", `{Name} deserves credit for the quality of the final ${task.object}.`)
+    : item("primary_responsibility", `{Name} is responsible for the problems with the final ${task.object}.`);
 
-  const additional = [
-    sliderHTML("personal_contribution", `How much did <strong>${trial.name}</strong> personally contribute to the final work?`, "None", "All of it", index),
-    sliderHTML("effort", `How much effort did <strong>${trial.name}</strong> personally put into completing the task?`, "No effort", "A great deal of effort", index),
-    sliderHTML("competence", `How competent does <strong>${trial.name}</strong> appear to be at this type of task?`, "Not at all competent", "Extremely competent", index),
-    sliderHTML("control", `How much control did <strong>${trial.name}</strong> have over the quality of the final outcome?`, "No control", "Complete control", index)
-  ].join("");
-
-  let delegate = "";
+  const attribution = [
+    item("person_cause", `Features of {Name} (such as {his} ${PERSON_EXAMPLES}) influenced the outcome (${behaviour}).`),
+    item("situation_cause", `Features of the environment that surround {Name} (such as ${SITUATION_EXAMPLES}) influenced the outcome (${behaviour}).`),
+    item("person_cf", `The outcome would have been different if features of {Name} (such as {his} ${PERSON_EXAMPLES}) had been different.`),
+    item("situation_cf", `The outcome would have been different if features of the environment that surround {him} (such as ${SITUATION_EXAMPLES}) had been different.`)
+  ];
   if (trial.delegation !== "solo") {
-    const helper = trial.delegation === "human" ? "the colleague" : "the large language model";
-    delegate = trial.outcome === "success"
-      ? `<div class="rating-section-label">The other contributor</div>${sliderHTML("delegate_credit", `How much credit does <strong>${helper}</strong> deserve for the final outcome?`, "No credit at all", "All of the credit", index)}`
-      : `<div class="rating-section-label">The other contributor</div>${sliderHTML("delegate_responsibility", `How responsible is <strong>${helper}</strong> for the problems with the final outcome?`, "Not at all responsible", "Completely responsible", index)}`;
+    const helper = trial.delegation === "human" ? "The colleague's" : "The large language model's";
+    attribution.push(item("helper_cause", `${helper} contribution influenced the outcome (${behaviour}).`));
   }
 
+  const consequences = [
+    item("reward", "As {Name}'s manager, I would reward {Name} and give {him} a bonus."),
+    item("punish", "As {Name}'s manager, I would punish {Name} and give {him} a formal reprimand.")
+  ].join("");
+
   return `
-    <div class="rating-instructions">Please move every slider before continuing. The number below each slider shows your selected response.</div>
+    <div class="rating-instructions">Please answer every question before continuing. Indicate how much you agree or disagree with each statement.</div>
     <div class="rating-section-label">Your main judgment</div>
     ${primary}
-    <div class="rating-section-label">Additional impressions</div>
-    ${additional}
-    ${delegate}
-    <div id="rating-completion" class="completion-status" aria-live="polite"></div>`;
+    <div class="rating-section-label">What influenced the outcome</div>
+    ${attribution.join("")}
+    <div class="rating-section-label">If you were the manager</div>
+    ${consequences}
+    <div class="rating-section-label">Your confidence</div>
+    ${item("certainty", "Regarding the statements above, I am sure that my judgments are correct.")}
+    <div id="item-completion" class="completion-status" aria-live="polite"></div>`;
 }
 
-function bindRequiredSliders() {
-  const sliders = Array.from(document.querySelectorAll("[data-rating-slider]"));
+function bindRequiredItems() {
+  const groups = Array.from(document.querySelectorAll("[data-likert]"));
   const submitButton = document.querySelector(".jspsych-btn");
-  const status = document.getElementById("rating-completion");
-  if (!submitButton || sliders.length === 0) return;
+  const status = document.getElementById("item-completion");
+  if (!submitButton || groups.length === 0) return;
 
   submitButton.disabled = true;
   submitButton.setAttribute("aria-disabled", "true");
 
   function refreshStatus() {
-    const completed = sliders.filter(slider => slider.dataset.touched === "true").length;
-    const remaining = sliders.length - completed;
+    let remaining = 0;
+    for (const group of groups) {
+      const answered = group.querySelector("input:checked") !== null;
+      group.classList.toggle("answered", answered);
+      if (!answered) remaining += 1;
+    }
     if (remaining === 0) {
       submitButton.disabled = false;
       submitButton.removeAttribute("aria-disabled");
-      if (status) status.textContent = "All ratings complete. You can continue.";
+      if (status) status.textContent = "All questions answered. You can continue.";
     } else if (status) {
-      status.textContent = `${remaining} rating${remaining === 1 ? "" : "s"} remaining.`;
+      status.textContent = `${remaining} question${remaining === 1 ? "" : "s"} remaining.`;
     }
   }
 
-  for (const slider of sliders) {
-    slider.dataset.touched = "false";
-    slider.addEventListener("input", function() {
-      slider.dataset.touched = "true";
-      const value = document.querySelector(`[data-rating-value="${slider.dataset.ratingSlider}"]`);
-      const card = slider.closest("[data-rating-card]");
-      if (value) value.textContent = slider.value;
-      if (card) card.classList.add("touched");
-      refreshStatus();
-    });
-  }
+  for (const group of groups) group.addEventListener("change", refreshStatus);
   refreshStatus();
 }
 
+function mean(values) {
+  if (values.length === 0 || values.some(value => value === null)) return null;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function numericResponse(response, field) {
+  return Object.prototype.hasOwnProperty.call(response, field) ? Number(response[field]) : null;
+}
+
 const RATING_FIELDS = [
-  "primary_credit", "primary_responsibility", "personal_contribution", "effort",
-  "competence", "control", "delegate_credit", "delegate_responsibility"
+  "primary_credit", "primary_responsibility", "person_cause", "situation_cause",
+  "person_cf", "situation_cf", "helper_cause", "reward", "punish", "certainty"
 ];
 
 function normalizeRatingData(data) {
   const response = data.response || {};
-  for (const field of RATING_FIELDS) {
-    data[field] = Object.prototype.hasOwnProperty.call(response, field) ? Number(response[field]) : null;
-  }
-  data.rating_interactions_required = Object.keys(response).length;
-  data.rating_interactions_completed = Object.keys(response).length;
+  for (const field of RATING_FIELDS) data[field] = numericResponse(response, field);
+  // Scored as in Genschow et al. (2017): internal minus external attribution.
+  data.internal_attribution = mean([data.person_cause, data.person_cf]);
+  data.external_attribution = mean([data.situation_cause, data.situation_cf]);
+  data.correspondence_bias = data.internal_attribution === null || data.external_attribution === null
+    ? null
+    : data.internal_attribution - data.external_attribution;
+  data.rating_items_answered = Object.keys(response).length;
 }
 
 function trialMetadata(trial, index, role) {
@@ -776,7 +868,7 @@ function consentHTML() {
         ${informationSheet}
         <div class="consent-copy">
           <p><strong>Purpose.</strong> This study examines how people evaluate work completed in workplace settings.</p>
-          <p><strong>What you will do.</strong> You will read 12 independent workplace scenarios and answer questions about the person described in each scenario. You will then answer a small number of demographic questions.</p>
+          <p><strong>What you will do.</strong> You will read 12 independent workplace scenarios and answer questions about the person described in each scenario. You will then answer a short questionnaire about your views on human choice and a small number of demographic questions.</p>
           <p><strong>Voluntary participation.</strong> Taking part is voluntary. You may stop at any time by closing this page. The approved study materials must specify withdrawal procedures, risks, benefits, compensation, confidentiality, data use, and researcher contact details.</p>
         </div>
         <label class="consent-label">
@@ -811,7 +903,7 @@ const welcomePage = {
           <div class="study-facts">
             <div class="study-fact"><strong>Scenarios</strong>${N_SCENARIOS_PRESENTED} independent workplace situations</div>
             <div class="study-fact"><strong>Your task</strong>Read each scenario carefully</div>
-            <div class="study-fact"><strong>Your responses</strong>Rate your impression on several scales</div>
+            <div class="study-fact"><strong>Your responses</strong>Say how much you agree with a few statements</div>
           </div>
           <p class="small muted">There are no correct answers. We are interested in your own judgment.</p>
         </div>
@@ -831,14 +923,72 @@ const instructionsPage = {
         <ul class="instruction-list">
           <li>Treat every scenario as a <strong>different person</strong> completing a <strong>different workplace task</strong>.</li>
           <li>Read the full scenario, including the manager's evaluation of the finished work.</li>
-          <li>On the following page, move every slider to record your judgment.</li>
-          <li>Use the full 0–100 scale whenever it reflects your view.</li>
+          <li>On the following page, answer every question by indicating how much you agree or disagree with each statement.</li>
+          <li>Use the full scale, from <em>Strongly disagree</em> to <em>Strongly agree</em>, whenever it reflects your view.</li>
         </ul>
         <p class="small muted" style="margin-top:24px;">Please complete the study in one sitting and avoid using the browser's Back or Refresh controls.</p>
       </div>
     </div>`,
   choices: ["Begin scenarios"],
   data: { trial_role: "instructions" }
+};
+
+// Free Will Inventory (Nadelhoffer et al., 2014), Part 1, as listed in the
+// Genschow et al. (2017) Supporting Information.
+const FWI_ITEMS = [
+  "People always have the ability to do otherwise.",
+  "Everything that has ever happened had to happen precisely as it did, given what happened before.",
+  "The fact that we have souls that are distinct from our material bodies is what makes humans unique.",
+  "People always have free will.",
+  "Every event that has ever occurred, including human decisions and actions, was completely determined by prior events.",
+  "Human action can only be understood in terms of our souls and minds and not just in terms of our brains.",
+  "How people's lives unfold is completely up to them.",
+  "People's choices and actions must happen precisely the way they do because of the laws of nature and the way things were in the distant past.",
+  "Each person has a nonphysical essence that makes that person unique.",
+  "People ultimately have complete control over their decisions and their actions.",
+  "A supercomputer that could know everything about the way the universe is now could know everything about the way the universe will be in the future.",
+  "The human mind cannot simply be reduced to the brain.",
+  "People have free will even when their choices are completely limited by external circumstances.",
+  "Given the way things were at the Big Bang, there is only one way for everything to happen in the universe after that.",
+  "The human mind is more than just a complicated biological machine."
+];
+
+const FWI_SUBSCALES = {
+  free_will: [1, 4, 7, 10, 13],
+  determinism: [2, 5, 8, 11, 14],
+  dualism: [3, 6, 9, 12, 15]
+};
+
+function fwiHTML() {
+  const items = FWI_ITEMS.map((text, i) => likertHTML(`fwi_${i + 1}`, `${i + 1}. ${text}`, "fwi")).join("");
+  return `
+    <div class="study-wrap">
+      <div class="paper-card compact ratings-header">
+        <div class="eyebrow">Your views</div>
+        <h2>Beliefs about people and their choices</h2>
+        <p class="muted">Please indicate how much you agree or disagree with each statement. There are no right or wrong answers.</p>
+      </div>
+      ${items}
+      <div id="item-completion" class="completion-status" aria-live="polite"></div>
+    </div>`;
+}
+
+const fwiPage = {
+  type: jsPsychSurveyHtmlForm,
+  html: fwiHTML,
+  button_label: "Continue",
+  on_load: bindRequiredItems,
+  data: { trial_role: "free_will_inventory" },
+  on_finish: function(data) {
+    const response = data.response || {};
+    const score = n => data[`fwi_${n}`];
+    FWI_ITEMS.forEach((_, i) => { data[`fwi_${i + 1}`] = numericResponse(response, `fwi_${i + 1}`); });
+    for (const [subscale, items] of Object.entries(FWI_SUBSCALES)) data[`fwi_${subscale}`] = mean(items.map(score));
+    // Compound score as in Genschow et al. (2017): free will + dualism + reversed determinism.
+    const compound = [...FWI_SUBSCALES.free_will, ...FWI_SUBSCALES.dualism].map(score)
+      .concat(FWI_SUBSCALES.determinism.map(n => score(n) === null ? null : 8 - score(n)));
+    data.fwi_compound = mean(compound);
+  }
 };
 
 function demographicsHTML() {
@@ -1004,13 +1154,13 @@ function buildTimeline() {
       },
       html: function() { return `<div class="study-wrap">${makeRatingHTML(trial, index)}</div>`; },
       button_label: "Continue",
-      on_load: bindRequiredSliders,
+      on_load: bindRequiredItems,
       data: trialMetadata(trial, index, "ratings"),
       on_finish: normalizeRatingData
     });
   });
 
-  timeline.push(demographicsPage, finalPage);
+  timeline.push(fwiPage, demographicsPage, finalPage);
   if (RUNNING_ON_PAVLOVIA) timeline.push(makePavloviaFinish());
   return timeline;
 }
