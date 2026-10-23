@@ -407,7 +407,7 @@
 // -----------------------------------------------------------------------------
 const CONFIG = Object.freeze({
   STUDY_ID: "less_credit_same_blame",
-  EXPERIMENT_VERSION: "5.2.0",
+  EXPERIMENT_VERSION: "5.3.0",
   SCHEMA_VERSION: "4.1.0",
   N_SCENARIOS: 12,
   LETTER_OF_INFORMATION_URL: "",
@@ -626,7 +626,8 @@ function stopBlurCount() {
 // Vignettes follow the Kitayama et al. (2006) scenarios used by Genschow, Rigoni &
 // Brass (2017): a senior person, a situation with stakes for other people, a
 // deliberate decision about how to do the work, and its consequences.
-// {Name}, {he}, {him}, {his}, {himself}, {He} and {His} are filled per trial;
+// {Name} (full name, used once in each setup), {First} (first name, used after
+// that), {he}, {him}, {his}, {himself}, {He} and {His} are filled per trial;
 // success_phrase/failure_phrase restate the consequence in the items, and boss
 // is the role participants take for the reward/punish items.
 const TASKS = [
@@ -797,8 +798,9 @@ function actorPronouns(gender) {
 
 function fillTemplate(text, trial) {
   const pronouns = actorPronouns(trial.actor_gender);
-  return text.replace(/\{(Name|he|him|his|himself|He|His)\}/g, function(match, key) {
+  return text.replace(/\{(Name|First|he|him|his|himself|He|His)\}/g, function(match, key) {
     if (key === "Name") return trial.name;
+    if (key === "First") return trial.name.split(" ")[0];
     const word = pronouns[key.toLowerCase()];
     return key[0] === key[0].toUpperCase() ? word[0].toUpperCase() + word.slice(1) : word;
   });
@@ -806,22 +808,22 @@ function fillTemplate(text, trial) {
 
 function makeVignetteHTML(trial) {
   const task = trial.task;
-  const decision = `In response, {Name} decides to ${task.action}.`;
+  const decision = `In response, {First} decides to ${task.action}.`;
   const workDescription = {
-    solo: `${decision} {Name} completes all parts of the work personally, reviews the draft, makes any edits {he} thinks are necessary, and prepares the final ${task.object} {himself}.`,
-    human: `${decision} {Name} completes most of the work but asks a colleague to complete approximately one-third of it. {Name} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
-    llm: `${decision} {Name} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {Name} reviews the model's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
+    solo: `${decision} {First} completes all parts of the work personally, reviews the draft, makes any edits {he} thinks are necessary, and prepares the final ${task.object} {himself}.`,
+    human: `${decision} {First} completes most of the work but asks a colleague to complete approximately one-third of it. {First} reviews the colleague's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`,
+    llm: `${decision} {First} completes most of the work but asks a large language model, such as ChatGPT, to complete approximately one-third of it. {First} reviews the model's work, makes any edits {he} thinks are necessary, and incorporates it into the final ${task.object}.`
   }[trial.delegation];
 
   // Say where the errors were (or were not), so people don't guess differently for a colleague and an LLM.
   const helperPart = { human: "the part the colleague completed", llm: "the part the large language model completed" }[trial.delegation];
   const sourceText = trial.outcome === "success"
     ? (trial.delegation === "solo"
-        ? "Every part {Name} completed is free of errors."
-        : `${helperPart[0].toUpperCase() + helperPart.slice(1)} is free of errors too, and {Name} kept it after reviewing it.`)
+        ? "Every part {First} completed is free of errors."
+        : `${helperPart[0].toUpperCase() + helperPart.slice(1)} is free of errors too, and {First} kept it after reviewing it.`)
     : (trial.delegation === "solo"
-        ? "The errors are all in one part, about one-third of the work, and {Name} did not catch them when reviewing it."
-        : `The errors are all in ${helperPart}, and {Name} did not catch them when reviewing it.`);
+        ? "The errors are all in one part, about one-third of the work, and {First} did not catch them when reviewing it."
+        : `The errors are all in ${helperPart}, and {First} did not catch them when reviewing it.`);
   const outcomeText = `${trial.outcome === "success" ? task.success : task.failure} ${fillTemplate(sourceText, trial)}`;
   return `
     <article class="scenario-card">
@@ -879,7 +881,7 @@ function likertHTML(name, prompt, prefix) {
 
 // Manipulation check: who did the delegated third. Values match trial.delegation.
 const MANIP_CHECK_OPTIONS = [
-  ["solo", "No one. {Name} did all of the work"],
+  ["solo", "No one. {First} did all of the work"],
   ["human", "A colleague"],
   ["llm", "A large language model (an AI tool such as ChatGPT)"]
 ];
@@ -901,23 +903,23 @@ function makeRatingHTML(trial, index) {
   const behaviour = trial.outcome === "success" ? task.success_phrase : task.failure_phrase;
 
   const primary = trial.outcome === "success"
-    ? item("primary_credit", "{Name} deserves credit for what happened.")
-    : item("primary_blame", "{Name} deserves blame for what went wrong.");
+    ? item("primary_credit", "{First} deserves credit for what happened.")
+    : item("primary_blame", "{First} deserves blame for what went wrong.");
 
   const attribution = [
-    item("person_cause", `Features of {Name} (such as {his} ${PERSON_EXAMPLES}) influenced the outcome (${behaviour}).`),
-    item("situation_cause", `Features of the environment that surrounds {Name} (such as ${SITUATION_EXAMPLES}) influenced the outcome (${behaviour}).`),
-    item("person_cf", `The outcome would have been different if features of {Name} (such as {his} ${PERSON_EXAMPLES}) had been different.`),
-    item("situation_cf", `The outcome would have been different if features of the environment that surrounds {Name} (such as ${SITUATION_EXAMPLES}) had been different.`)
+    item("person_cause", `{First}'s personal qualities, such as {his} ${PERSON_EXAMPLES}, influenced the outcome: ${behaviour}.`),
+    item("situation_cause", `{First}'s surroundings, such as ${SITUATION_EXAMPLES}, influenced the outcome: ${behaviour}.`),
+    item("person_cf", `If {First}'s personal qualities, such as {his} ${PERSON_EXAMPLES}, had been different, the outcome would have been different.`),
+    item("situation_cf", `If {First}'s surroundings, such as ${SITUATION_EXAMPLES}, had been different, the outcome would have been different.`)
   ];
   if (trial.delegation !== "solo") {
-    const helper = trial.delegation === "human" ? "The colleague's" : "The large language model's";
-    attribution.push(item("helper_cause", `${helper} contribution influenced the outcome (${behaviour}).`));
+    const helper = trial.delegation === "human" ? "the colleague" : "the large language model";
+    attribution.push(item("helper_cause", `The part of the work ${helper} completed influenced the outcome: ${behaviour}.`));
   }
 
   const consequences = [
-    item("reward", `As ${task.boss}, I would reward {Name} and give {him} a bonus.`),
-    item("punish", `As ${task.boss}, I would punish {Name} and give {him} a formal reprimand.`)
+    item("reward", `As ${task.boss}, I would reward {First} and give {him} a bonus.`),
+    item("punish", `As ${task.boss}, I would punish {First} and give {him} a formal reprimand.`)
   ].join("");
 
   return `
