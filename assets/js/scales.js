@@ -11,6 +11,7 @@
   var popSelect = document.getElementById('population-filter');
   var langSelect = document.getElementById('language-filter');
   var itemsBox = document.getElementById('items-filter');
+  var englishBox = document.getElementById('english-filter');
   var sortSelect = document.getElementById('sort');
   var perPageSelect = document.getElementById('per-page');
   var moreButton = document.getElementById('show-more');
@@ -43,6 +44,16 @@
     return [s.language].concat((s.adaptations || []).map(function (a) { return a.language; }))
       .join(' & ').split(' & ').filter(function (l) { return l && l !== 'Not reported'; });
   }
+  // A scale validated in English (itself or through a listed adaptation) needs no "english" field.
+  function englishOf(s) {
+    return languagesOf(s).indexOf('English') !== -1 ? 'validated' : (s.english || 'unknown');
+  }
+  var ENGLISH_LABELS = {
+    validated: 'yes, validated in English',
+    translation: 'English wording published, but not validated in English',
+    none: 'no English wording published',
+    unknown: 'not known'
+  };
 
   function card(s) {
     var link = doiUrl(s.doi) || s.url || s.preprint_url;
@@ -70,7 +81,8 @@
     var samples = (p.samples || []).map(function (x) { return [x.n ? 'n = ' + x.n : null, x.population, x.country].filter(Boolean).join(', '); }).join('; ');
     var dl = el('dl', { 'class': 'scale-facts' });
     [['structure', p.structure], ['reliability', p.reliability], ['validity', (p.validity || []).join('; ')],
-     ['samples', samples], ['populations', (s.populations || []).join(', ')], ['language', s.language]].forEach(function (row) {
+     ['samples', samples], ['populations', (s.populations || []).join(', ')], ['validated in', s.language],
+     ['English version', ENGLISH_LABELS[englishOf(s)]]].forEach(function (row) {
       if (row[1]) { dl.appendChild(el('dt', { text: row[0] })); dl.appendChild(el('dd', { text: row[1] })); }
     });
     details.appendChild(dl);
@@ -121,7 +133,7 @@
 
   function apply() {
     var terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    var pop = popSelect.value, lang = langSelect.value, needItems = itemsBox.checked;
+    var pop = popSelect.value, lang = langSelect.value, needItems = itemsBox.checked, needEnglish = englishBox.checked;
     // The year chart counts scales passing every filter except year, so its bars show where the rest would land.
     var base = scales.filter(function (s) {
       return (state.construct === 'all' || s.constructs.indexOf(state.construct) !== -1) &&
@@ -130,6 +142,7 @@
         (!pop || (s.populations || []).indexOf(pop) !== -1) &&
         (!lang || languagesOf(s).indexOf(lang) !== -1) &&
         (!needItems || s.items_available) &&
+        (!needEnglish || englishOf(s) === 'validated' || englishOf(s) === 'translation') &&
         terms.every(function (t) { return s._text.indexOf(t) !== -1; });
     });
     renderYears(base);
@@ -205,14 +218,14 @@
   }
 
   function toCsv() {
-    var cols = ['name', 'acronym', 'year', 'status', 'authors', 'venue', 'doi', 'url', 'preprint_url', 'target', 'constructs', 'populations', 'items', 'response', 'subscales', 'structure', 'reliability', 'items_available', 'language', 'translations', 'evidence', 'flag_reason', 'summary', 'citation'];
+    var cols = ['name', 'acronym', 'year', 'status', 'authors', 'venue', 'doi', 'url', 'preprint_url', 'target', 'constructs', 'populations', 'items', 'response', 'subscales', 'structure', 'reliability', 'items_available', 'language', 'english_version', 'translations', 'evidence', 'flag_reason', 'summary', 'citation'];
     var rows = scales.map(function (s) {
       var p = s.psychometrics || {};
       var v = { constructs: (s.constructs || []).join('; '), populations: (s.populations || []).join('; '),
         subscales: (s.subscales || []).map(function (x) { return x.name + (x.items ? ' (' + x.items + ')' : ''); }).join('; '),
         structure: p.structure, reliability: p.reliability,
         translations: (s.adaptations || []).map(function (a) { return a.language; }).join('; '),
-        evidence: s.evidence || 'verified' };
+        english_version: englishOf(s), evidence: s.evidence || 'verified' };
       return cols.map(function (c) {
         var val = c in v ? v[c] : s[c];
         val = val == null ? '' : String(val);
@@ -266,7 +279,7 @@
     chipGroup('status', 'status');
     chipGroup('evidence', 'evidence');
     chipGroup('year', 'year');
-    [search, popSelect, langSelect, itemsBox, sortSelect, perPageSelect].forEach(function (c) { c.addEventListener('input', apply); });
+    [search, popSelect, langSelect, itemsBox, englishBox, sortSelect, perPageSelect].forEach(function (c) { c.addEventListener('input', apply); });
     moreButton.addEventListener('click', function () {
       var first = list.children.length;
       limit += perPage();

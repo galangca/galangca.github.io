@@ -115,6 +115,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Ukrainian",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -320,6 +321,7 @@
    "preprint_url": "https://doi.org/10.31234/osf.io/yhetz_v1",
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -391,6 +393,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Arabic",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -472,6 +475,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -538,6 +542,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "Structure comes from principal components analysis only (no CFA), and validity rests on group differences.",
@@ -681,6 +686,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Turkish",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -743,6 +749,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Russian",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -799,7 +806,8 @@
    "url": "https://doi.org/10.3390/educsci16071125",
    "preprint_url": null,
    "items_available": false,
-   "language": "Not reported",
+   "language": "Spanish",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -859,6 +867,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -1095,7 +1104,8 @@
    "url": "https://link.springer.com/article/10.1007/s11469-026-01671-x",
    "preprint_url": null,
    "items_available": true,
-   "language": "Not reported",
+   "language": "Persian",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -1205,6 +1215,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Spanish",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -1404,6 +1415,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "unconfirmed",
    "flag_reason": "Factor structure and convergent, criterion and incremental validity are reported, but reliability coefficients could not be confirmed.",
@@ -1835,6 +1847,7 @@
    "preprint_url": "https://doi.org/10.31234/osf.io/wvz9x_v1",
    "items_available": true,
    "language": "Spanish",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2201,6 +2214,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2274,6 +2288,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "German",
+   "english": "translation",
    "adaptations": [
     {
      "language": "Turkish",
@@ -2363,6 +2378,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2434,6 +2450,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2527,6 +2544,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2609,6 +2627,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2682,6 +2701,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Korean",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2821,6 +2841,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "unconfirmed",
    "flag_reason": "Predicts privacy and verification behaviour (nomological validity), but factor analysis and reliability could not be confirmed.",
@@ -2875,6 +2896,7 @@
    "preprint_url": "https://arxiv.org/abs/2608.25815",
    "items_available": true,
    "language": "Estonian",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -2927,6 +2949,7 @@
    "preprint_url": "https://doi.org/10.2139/ssrn.6891552",
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3063,6 +3086,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3356,6 +3380,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3549,6 +3574,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3691,6 +3717,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3821,6 +3848,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -3970,6 +3998,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4080,6 +4109,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Spanish",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4158,6 +4188,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Italian",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4226,6 +4257,7 @@
    "preprint_url": "https://osf.io/preprints/psyarxiv/tqgcm_v3/",
    "items_available": true,
    "language": "German",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4293,6 +4325,7 @@
    "preprint_url": "https://www.researchsquare.com/article/rs-9832908/v1",
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4630,6 +4663,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -4928,6 +4962,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5086,7 +5121,8 @@
    "url": "https://doi.org/10.1016/j.caeo.2026.100332",
    "preprint_url": null,
    "items_available": false,
-   "language": "Not reported",
+   "language": "Spanish",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5139,6 +5175,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "Only face, content and factorial validity are reported; no convergent, discriminant or criterion evidence.",
@@ -5294,6 +5331,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Turkish",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5357,6 +5395,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5561,6 +5600,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Italian",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5751,6 +5791,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "No validity evidence beyond factor structure is reported, and reliability coefficients could not be confirmed.",
@@ -5820,6 +5861,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Korean",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -5968,6 +6010,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Turkish",
+   "english": "none",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "The full text confirms validity evidence is limited to content validity, factorial validity and item discrimination.",
@@ -6033,6 +6076,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Arabic",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6106,6 +6150,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Turkish",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6169,6 +6214,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Hungarian",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6308,6 +6354,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6376,6 +6423,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Korean",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6483,6 +6531,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [
     {
      "language": "Spanish",
@@ -6573,6 +6622,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Greek",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6795,6 +6845,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -6861,7 +6912,8 @@
    "url": "https://doi.org/10.46328/ijte.1024",
    "preprint_url": null,
    "items_available": false,
-   "language": "Not reported",
+   "language": "Turkish",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -7085,6 +7137,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -7136,6 +7189,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "The only validity test (discriminant) partly failed, and the authors say more validation is needed.",
@@ -7328,6 +7382,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -7406,6 +7461,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -7471,6 +7527,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8139,6 +8196,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8195,6 +8253,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Korean",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "Delphi, EFA and CFA with \"acceptable\" reliability, but no numbers and no validity evidence beyond construct validity.",
@@ -8263,6 +8322,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8325,6 +8385,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Turkish",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "Only content and factorial validity are reported; no convergent, criterion or other external validity evidence.",
@@ -8412,6 +8473,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Russian",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8546,6 +8608,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8796,6 +8859,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -8857,6 +8921,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -9012,6 +9077,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -9250,6 +9316,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Turkish",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -9386,7 +9453,8 @@
    "url": "https://doi.org/10.21203/rs.3.rs-6974623/v1",
    "preprint_url": "https://doi.org/10.21203/rs.3.rs-6974623/v1",
    "items_available": false,
-   "language": "Not reported",
+   "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -9804,6 +9872,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [
     {
      "language": "Turkish",
@@ -9941,7 +10010,8 @@
    "url": "https://doi.org/10.3390/bs14090755",
    "preprint_url": null,
    "items_available": true,
-   "language": "Not reported",
+   "language": "Chinese",
+   "english": "translation",
    "adaptations": [
     {
      "language": "Persian",
@@ -10014,6 +10084,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -10087,6 +10158,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Korean",
+   "english": "unknown",
    "adaptations": [
     {
      "language": "Turkish",
@@ -10262,6 +10334,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Korean",
+   "english": "unknown",
    "adaptations": [],
    "evidence": "partial",
    "flag_reason": "Validity rests on CFA fit and expert review; very high correlations between factors raise discriminant-validity concerns.",
@@ -10407,6 +10480,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-09-28",
    "evidence": "verified"
@@ -10460,6 +10534,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [
     {
      "language": "Turkish",
@@ -11027,6 +11102,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Chinese",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11097,6 +11173,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Spanish",
+   "english": "none",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11170,6 +11247,7 @@
    "preprint_url": null,
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11226,6 +11304,7 @@
    "preprint_url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7510858",
    "items_available": false,
    "language": "Not reported",
+   "english": "unknown",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "partial",
@@ -11300,6 +11379,7 @@
    "preprint_url": "https://osf.io/6y8uh_v1",
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11447,6 +11527,7 @@
    "preprint_url": "https://doi.org/10.2139/ssrn.6346402",
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11515,6 +11596,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Not reported",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-10-26",
    "evidence": "verified"
@@ -11588,6 +11670,7 @@
    "preprint_url": null,
    "items_available": true,
    "language": "Chinese",
+   "english": "translation",
    "adaptations": [],
    "verified": "2026-10-27",
    "evidence": "verified"

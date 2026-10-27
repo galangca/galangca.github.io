@@ -31,4 +31,5 @@ Add a record to `scales` in `assets/data/llm-scales.json` (copy an existing one)
 Put validated translations in the original scale's `adaptations` list rather than as new records.
 Set `evidence` to `verified` if the scale meets the bar, or to `partial` / `unconfirmed` with a one-sentence `flag_reason`; flagged scales are hidden unless visitors turn them on.
 `constructs` must use the vocabulary listed in `scripts/check_scales.py`.
+`language` is the language the scale was validated in. For scales not validated in English, set `english` to `translation` (English wording published but untested), `none` or `unknown`.
 Then run `python scripts/check_scales.py --resolve` to catch missing fields, duplicate ids and DOIs that don't resolve.

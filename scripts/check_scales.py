@@ -47,6 +47,8 @@ def main():
             problems.append(f"{label}: evidence must be 'verified', 'partial' or 'unconfirmed'")
         elif evidence != "verified" and not s.get("flag_reason"):
             problems.append(f"{label}: flagged scales need a flag_reason")
+        if s.get("english") not in (None, "validated", "translation", "none", "unknown"):
+            problems.append(f"{label}: english must be 'validated', 'translation', 'none' or 'unknown'")
         if s.get("status") not in ("published", "preprint"):
             problems.append(f"{label}: status must be 'published' or 'preprint'")
         for c in s.get("constructs", []):
