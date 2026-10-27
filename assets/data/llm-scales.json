@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-01",
+ "updated": "2026-10-26",
  "scales": [
   {
    "id": "pugenais-9",
@@ -5212,7 +5212,17 @@
    "preprint_url": null,
    "items_available": false,
    "language": "English",
-   "adaptations": [],
+   "adaptations": [
+    {
+     "language": "English",
+     "country": "United Kingdom",
+     "citation": "Durak, G., Rienties, B., & Tessarolo, F. (2026). From local to global: Cross-cultural adaptation and validation of the SAGAI scale for measuring student attitudes toward generative AI. Journal of Educational Computing Research. Advance online publication. https://doi.org/10.1177/07356331261491115",
+     "doi": "10.1177/07356331261491115",
+     "url": "https://doi.org/10.1177/07356331261491115",
+     "status": "published",
+     "notes": "English cross-cultural adaptation with UK open and distance learning students, compared with the Turkish original; CFA fit acceptable to strong after minor modifications (abstract only)."
+    }
+   ],
    "verified": "2026-09-28",
    "evidence": "verified"
   },
@@ -6228,7 +6238,17 @@
    "preprint_url": "https://arxiv.org/abs/2512.14278",
    "items_available": true,
    "language": "English",
-   "adaptations": [],
+   "adaptations": [
+    {
+     "language": "Turkish",
+     "country": "Türkiye",
+     "citation": "Emikönel, S., & Türkmen, İ. (2026). Turkish adaptation and psychometric evaluation of the Trust in AI-Generated Health Advice (TAIGHA) Scale and its short version (TAIGHA-S). Acıbadem Üniversitesi Sağlık Bilimleri Dergisi, 17(3). https://doi.org/10.31067/acusaglik.1990872",
+     "doi": "10.31067/acusaglik.1990872",
+     "url": "https://doi.org/10.31067/acusaglik.1990872",
+     "status": "published",
+     "notes": "Turkish adaptation of both TAIGHA and TAIGHA-S (N = 958): translation and back-translation, EFA and CFA confirming the trust/distrust structure, high α, CR and test-retest (abstract only)."
+    }
+   ],
    "verified": "2026-09-28",
    "evidence": "verified"
   },
@@ -6601,13 +6621,13 @@
      }
     ]
    },
-   "status": "preprint",
-   "citation": "Liebherr, M., Almourad, M. B., Alshakhsi, S., Montag, C., Xu, G., Ali, R., & Yankouskaya, A. (2025). Developing and validating the Attitudes Toward Large Language Models Scale [Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/6yb5h_v2",
+   "status": "published",
+   "citation": "Liebherr, M., Almourad, M. B., Alshakhsi, S., Montag, C., Xu, G., Ali, R., & Yankouskaya, A. (2026). Developing and validating the attitudes toward large language models scale. Cogent Psychology, 13(1), Article 2718273. https://doi.org/10.1080/23311908.2026.2718273",
    "authors": "Liebherr, M., Almourad, M. B., Alshakhsi, S., Montag, C., Xu, G., Ali, R., & Yankouskaya, A.",
-   "year": 2025,
-   "venue": "PsyArXiv",
-   "doi": "10.31234/osf.io/6yb5h_v2",
-   "url": "https://doi.org/10.31234/osf.io/6yb5h_v2",
+   "year": 2026,
+   "venue": "Cogent Psychology",
+   "doi": "10.1080/23311908.2026.2718273",
+   "url": "https://doi.org/10.1080/23311908.2026.2718273",
    "preprint_url": "https://doi.org/10.31234/osf.io/6yb5h_v2",
    "items_available": true,
    "language": "English",
@@ -10750,6 +10770,885 @@
    "evidence": "partial",
    "flag_reason": "A behavioural metric computed from interaction logs, not a self-report survey scale, so it has no factor structure or reliability coefficients; validity rests on one 40-person study.",
    "verified": "2026-10-01"
+  },
+  {
+   "id": "bas-belief-in-ai-sufficiency",
+   "name": "Belief in AI Sufficiency Scale",
+   "acronym": "BAS",
+   "summary": "A 12-item measure of how far someone believes that knowing and learning things matters less because AI chatbots like ChatGPT, Gemini or Copilot can supply the information when needed. It covers reduced self-reliance for knowledge, handing thinking tasks to AI, and accepting AI answers without checking. Use it in studies of cognitive offloading, over-reliance on GenAI, and learning.",
+   "target": "AI chatbots / generative AI in general (instructions name ChatGPT, Gemini, Copilot)",
+   "constructs": [
+    "attitudes",
+    "reliance",
+    "learning"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 12,
+   "response": "5-point Likert (1 = strongly disagree to 5 = strongly agree)",
+   "subscales": [
+    {
+     "name": "Reduced knowledge self-reliance (RSR)",
+     "items": 4,
+     "description": "Feeling less need to remember or learn things because AI can provide them"
+    },
+    {
+     "name": "Delegation of cognitive tasks (DEL)",
+     "items": 4,
+     "description": "Preferring to let AI explain, summarize, organize or synthesize instead of doing it oneself"
+    },
+    {
+     "name": "Reduced scrutiny (RED)",
+     "items": 4,
+     "description": "Accepting AI answers at face value and seeing little need to verify them"
+    }
+   ],
+   "psychometrics": {
+    "structure": "Study 1 (N=307): EFA (PAF, promax, parallel analysis) on a 32-item pool. A 4th factor made up only of reverse-keyed items was treated as a method factor, and acquiescence was modelled with a random-intercept model (12.7% of composite variance). The result was 3 factors, cut to 12 items (loadings ≥ .60, cross-loadings < .30). Study 2 (N=903): CFA correlated 3-factor model χ²(51)=197.74, RMSEA .056, CFI .976, TLI .969, SRMR .031; 1-factor model fit poorly (RMSEA .181); bifactor ECV .66, ωH .80.",
+    "reliability": "Composite α .91–.92, ω .92 (Study 1); bifactor ω total .94 (Study 2); subscale α .83–.89; ~3-month test-retest ICC .69 [.63, .75] (PP N=298), .73 in ITT sample (N=323); subscale ICC .59–.71",
+    "validity": [
+     "Convergent (Study 2): BAS correlated with AI buck-passing r .58 (latent .67), Dependence on AI (Morales-García) r .43 (latent .61), AI attitudes r .49, AI chatbot use frequency r .46, digital amnesia r .37",
+     "Discriminant: two-factor models fit better than one-factor models for every BAS–neighbour pair; negative correlations with need for cognition (−.17) and digital literacy (−.07)",
+     "Predictive (SEM with covariates): higher heuristic processing (β .77), lower systematic processing (β −.24), lower knowledge accuracy (β −.09)",
+     "Behavioural/experimental (Study 3, N=767): BAS predicted choosing to delegate a learning task to AI (b = 1.02)",
+     "Mean-level stability over about 3 months (Study 4)"
+    ],
+    "samples": [
+     {
+      "n": 307,
+      "country": "United States",
+      "population": "Adults (Prolific), scale development"
+     },
+     {
+      "n": 903,
+      "country": "United States",
+      "population": "Adults (Prolific), construct validation"
+     },
+     {
+      "n": 767,
+      "country": "United States",
+      "population": "Adults who had used a GenAI tool in the past month, experiment"
+     },
+     {
+      "n": 298,
+      "country": "United States",
+      "population": "Study 2 completers re-surveyed after about 3 months, test-retest (per-protocol)"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Lee, S., & Valenzuela, S. (2026). Delegating knowledge: Belief in AI sufficiency and its consequences for how people process information [Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/8ku96_v1",
+   "authors": "Lee, S., & Valenzuela, S.",
+   "year": 2026,
+   "venue": "PsyArXiv",
+   "doi": "10.31234/osf.io/8ku96_v1",
+   "url": "https://osf.io/preprints/psyarxiv/8ku96_v1",
+   "preprint_url": "https://osf.io/preprints/psyarxiv/8ku96_v1",
+   "items_available": true,
+   "language": "English",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "ai-mediated-communication-scale",
+   "name": "AI-Mediated Communication Scale",
+   "acronym": null,
+   "summary": "Measures how often people use generative AI to help them communicate with others, for example to make their messages clearer or to keep up relationships. Use it when studying AI-assisted interpersonal communication and how it relates to dependency, loneliness or social anxiety.",
+   "target": "Generative AI used to prepare messages and keep in contact with others",
+   "constructs": [
+    "acceptance-use",
+    "relationships",
+    "dependence"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 15,
+   "response": "Frequency of use (exact anchors not seen)",
+   "subscales": [
+    {
+     "name": "General AI-mediated communication factor",
+     "items": 15,
+     "description": "Dominant general factor: overall frequency of using GenAI to support interpersonal communication."
+    },
+    {
+     "name": "Expression clarity",
+     "items": null,
+     "description": "Using GenAI to make one's messages clearer and better expressed."
+    },
+    {
+     "name": "Relationship maintenance",
+     "items": null,
+     "description": "Using GenAI to keep up contact and maintain relationships with others."
+    }
+   ],
+   "psychometrics": {
+    "structure": "Factor analyses supported a 15-item bifactor structure: one dominant general factor plus two specific factors (expression clarity, relationship maintenance). Six studies combined expert review and content validation with four survey samples.",
+    "reliability": "High internal consistency and good two-week test-retest reliability (values not seen; abstract only)",
+    "validity": [
+     "Scalar measurement invariance across the Singapore and US samples",
+     "Convergent: strong positive association with generative AI dependency; moderate negative association with need for cognition",
+     "Discriminant: negligible to moderate associations with trust in automation and the Big Five",
+     "Nomological (exploratory): both subscales were linked to AI acceptance, attachment to AI, social interaction anxiety and FoMO; relationship maintenance was also linked to loneliness, social phobia, negative affect and lower need satisfaction"
+    ],
+    "samples": [
+     {
+      "n": 1034,
+      "country": "Singapore; United States",
+      "population": "Adults across four survey samples (total N)"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Reyes, M. K. G. R., Lau, G. R., Tsai, M.-H., Kasturiratna, K. T. A. S., & Hartanto, A. (2026). Using artificial intelligence (AI) to communicate: The psychology of AI-mediated communication and development of the AI-Mediated Communication Scale. Computers in Human Behavior: Artificial Humans, 10, Article 100415. https://doi.org/10.1016/j.chbah.2026.100415",
+   "authors": "Reyes, M. K. G. R., Lau, G. R., Tsai, M.-H., Kasturiratna, K. T. A. S., & Hartanto, A.",
+   "year": 2026,
+   "venue": "Computers in Human Behavior: Artificial Humans",
+   "doi": "10.1016/j.chbah.2026.100415",
+   "url": "https://doi.org/10.1016/j.chbah.2026.100415",
+   "preprint_url": null,
+   "items_available": false,
+   "language": "English",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "genai-academic-integrity-instruments",
+   "name": "Ethical Judgment of GenAI Behaviors Scale, with companion Institutional Integrity (GenAI context) and GenAI Self-Efficacy scales",
+   "acronym": null,
+   "summary": "A set of short scales for research on generative AI and academic integrity. They measure how seriously students judge different GenAI-assisted academic behaviours, how they see their institution's integrity climate around GenAI, and how confident they are using GenAI for academic work. Use them in studies of student cheating norms and GenAI policy.",
+   "target": "Generative AI tools (e.g., ChatGPT) in university coursework and assessment",
+   "constructs": [
+    "academic-integrity",
+    "ethics-concerns",
+    "self-efficacy"
+   ],
+   "populations": [
+    "university students"
+   ],
+   "items": 24,
+   "response": "5-point scales: seriousness (1 = Not cheating to 5 = Serious cheating), agreement (1 = Disagree strongly to 5 = Agree strongly), confidence (1 = Not confident at all to 5 = Extremely confident)",
+   "subscales": [
+    {
+     "name": "Ethical Judgment of GenAI Behaviors",
+     "items": 7,
+     "description": "Rated seriousness of GenAI-assisted academic behaviours (e.g., paraphrasing with AI without attribution, AI help on exams), adapted from McCabe's inventory and adding AI-assisted data and bibliography fabrication."
+    },
+    {
+     "name": "Institutional Integrity for the GenAI Context",
+     "items": 7,
+     "description": "Perceived policy clarity, faculty communication, monitoring and enforcement about GenAI at one's institution (8 items written; 1 dropped after EFA)."
+    },
+    {
+     "name": "GenAI Self-Efficacy",
+     "items": 10,
+     "description": "Confidence in GenAI-specific academic skills: generating and refining ideas, integrating output ethically, evaluating quality, and correcting errors."
+    }
+   ],
+   "psychometrics": {
+    "structure": "EFA (polychoric, minres, parallel analysis) per instrument. Ethical judgment: one factor, loadings .54–.89, 54.3% of variance. Institutional integrity: essentially unidimensional after dropping Q12.1, loadings .34–.86, 49.8% of variance. GenAI self-efficacy: one factor, loadings .68–.91, 64.3% of variance. A WLSMV CFA on the same sample tested construct distinctiveness for six factors (including a 13-item Academic Motivation Scale short form): scaled χ²(614)=1028.23, CFI .923, TLI .917, RMSEA .068, SRMR .089. A one-factor model was rejected (CFI .491, RMSEA .172).",
+    "reliability": "Ethical judgment α .83, ω .82; institutional integrity α .82, ω .87; GenAI self-efficacy α .93, ω .94",
+    "validity": [
+     "Discriminant: six-factor model clearly better than one-factor common-method model (Δχ²(15)=475.65); inter-factor correlations ≤ .50 (ethical judgment–institutional integrity r = .344)",
+     "Relations to other variables: perceived institutional integrity was the most robust correlate of ethical judgment in hierarchical regressions (N = 145); GenAI self-efficacy did not add reliable variance under robust tests",
+     "Harman single-factor test: 20.7% of variance"
+    ],
+    "samples": [
+     {
+      "n": 148,
+      "country": "United States",
+      "population": "Students at a large Midwestern public university (149 completers; 148 with scale data; mostly undergraduates)"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Jahanbin, P., Herrick, I. R., Thacker, I., & Choobkar, A. (2026). Measuring university students' ethical judgments of generative AI use: Development and initial validation of four instruments for academic integrity research [Preprint]. Research Square. https://doi.org/10.21203/rs.3.rs-11286301/v1",
+   "authors": "Jahanbin, P., Herrick, I. R., Thacker, I., & Choobkar, A.",
+   "year": 2026,
+   "venue": "Research Square",
+   "doi": "10.21203/rs.3.rs-11286301/v1",
+   "url": "https://doi.org/10.21203/rs.3.rs-11286301/v1",
+   "preprint_url": "https://www.researchsquare.com/article/rs-11286301/v1",
+   "items_available": false,
+   "language": "English",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "pugais-8",
+   "name": "Problematic Use of Generative Artificial Intelligence Scale – 8-item version (Chinese school students)",
+   "acronym": "PUGAIS-8",
+   "summary": "A brief 8-item, one-factor screening measure of problematic (addiction-like) use of generative AI among Chinese primary and middle school students (Grades 4–9). Use it to screen school-age GenAI users for problematic use, keeping its floor effect and exploratory cutoff in mind.",
+   "target": "generative AI use by school students (Grades 4–9)",
+   "constructs": [
+    "dependence",
+    "health"
+   ],
+   "populations": [
+    "school students"
+   ],
+   "items": 8,
+   "response": null,
+   "subscales": [
+    {
+     "name": "(unidimensional)",
+     "items": 8,
+     "description": "Problematic, addiction-like use of generative AI"
+    }
+   ],
+   "psychometrics": {
+    "structure": "Random split-sample EFA/CFA. Items were reduced from 10 to 8, giving a dominant one-factor structure. CFA fit evidence was mixed, and ordinal sensitivity analyses showed the item reduction was partly sensitive to analytic choices. PUGAIS-8 fit better than the original 10-item specification.",
+    "reliability": "α .940",
+    "validity": [
+     "Measurement invariance of thresholds and loadings across sex, school type and age groups",
+     "Concurrent validity: positive correlations with depressive, anxiety and insomnia symptoms and short-video addiction (r = .365–.413)",
+     "Latent class analysis found a high-score subgroup (7.2%); exploratory ROC cutoff of 20.5 (internally derived)",
+     "A substantial floor effect was noted"
+    ],
+    "samples": [
+     {
+      "n": 19484,
+      "country": "China",
+      "population": "school students in Grades 4–9 who had used generative AI"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Wang, Y., Huang, J., Wang, D. B., Shao, H., Liu, X., Ye, T., Peng, M., Yang, H., Yu, Y., & Lau, J. T. F. (2026). Initial psychometric evaluation of the Problematic Use of Generative Artificial Intelligence Scale among Chinese school students. Behavioral Sciences, 16(10), 1763. https://doi.org/10.3390/bs16101763",
+   "authors": "Wang, Y., Huang, J., Wang, D. B., Shao, H., Liu, X., Ye, T., Peng, M., Yang, H., Yu, Y., & Lau, J. T. F.",
+   "year": 2026,
+   "venue": "Behavioral Sciences",
+   "doi": "10.3390/bs16101763",
+   "url": "https://doi.org/10.3390/bs16101763",
+   "preprint_url": null,
+   "items_available": false,
+   "language": "Chinese",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "eaiag",
+   "name": "Generative AI Academic Self-Efficacy Scale (Escala de Autoeficacia en Inteligencia Artificial Generativa para contextos académicos)",
+   "acronym": "EAIAG",
+   "summary": "A 17-item Spanish-language scale of how confident university students feel using generative AI tools such as ChatGPT or Gemini for academic work. It covers writing and refining prompts, folding AI output into their own work, and critically and ethically evaluating that output. Use it with Spanish-speaking students to assess GenAI self-efficacy or identify training needs.",
+   "target": "generative AI tools (ChatGPT, Gemini or similar) in academic tasks",
+   "constructs": [
+    "self-efficacy",
+    "literacy",
+    "learning"
+   ],
+   "populations": [
+    "university students",
+    "graduate students"
+   ],
+   "items": 17,
+   "response": "5-point Likert (1 = totalmente en desacuerdo / strongly disagree to 5 = totalmente de acuerdo / strongly agree)",
+   "subscales": [
+    {
+     "name": "Prompt management (Gestión de prompts)",
+     "items": 6,
+     "description": "Confidence in writing, adjusting and refining prompts to get useful academic output from GenAI"
+    },
+    {
+     "name": "Adaptive integration (Integración adaptativa)",
+     "items": 4,
+     "description": "Confidence in combining and adapting GenAI output with one's own ideas in original academic work"
+    },
+    {
+     "name": "Critical and ethical evaluation (Evaluación crítica y ética)",
+     "items": 7,
+     "description": "Confidence in spotting errors and hallucinations, verifying sources, and using GenAI ethically"
+    }
+   ],
+   "psychometrics": {
+    "structure": "Content validity from 6 judges (Aiken's V; S-CVI/Ave .985). The four reverse-worded items were dropped. EFA (ML, Promax) on the 18 direct items gave 3 factors explaining 55.3% of variance. CFA of the final 17-item, 3-factor model (one item dropped for cross-loading): CFI .938, TLI .934, RMSEA .069, with one correlated error (items 12–13). The preliminary 22-item, 4-dimension version was reduced.",
+    "reliability": "Total α .931, ω .953; dimension CR .830–.909",
+    "validity": [
+     "Convergent: AVE .624 (prompt management) and .679 (adaptive integration), but .414 for critical/ethical evaluation (below .50)",
+     "Discriminant: HTMT < .85; two minor Fornell–Larcker violations",
+     "Criterion/convergent: correlations with the PEIIA scale of students' perceptions of AI in learning, r = .360–.581",
+     "Measurement invariance: scalar invariance between Spain and Latin America (ΔCFI ≤ .005, ΔRMSEA ≤ .001)"
+    ],
+    "samples": [
+     {
+      "n": 107,
+      "country": "Spain",
+      "population": "university undergraduate and postgraduate students who used GenAI in the past month"
+     },
+     {
+      "n": 144,
+      "country": "Venezuela, Colombia, Chile, Peru, Dominican Republic",
+      "population": "university undergraduate and postgraduate students who used GenAI in the past month"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Elvira-Valdés, M. A., & Durán-Aponte, E. (2027). Escala de autoeficacia en inteligencia artificial generativa (EAIAG) para contextos académicos: Diseño y validación psicométrica [Generative AI academic self-efficacy scale (EAIAG): Psychometric design and validation]. RIED-Revista Iberoamericana de Educación a Distancia, 30(1). https://doi.org/10.5944/ried.49248",
+   "authors": "Elvira-Valdés, M. A., & Durán-Aponte, E.",
+   "year": 2027,
+   "venue": "RIED-Revista Iberoamericana de Educación a Distancia",
+   "doi": "10.5944/ried.49248",
+   "url": "https://revistas.uned.es/index.php/ried/article/view/49248",
+   "preprint_url": null,
+   "items_available": true,
+   "language": "Spanish",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "genails-cs",
+   "name": "Generative Artificial Intelligence Literacy Scale for College Students",
+   "acronym": "GenAILS-CS",
+   "summary": "A 21-item self-report scale of undergraduates' generative AI literacy across five areas: understanding GenAI, applying it skilfully, reflecting critically on it, using it ethically, and innovating with it collaboratively. Use it to diagnose students' GenAI literacy and target support in higher education.",
+   "target": "Generative AI (GenAI) in higher education",
+   "constructs": [
+    "literacy",
+    "ethics-concerns",
+    "creativity"
+   ],
+   "populations": [
+    "university students"
+   ],
+   "items": 21,
+   "response": null,
+   "subscales": [
+    {
+     "name": "Cognitive understanding",
+     "items": null,
+     "description": "Understanding what GenAI is and how it works."
+    },
+    {
+     "name": "Skill application",
+     "items": null,
+     "description": "Practical skill in using GenAI tools for tasks."
+    },
+    {
+     "name": "Critical reflection",
+     "items": null,
+     "description": "Critically questioning and evaluating GenAI and its outputs."
+    },
+    {
+     "name": "Ethical responsibility",
+     "items": null,
+     "description": "Responsible, ethical use of GenAI."
+    },
+    {
+     "name": "Collaborative innovation",
+     "items": null,
+     "description": "Using GenAI collaboratively and creatively to produce new work."
+    }
+   ],
+   "psychometrics": {
+    "structure": "Split sample: EFA (n = 329), then CFA (n = 329), supporting a five-dimensional, 21-item structure with acceptable-to-good fit.",
+    "reliability": "Internal consistency reported as acceptable to good (coefficients not seen in the abstract)",
+    "validity": [
+     "Convergent and discriminant validity reported",
+     "Criterion/nomological: positive associations with GenAI use frequency",
+     "Measurement invariance across gender and grade level"
+    ],
+    "samples": [
+     {
+      "n": 658,
+      "country": "China (inferred from author affiliations; not stated in abstract)",
+      "population": "undergraduate students"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Ma, W., Yuan, F., & Luo, H. (2026). Understanding generative artificial intelligence literacy in higher education: Development and validation of an instrument. Journal of Research on Technology in Education. Advance online publication. https://doi.org/10.1080/15391523.2026.2735312",
+   "authors": "Ma, W., Yuan, F., & Luo, H.",
+   "year": 2026,
+   "venue": "Journal of Research on Technology in Education",
+   "doi": "10.1080/15391523.2026.2735312",
+   "url": "https://www.tandfonline.com/doi/full/10.1080/15391523.2026.2735312",
+   "preprint_url": null,
+   "items_available": false,
+   "language": "Not reported",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "haicmgc",
+   "name": "Users' Perceived Competence in Human–AI Collaborative Music Generation Scale",
+   "acronym": "HAICMGC",
+   "summary": "A 23-item scale of how competent users feel when making music together with generative AI music tools. Use it in research on AI music education, human–AI co-creation, or the design of music-generation systems.",
+   "target": "Generative AI music-generation tools (human–AI collaborative music creation)",
+   "constructs": [
+    "self-efficacy",
+    "creativity"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 23,
+   "response": null,
+   "subscales": [
+    {
+     "name": "Four factors (names not reported in the material seen)",
+     "items": 23,
+     "description": "Four correlated factors of perceived competence in co-creating music with GenAI; factor names were not visible in the abstract or dataset record."
+    }
+   ],
+   "psychometrics": {
+    "structure": "Items came from the literature, semi-structured interviews and expert judgment. Sample 1 (n = 603): item analysis, Rasch analysis and EFA. Sample 2 (n = 603): CFA. Final structure: 23 items, 4 factors.",
+    "reliability": "Reported as supported (coefficients not seen)",
+    "validity": [
+     "Convergent and discriminant validity assessed in Sample 2 (per the authors' Zenodo dataset description)",
+     "Abstract states the results supported reliability and validity"
+    ],
+    "samples": [
+     {
+      "n": 603,
+      "country": "China",
+      "population": "users of AI music-generation tools (EFA/Rasch)"
+     },
+     {
+      "n": 603,
+      "country": "China",
+      "population": "users of AI music-generation tools (CFA)"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Yu, M., Zeng, H., Song, H., Wang, Y., & He, T. (2026). Developing and validating a scale of users' perceived competence in human-AI collaborative music generation [Preprint]. SSRN. https://doi.org/10.2139/ssrn.7510858",
+   "authors": "Yu, M., Zeng, H., Song, H., Wang, Y., & He, T.",
+   "year": 2026,
+   "venue": "SSRN (preprint)",
+   "doi": "10.2139/ssrn.7510858",
+   "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7510858",
+   "preprint_url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7510858",
+   "items_available": false,
+   "language": "Not reported",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "partial",
+   "flag_reason": "Preprint whose abstract says reliability and validity were supported but gives no coefficients or validity details; full text not accessible."
+  },
+  {
+   "id": "gai-mlbs",
+   "name": "GAI-Mediated Learning Boundary Scale",
+   "acronym": "GAI-MLBS",
+   "summary": "A 32-item scale of how college students experience the boundaries of their study time, space and attention when generative AI is part of their learning. It covers flexibility, fragmentation, immersion, and positive and negative spillover between assigned coursework and self-directed learning. Use it to study how GenAI reshapes students' study habits, or to group students by their boundary-management pattern.",
+   "target": "generative AI (GAI) tools used in college learning",
+   "constructs": [
+    "learning",
+    "other"
+   ],
+   "populations": [
+    "university students"
+   ],
+   "items": 32,
+   "response": "6-point Likert (1 = strongly disagree to 6 = strongly agree)",
+   "subscales": [
+    {
+     "name": "Flexibility",
+     "items": 6,
+     "description": "GAI frees the pace, timing and place of learning from fixed schedules and classrooms"
+    },
+    {
+     "name": "Fragmentation",
+     "items": 4,
+     "description": "GAI blurs the learning space and fragments time and thought, causing fatigue"
+    },
+    {
+     "name": "Immersion",
+     "items": 4,
+     "description": "Learning with GAI becomes reliant on, and absorbed in, the digital environment"
+    },
+    {
+     "name": "Negative spillover",
+     "items": 8,
+     "description": "AI use crowds out reading, sustained focus, critical thinking or genuine mastery"
+    },
+    {
+     "name": "Positive spillover",
+     "items": 10,
+     "description": "AI-assisted assignments spark further self-directed exploration and deeper learning"
+    }
+   ],
+   "psychometrics": {
+    "structure": "38-item pool (10/4/4/8/12). EFA on 30% of the sample (KMO .919) gave 5 factors. Six items with loadings below |.35| on their target factor were removed, leaving 32. CFA on 70% of the sample: χ² = 1538.07, df = 391, CFI .92, TLI .91, RMSEA .05, SRMR .05. Latent profile analysis followed and identified 4 student profiles.",
+    "reliability": "α .844 (overall); CR > .70 for all five factors (per-factor values in supplementary Table S4)",
+    "validity": [
+     "Convergent: all CFA loadings > .60; AVE .504–.569",
+     "Discriminant: Fornell–Larcker criterion met",
+     "Measurement invariance: full scalar invariance across gender and grade level; partial scalar invariance across three universities (intercepts of FB3, NS3 and NS6 freed)",
+     "Profile membership differed by grade level and by GAI-use purposes"
+    ],
+    "samples": [
+     {
+      "n": 1904,
+      "country": "China",
+      "population": "undergraduates at three comprehensive universities"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Zhan, X., Shi, Y., & He, P. (2026). Measuring students' attention boundaries in GAI-assisted learning: Development and validation of the GAI-Mediated Learning Boundary Scale and latent profile analysis [Preprint]. SocArXiv. https://doi.org/10.31235/osf.io/6y8uh_v1",
+   "authors": "Zhan, X., Shi, Y., & He, P.",
+   "year": 2026,
+   "venue": "SocArXiv (OSF Preprints)",
+   "doi": "10.31235/osf.io/6y8uh_v1",
+   "url": "https://osf.io/6y8uh_v1",
+   "preprint_url": "https://osf.io/6y8uh_v1",
+   "items_available": true,
+   "language": "Chinese",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "cue-chat",
+   "name": "Chatbot User Evaluation instrument",
+   "acronym": "CUE-Chat",
+   "summary": "A 16-item questionnaire on how people experience an LLM-based chatbot used in behavioral or mental health interventions: whether it helped, whether it was easy to use, whether it seemed to understand them, and whether it handled safety and personal information responsibly. Use it after a participant has interacted with a health chatbot, to compare chatbots or to evaluate one during development.",
+   "target": "AI-driven (LLM-based) conversational agents/chatbots in behavioral and mental health care",
+   "constructs": [
+    "health",
+    "acceptance-use",
+    "trust"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 16,
+   "response": "5-point Likert (1 = strongly disagree to 5 = strongly agree)",
+   "subscales": [
+    {
+     "name": "Perceived Efficacy",
+     "items": 4,
+     "description": "Satisfaction, helpfulness, emotional connection and goal achievement from the chatbot interaction"
+    },
+    {
+     "name": "Usability",
+     "items": 4,
+     "description": "Ease of use, smooth functioning, understandable responses and pleasant tone"
+    },
+    {
+     "name": "Intelligence",
+     "items": 4,
+     "description": "Chatbot correctly interprets input, remembers earlier information and gives relevant responses"
+    },
+    {
+     "name": "Safety and Risk Management",
+     "items": 4,
+     "description": "Honesty, transparency about limitations, comfort sharing personal information, and responsible handling of sensitive topics"
+    }
+   ],
+   "psychometrics": {
+    "structure": "Study 3 (n = 217): parallel analysis and scree plot suggested 3 factors (3-factor EFA TLI .91, RMSEA .069). Items were then selected into a theory-based 4-factor model of 21 items, whose CFA gave CFI .94, RMSEA .073, SRMR .052. Study 4 (n = 430): the CFA of that structure gave CFI .89 and RMSEA .084. After the scale was balanced to 4 x 4 items, fit was CFI .93, RMSEA .079 and SRMR .047. Partial scalar invariance held across three LLM chatbots (one intercept freed); strict invariance was not reached.",
+    "reliability": "α .73–.92; ω .74–.93 (total and subscales)",
+    "validity": [
+     "Content validity (CVI) from expert (n = 14) and layperson (n = 61) panels",
+     "Convergent: Perceived Efficacy with BUS-11 Functional interactive conversation and UES Reward; Usability with UES Usability; Intelligence with BUS Functional interactive conversation. Safety had the strongest link of any subscale to the privacy measures, but the link was modest.",
+     "Discriminant: weak correlations with BUS Accessibility/Responsiveness and UES Focused attention/Aesthetics, though some subscales also correlated with unintended scales",
+     "Predictive: the total score and every subscale predicted users' overall rating of the chatbot's performance",
+     "Measurement invariance (partial scalar) across three LLM chatbots"
+    ],
+    "samples": [
+     {
+      "n": 49,
+      "country": "Prolific (multinational)",
+      "population": "general adults (item pilot)"
+     },
+     {
+      "n": 75,
+      "country": "multinational",
+      "population": "expert (14) and layperson (61) panels"
+     },
+     {
+      "n": 217,
+      "country": "UK, Ireland, USA, Canada, Australia, New Zealand",
+      "population": "general adults after chatbot interaction (EFA)"
+     },
+     {
+      "n": 430,
+      "country": "UK, Ireland, USA, Canada, Australia, New Zealand",
+      "population": "general adults after interacting with one of three LLM chatbots (CFA, invariance)"
+     }
+    ]
+   },
+   "status": "preprint",
+   "citation": "Mertens, E. C. A., Butz, J., & van Gelder, J.-L. (2026). Assessing user-subjective experience with conversational agents for behavioral and mental health interventions: Design and psychometric evaluation of CUE-Chat [Preprint]. PsyArXiv. https://doi.org/10.31234/osf.io/8cbds_v2",
+   "authors": "Mertens, E. C. A., Butz, J., & van Gelder, J.-L.",
+   "year": 2026,
+   "venue": "PsyArXiv (preprint)",
+   "doi": "10.31234/osf.io/8cbds_v2",
+   "url": "https://osf.io/preprints/psyarxiv/8cbds_v2",
+   "preprint_url": "https://osf.io/preprints/psyarxiv/8cbds_v2",
+   "items_available": true,
+   "language": "English",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "ai-engagement-toolkit-chen",
+   "name": "Emotional and Relational Engagement with AI Measurement Toolkit (Multidimensional AI Use Scale, Perceived Uniqueness of AI Interaction Scale, AI Emotional Attachment Scale)",
+   "acronym": null,
+   "summary": "A set of three short scales for college students. They measure what students use AI for (from schoolwork to sharing personal feelings), whether they feel talking to AI is better than talking to people in some ways, and how emotionally attached they are to AI. Use it to study emotional disclosure and relationship-like engagement with AI chatbots beyond purely practical use.",
+   "target": "Generative / conversational AI used by emerging adults in academic, work and social life (items say 'AI')",
+   "constructs": [
+    "relationships",
+    "acceptance-use",
+    "dependence"
+   ],
+   "populations": [
+    "university students"
+   ],
+   "items": 31,
+   "response": "7-point Likert (likelihood of use: 1 = completely unlikely to 7 = very likely; agreement: 1 = strongly disagree to 7 = strongly agree)",
+   "subscales": [
+    {
+     "name": "Multidimensional AI Use Scale",
+     "items": 15,
+     "description": "Behavioral layer: how likely one is to use AI for personal disclosure (7 items), instrumental academic or work tasks (4) and personal assistance with everyday or social decisions (4)."
+    },
+    {
+     "name": "Perceived Uniqueness of AI Interaction Scale",
+     "items": 10,
+     "description": "Cognitive layer: compared with people, AI is seen as less judging, more stable, more responsive, more controllable and more 'just for me'."
+    },
+    {
+     "name": "AI Emotional Attachment Scale",
+     "items": 6,
+     "description": "Affective layer: emotional support from AI, seeing AI as being as important as a close friend, and distress at losing it."
+    }
+   ],
+   "psychometrics": {
+    "structure": "Split-sample EFA and CFA. The AI Use scale has three dimensions (personal disclosure, instrumental use, personal assistance). Items were dropped for low loadings, cross-loadings or poor CFA fit: 20 to 15 (Use), 14 to 10 (Uniqueness), 7 to 6 (Attachment). Fit indices were not seen.",
+    "reliability": "'Satisfactory reliability' (coefficients not seen; abstract only)",
+    "validity": [
+     "Discriminant validity (per abstract)",
+     "Criterion-related validity (per abstract)"
+    ],
+    "samples": [
+     {
+      "n": 1406,
+      "country": "China (Shanghai, 26 universities)",
+      "population": "college students (mean age about 19, about 60% female)"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Chen, C., Ren, H., Liu, J., Tian, F., & Wang, F. (2026). A three-layered framework and measurement toolkit for understanding emotional and relational engagement with AI. International Journal of Human–Computer Interaction. Advance online publication. https://doi.org/10.1080/10447318.2026.2725999",
+   "authors": "Chen, C., Ren, H., Liu, J., Tian, F., & Wang, F.",
+   "year": 2026,
+   "venue": "International Journal of Human–Computer Interaction",
+   "doi": "10.1080/10447318.2026.2725999",
+   "url": "https://doi.org/10.1080/10447318.2026.2725999",
+   "preprint_url": "https://doi.org/10.2139/ssrn.6346402",
+   "items_available": true,
+   "language": "Chinese",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "ps-aires",
+   "name": "Problem-Solving Skills in AI-Rich Environments Scale",
+   "acronym": "PS-AIRES",
+   "summary": "Measures how well young adults solve problems with AI assistants such as ChatGPT. It covers framing the task and instructing the AI, refining prompts step by step, and checking and integrating what the AI produces. Use it to assess practical GenAI problem-solving or prompting skill, for example before and after AI literacy training.",
+   "target": "AI tools such as ChatGPT used for study, work or everyday problem-solving (a Claude-based training program was used in the intervention phase)",
+   "constructs": [
+    "literacy",
+    "self-efficacy",
+    "learning"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 25,
+   "response": "5-point Likert (1 = strongly disagree to 5 = strongly agree)",
+   "subscales": [
+    {
+     "name": "Strategic Task Framing and AI Instruction Design",
+     "items": null,
+     "description": "Planning the task and writing clear instructions and context for the AI."
+    },
+    {
+     "name": "Iterative Prompting and Response Refinement",
+     "items": null,
+     "description": "Refining prompts over several turns and asking follow-up questions to improve the AI's answers."
+    },
+    {
+     "name": "Verification, Critical Evaluation, and Integration",
+     "items": null,
+     "description": "Checking AI outputs against sources for bias, and building them into a solution of one's own."
+    }
+   ],
+   "psychometrics": {
+    "structure": "EFA and CFA support a three-factor model with satisfactory fit (indices not seen)",
+    "reliability": "High internal consistency (coefficients not seen); test-retest ICC .713 (95% CI .479–.852)",
+    "validity": [
+     "Measurement invariance across gender",
+     "Content and response-process evidence (cognitive interviews, n = 12; pilot, n = 40)",
+     "Sensitivity to a brief Claude-based training in a randomized pre-post study (n = 120)"
+    ],
+    "samples": [
+     {
+      "n": 500,
+      "country": "not stated in abstract (author at Qassim University, Saudi Arabia)",
+      "population": "young adults (main validation sample)"
+     },
+     {
+      "n": 120,
+      "country": "not stated in abstract",
+      "population": "young adults reporting a previous specialist learning-disorder diagnosis (intervention)"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Alkhateeb, N. (2026). Assessing AI-supported problem-solving in young adults reporting previous learning-disorder diagnoses: Adaptation and validation of the PS-AIRES and preliminary evaluation of a Claude-based training program. International Journal of Human–Computer Interaction. Advance online publication. https://doi.org/10.1080/10447318.2026.2740885",
+   "authors": "Alkhateeb, N.",
+   "year": 2026,
+   "venue": "International Journal of Human–Computer Interaction",
+   "doi": "10.1080/10447318.2026.2740885",
+   "url": "https://doi.org/10.1080/10447318.2026.2740885",
+   "preprint_url": null,
+   "items_available": true,
+   "language": "Not reported",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "verified"
+  },
+  {
+   "id": "gaicu",
+   "name": "Critical Thinking in Generative AI Use Scale",
+   "acronym": "GAICU",
+   "summary": "A 15-item scale of how critically university students use generative AI in coursework: analysing the task before using AI, evaluating AI content, regulating how they use the tool, and reflecting on AI results. Use it to assess students' critical, self-regulated GenAI use, an evaluative part of GenAI literacy.",
+   "target": "Generative AI use in academic coursework",
+   "constructs": [
+    "literacy",
+    "learning"
+   ],
+   "populations": [
+    "university students"
+   ],
+   "items": 15,
+   "response": null,
+   "subscales": [
+    {
+     "name": "Task analysis",
+     "items": null,
+     "description": "Analysing and understanding the academic task before and while using GenAI."
+    },
+    {
+     "name": "Content evaluation",
+     "items": null,
+     "description": "Evaluating and judging AI-generated content."
+    },
+    {
+     "name": "Tool regulation",
+     "items": null,
+     "description": "Controlling and optimising how the GenAI tool is used."
+    },
+    {
+     "name": "Self-reflection",
+     "items": null,
+     "description": "Self-regulation and reflection on AI-produced results."
+    }
+   ],
+   "psychometrics": {
+    "structure": "As reported by the proposer from abstract snippets (not independently verified): a synthesis of 46 studies, interviews and expert review gave 22 items; EFA on a pilot sample (N = 166) gave 4 factors and 16 items; CFA (N = 1,515) gave the final 15 items in 4 factors, grounded in Facione's core critical-thinking skills.",
+    "reliability": "Composite reliability reported as good (values not seen)",
+    "validity": [
+     "Convergent and discriminant validity reported (per proposer's snippet; unverified)",
+     "Criterion-related validity reported (per proposer's snippet; unverified)",
+     "Measurement invariance across academic disciplines and educational levels (per proposer's snippet; unverified)"
+    ],
+    "samples": [
+     {
+      "n": 166,
+      "country": "not seen (authors affiliated in China)",
+      "population": "university students (pilot/EFA)"
+     },
+     {
+      "n": 1515,
+      "country": "not seen (authors affiliated in China)",
+      "population": "university students (CFA)"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Li, M., & Guo, L. (2027). Critical thinking in generative AI use: Development and validation of the GAICU scale for university students. Thinking Skills and Creativity, 63, Article 102394. https://doi.org/10.1016/j.tsc.2026.102394",
+   "authors": "Li, M., & Guo, L.",
+   "year": 2027,
+   "venue": "Thinking Skills and Creativity",
+   "doi": "10.1016/j.tsc.2026.102394",
+   "url": "https://www.sciencedirect.com/science/article/abs/pii/S1871187126002695",
+   "preprint_url": null,
+   "items_available": false,
+   "language": "Not reported",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "unconfirmed",
+   "flag_reason": "The verifier could not open the abstract or full text, so the structure, reliability and validity details come from search snippets only."
+  },
+  {
+   "id": "llm-privacy-concern-assessment-questionnaire",
+   "name": "Large Language Model Privacy Concern Assessment Questionnaire",
+   "acronym": null,
+   "summary": "A short 6-item questionnaire on how worried adults are about privacy when using LLM applications, for example how their data are used and how much transparency and control they have. Use it to compare privacy concern across studies or to evaluate a specific LLM app, including health-care apps.",
+   "target": "LLMs and LLM-based applications, including in health care",
+   "constructs": [
+    "privacy",
+    "trust"
+   ],
+   "populations": [
+    "general adults"
+   ],
+   "items": 6,
+   "response": "5-point Likert with item-specific anchors (concern, importance, or frequency); reverse-code so higher = more concern",
+   "subscales": [
+    {
+     "name": "Transparency and control",
+     "items": 3,
+     "description": "Importance of being informed about, and controlling, how LLMs use one's data, and how transparency affects trust."
+    },
+    {
+     "name": "Data use and risk salience",
+     "items": 3,
+     "description": "Worry about how LLMs use personal data, how often privacy risks come to mind, and who the data are shared with."
+    }
+   ],
+   "psychometrics": {
+    "structure": "EFA (n = 121) found a single dominant factor (loadings ≥ .70). CFA (n = 240) fit excellently (CFI .996, TLI .993, RMSEA .046, SRMR .057). A 2-factor model fit better (Δχ²(1) = 8.9), but the factors correlated r = .83, so the authors recommend the total score.",
+    "reliability": "α .90; ω .90",
+    "validity": [
+     "Content validity: 8 experts, I-CVI > .80, S-CVI/Ave .964",
+     "Internal discriminant check between the two subdimensions: HTMT .85 (< .90). Fornell–Larcker was met for Transparency and control (AVE .77) but not for Data use and risk salience (AVE .59 vs r² .69).",
+     "No external convergent, criterion, known-groups or invariance evidence (stated as future work)"
+    ],
+    "samples": [
+     {
+      "n": 361,
+      "country": "USA",
+      "population": "adults aware of LLM applications (University of Pittsburgh, LinkedIn, Pitt+Me registry)"
+     }
+    ]
+   },
+   "status": "published",
+   "citation": "Zhou, L., Wang, H., Xu, Y., Setiawan, I. M. A., Hu, H., Saptono, A., Choi, Y. K., & Parmanto, B. (2026). Development and validation of the large language model privacy concern assessment questionnaire: Psychometric evaluation study on a brief instrument for assessing user privacy concerns with large language model applications. JMIR Human Factors, 13, e102910. https://doi.org/10.2196/102910",
+   "authors": "Zhou, L., Wang, H., Xu, Y., Setiawan, I. M. A., Hu, H., Saptono, A., Choi, Y. K., & Parmanto, B.",
+   "year": 2026,
+   "venue": "JMIR Human Factors",
+   "doi": "10.2196/102910",
+   "url": "https://humanfactors.jmir.org/2026/1/e102910",
+   "preprint_url": null,
+   "items_available": true,
+   "language": "English",
+   "adaptations": [],
+   "verified": "2026-10-26",
+   "evidence": "partial",
+   "flag_reason": "Factor structure and reliability are solid, but the only validity evidence is an internal discriminant check; the authors leave external validity to future work."
   }
  ]
 }
