@@ -11523,7 +11523,7 @@
    "id": "gaicu",
    "name": "Critical Thinking in Generative AI Use Scale",
    "acronym": "GAICU",
-   "summary": "A 15-item scale of how critically university students use generative AI in coursework: analysing the task before using AI, evaluating AI content, regulating how they use the tool, and reflecting on AI results. Use it to assess students' critical, self-regulated GenAI use, an evaluative part of GenAI literacy.",
+   "summary": "A 15-item self-report scale of how critically university students use generative AI in their coursework: analysing the task before turning to AI, evaluating AI content, selectively using and checking AI output, and reflecting on how AI shapes their work. Use it to measure students' critical, self-regulated GenAI use.",
    "target": "Generative AI use in academic coursework",
    "constructs": [
     "literacy",
@@ -11533,47 +11533,48 @@
     "university students"
    ],
    "items": 15,
-   "response": null,
+   "response": "6-point Likert (1 = strongly disagree to 6 = strongly agree)",
    "subscales": [
     {
-     "name": "Task analysis",
-     "items": null,
-     "description": "Analysing and understanding the academic task before and while using GenAI."
+     "name": "Analysis and Understanding of the Task (AU)",
+     "items": 4,
+     "description": "Analysing the task and clarifying goals for GenAI help before using it."
     },
     {
-     "name": "Content evaluation",
-     "items": null,
-     "description": "Evaluating and judging AI-generated content."
+     "name": "Evaluation and Judgement of AI Content (EJ)",
+     "items": 4,
+     "description": "Judging the credibility and reliability of GenAI-generated information."
     },
     {
-     "name": "Tool regulation",
-     "items": null,
-     "description": "Controlling and optimising how the GenAI tool is used."
+     "name": "Control and Optimization of AI Use (CO)",
+     "items": 4,
+     "description": "Selectively extracting, supplementing and validating GenAI output to meet academic requirements."
     },
     {
-     "name": "Self-reflection",
-     "items": null,
-     "description": "Self-regulation and reflection on AI-produced results."
+     "name": "Self-Regulation and Reflection on AI Results (SR)",
+     "items": 3,
+     "description": "Keeping independent thinking and responsibility, and reflecting on how GenAI results influence one's work."
     }
    ],
    "psychometrics": {
-    "structure": "As reported by the proposer from abstract snippets (not independently verified): a synthesis of 46 studies, interviews and expert review gave 22 items; EFA on a pilot sample (N = 166) gave 4 factors and 16 items; CFA (N = 1,515) gave the final 15 items in 4 factors, grounded in Facione's core critical-thinking skills.",
-    "reliability": "Composite reliability reported as good (values not seen)",
+    "structure": "Phase 1: synthesis of 46 studies, a student focus group and interviews, and expert review (28 → 22 items). Phase 2: EFA (principal axis, promax; N = 166) gave 4 factors and 16 items, 56.4% of variance. Phase 3: CFA (N = 1,515) dropped one CO item, leaving 15 items in 4 factors: χ²/df = 6.56, CFI .943, TLI .929, RMSEA .061, SRMR .045.",
+    "reliability": "Validation sample: α .73–.82 by dimension, .88 total; CR .74–.82. Pilot: α .73–.86, .89 total.",
     "validity": [
-     "Convergent and discriminant validity reported (per proposer's snippet; unverified)",
-     "Criterion-related validity reported (per proposer's snippet; unverified)",
-     "Measurement invariance across academic disciplines and educational levels (per proposer's snippet; unverified)"
+     "Convergent: AVE .54 for EJ but just under .50 for AU, CO and SR (.45–.49); the authors say to interpret these with caution",
+     "Discriminant: all HTMT values below .85 (.53–.77)",
+     "Criterion: small positive correlation with self-reported learning rank within one's major (ρ = .22)",
+     "Measurement invariance: configural, metric and scalar across four discipline groups and across undergraduates vs. postgraduates (strict invariance not supported across disciplines)"
     ],
     "samples": [
      {
       "n": 166,
-      "country": "not seen (authors affiliated in China)",
-      "population": "university students (pilot/EFA)"
+      "country": "China",
+      "population": "Undergraduate and postgraduate students (pilot, EFA)"
      },
      {
       "n": 1515,
-      "country": "not seen (authors affiliated in China)",
-      "population": "university students (CFA)"
+      "country": "China",
+      "population": "Undergraduate and postgraduate students across natural sciences, engineering, humanities and social sciences (CFA and validation)"
      }
     ]
    },
@@ -11585,12 +11586,11 @@
    "doi": "10.1016/j.tsc.2026.102394",
    "url": "https://www.sciencedirect.com/science/article/abs/pii/S1871187126002695",
    "preprint_url": null,
-   "items_available": false,
-   "language": "Not reported",
+   "items_available": true,
+   "language": "Chinese",
    "adaptations": [],
-   "verified": "2026-10-26",
-   "evidence": "unconfirmed",
-   "flag_reason": "The verifier could not open the abstract or full text, so the structure, reliability and validity details come from search snippets only."
+   "verified": "2026-10-27",
+   "evidence": "verified"
   },
   {
    "id": "llm-privacy-concern-assessment-questionnaire",
